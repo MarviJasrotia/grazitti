@@ -1,0 +1,19 @@
+<apex:page Controller="fetchRequestToken" language="{!lang}" showHeader="false" sidebar="false" action="{!InsertJiraLogs}">
+    
+    
+    
+    <apex:form >
+        <div style="padding:40px;width:100%" >
+            <p style="Text-align:center;" >
+                {!$Label.AuthPage_Label1} 
+                {!$Label.AuthPage_Label4}
+
+            </p>
+            <div style="Text-align:center;">
+                <apex:commandButton id="Allow" action="{!ClosePage}" value="{!$Label.AuthPage_Label2}"  style="" />
+                <apex:commandButton id="Deny"  value="{!$Label.AuthPage_Label3}"    style="margin-left:20px;" />
+            </div>
+        </div>
+      
+    </apex:form>
+</apex:page>

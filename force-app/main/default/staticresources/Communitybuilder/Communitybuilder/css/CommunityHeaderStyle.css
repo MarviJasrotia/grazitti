@@ -1,0 +1,1203 @@
+	body{font-size:14px !important; color:#767779; } 
+	body a:hover{outline:none; text-decoration: none !important;}
+	.chatterPage a:hover, .chatterPage .publisherattachQuestionPost:hover, .chatterPage .helpLink:hover,.RecommendationsPage .zen-bodyInner a:hover{color:#fab14d !important;text-decoration: none !important;} 
+	body a{text-decoration: none;}
+	.noSidebarCell{ font-family: berthold_akzidenz_grotesk_bRg !important;} 
+	header.navbar-static-top{position: relative;}
+	.bg-nav-meta .container, .brandPrimaryBrd, .bg-nav-main .container,.outerNoSidebar.container{background: none !important}
+	.zen .zen-bodyZen{border-top:0px;}
+	.username-style a {color: #fff;}
+      .zen .zen-page{padding:0px;background:none !important;}
+      .globalHeaderBar,#createGroupBtn{display:none;}
+      .banner-bg .container {background:none;}
+      .zen-bodyZen.brdPalette.brandPrimaryBrd{padding-top:0px;margin-top: -4px;border-radius: 0px;}
+      div[role=banner]{display:none;}
+      div#publisherBottomBar{float:left; width:100%;}
+      #canvasAppsNavigation{display:none;}
+      .chatterPage a, .zen .chatterListViewContainer .zen-listView .zen-data .zen-hover, .zen .chatterListViewContainer .zen-listView .zen-data .zen-hover .filesOwnerLink, .zen .publisherTypeOverflow span.triggerText, .zen .comboMenu #filterDisplay{color:#fc8d03 !important}
+      div#publisherBottomBar{height:auto}
+      .feedcontainer .feeditemcommentplaceholder input{height:auto!important;}
+      *::-moz-placeholder{font-size:inherit;}
+      .zen .chatterListViewContainer .zen-navigation {height:56px;}
+      .zen .zen-listView .zen-searchBox {float:unset;}
+      .TopicListView .zen-navigation .zen-searchBox.comboSearchMax {float:left;}
+      //.pbSubbody.group-change-type table tr:nth-child(2) {display:none;}
+      div.topicBoxHeader, .influenceBoxHeader{height:auto;}
+      .reputationWidgetFull .reputationWidgetLevelIcon{padding-right:0px; margin-right:15px;}
+      .topicPage .vfButtonBar h3, .userProfilePage .vfButtonBar h3, h3.topicWidgetHeader.mostUsedTopicHeader{font-size:20px;}
+      .lowerMainContent .centerContent .quickfindInput, .lowerMainContent .wholeContent .quickfindInput{font-size:unset; width:190px;}
+      .quickfindContainer .quickfindInput{background-position: 3px 3px;}
+      .streamList .streamRow .streamPhoto{width:auto;}
+      .streamList .streamRow, .replyInputContainer textarea,.ugAC_box .ugAC_row,.lowerMainContent .centerContent .quickfindInput, .lowerMainContent .wholeContent .quickfindInput,.publishercontainer a.publisherattach,.zen .publisherTypeOverflow .zen-trigger{height:auto;}
+      legend {font-size:unset;}
+      .headerContent .fileTitleText {font-size:16px;}
+      .groupListPage .memberAndOwner, .searchResults .memberAndOwner, .groupDescription, .zen-body.zen-phn p{font-size:14px;}
+      #SecurityForPortal {display:none;}
+      #messageShadowContent {height:auto !important; margin-top:0px !important;}
+      #page{position:unset !important;}
+      .nav-meta ul li {border: none; padding: 0;}
+      /*.nav-main > ul > li > a:after{height:75%;}*/
+      .groupSelection input.groupSelectionInput, .groupSelection .groupRecipient{height:auto !important;}
+      //.topics.init {display:none;}
+	  
+	  
+	  .publishercontainer .publisherQuestionTitleInner { padding-right: 0px;}
+	  .feedcontainer .feeditemcommentnew .newcommentbutton {margin: 1px;}
+	   ul.pollchoices li input, ul.pollchoices li label {vertical-align: 0;}
+	  .feeditem .pollfieldset legend, .feeditem .pollfieldset .pollquestion {padding: 5px 0px;}
+	  .zen .chatterFileListBlock .controls #fileUploaderDiv {width: 100%;}
+	  .chatterFileListBlock .controls .uploadFile {padding: 0 0 5px;}
+	  .chatterFileListBlock .multiUploadControl .uploadFile .multifile-upload-draganddrop-indicactor {padding: 8px 0 0;}
+
+
+      body.hasMotif {margin:0px;}
+      .bodyDiv.brdPalette.brandPrimaryBrd{padding-top:0;margin-top:-4px;}
+      .outerNoSidebar{-webkit-box-shadow: 0 8px 10px hsla(0,0%,0%,.25);
+      box-shadow: 0 8px 10px hsla(0,0%,0%,.25);}
+      
+	    .footer_strip{background-color:#3c3c3c;padding:26px;}
+      .footer_strip_content{font-size:16px;font-weight:200;font-family:arial;color:#fff;}
+      .connect_BG_style{background-color:#707070;min-height:392px;}
+      .sublist{padding-left:10px !important;}
+      .sublist li a{font-style:italic;}
+      .modal{overflow:hidden;}
+      .nav-category a:hover{color:#3c3c3c;text-decoration:none;}
+      .nav-category ul li a{font-weight:400;}
+      .nav-meta li a{padding:0 25px;font-size:12px;font-weight:normal;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;}
+      .nav-meta li{padding:0;border:none;}
+      .nav-meta-first > span > a:after{display:none !important;}
+      .nav-sb-search-input{height:23px;}
+      .nav-search-icon{margin-top:3px;}
+      .footer-last-tab > h4 > span {color:#A3A3A3;}
+      .search-icon{height: 22px;margin-left: 10px;width: 23px;}
+      .versioningPanel.articleRendererBorderRight,#showProperties{display:none;}
+      .right-toggle{display:none;}
+      .nav-meta li a:after{
+         background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 40%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 1) 60%, rgba(255, 255, 255, 0) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+         color: #ffffff;
+         content: "";
+         display: block;
+         height: 50%;
+         position: absolute;
+         top: 9px;
+         width: 1px;.
+      }
+       #AppBodyHeader,.visibleWithId,.btnDiv{display: none;}
+       
+	   .userProfilePageButtonGroup {display: none;}
+	   .fileDetailPageButtonGroup {display: none;}
+	   .groupButtonToToggleRight {display: none;}
+		.zen .zen-page{padding:0px;background: #fff; min-width:200px !important;}
+       .publishercontainer .publisherFeedItemTypeChoices a.publisherattach, a.cxcontentcommentaction, span.cxcontentcommentactiontext, .zen .comboMenu #sortDisplay, .zen .comboMenu #filterDisplay, .userProfilePage a, .filesDetailPage a{color: #fc8d03 !important;}
+	   .zen .comboMenu .zen-select .zen-options{width:100% !important; left:0px;}
+	   .publishercontainer .publisherFeedItemTypeChoices a.publisherattach:hover{color: #fab14d !important; text-decoration:none !important;}
+	   .userProfilePage .vfButtonBar h3, .userProfilePage .cxTailNode,.userProfilePage .influenceBoxHeader h3, .userProfilePage .zoneActivityPanel .content .value{color: #767779 !important}
+	   .userProfilePage .zoneActivityPanel .content .label{color: #FC8D03 !important; font-size: 14px !important; padding-left: 0px;}
+	   .feedcontainer .comboMenu.feedsupermenu .feedSearchTerm{width: 190px !important}
+	   .chatterPage .feedSearch.feedSearchOpen{box-shadow:none !important}
+	   .dropdown.liCss .dropdown-toggle:focus{text-decoration:none; color:#606163 !important;}
+	   .zen .publisherTypeOverflow.withArrowAttached .zen-trigger .publisherattachtext{color:#fc8d03 !important}
+	   .RecommendationsPage .recTable .empty{width:361px}
+	   .RecommendationsPage #rec-grid .recTable{overflow:hidden}
+	   .RecommendationsPage #rec-grid .recTable .empty{display:none;}
+	   .RecommendationsPage .zen-bodyInner a{color: #fc8d03}
+	   .RecommendationsPage .recommend .sideNav .active>a{color:#fc8d03 !important; text-decoration: none !important;}
+	   .RecommendationsPage .recommend .sideNav a:focus{text-decoration: none !important;}
+	   .zen .topNav h2.title  {color: #767779;}
+	   .zen .zen-listView.GroupListView .GroupLastActivity{width:auto;}
+	   .zen .chatterListViewContainer .zen-listView .zen-data thead th{background: #f4f4f4;}
+	   .chatterFileListBlock .controls .uploadFile .btnImportant{color: #fc8d03;}
+	   .feedcontainer .feeditem, #influenceBox .influenceSection, .reputationWidgetLevelName{color: #767779}
+	   .bPageTitle a{color: #fc8d03;}
+	   .zen .PeopleListPage .listViewportWrapper .listViewport .topNav h2.title, .chatterListViewHeader.brandSecondaryBrd h2 .text{
+			font-weight:normal;
+			font-family:berthold_akzidenz_grotesk_bMD;
+	   }
+	   .profileSection .publishercontainer, .profileSection .feedcontainer{max-width:none;}
+	   .TopicPage .chatterPage .feedcontainer{min-height:auto;}
+	   #contentWrapper{min-width:200px !important;}
+	   .topicPage .headerContent{width:100%}
+	   .divider.custom{border-bottom: 1px solid #e0e0e0 ;}
+	   .pointerCursor{padding:0 14px !important;}
+	   html .brandPrimaryBrd{border:none !important; overflow:hidden;}
+	   .navbar-toggle .icon-bar{border:2px solid #818181; width:33px;}
+	   body button:active{border-color:transparent}
+	   .UserProfilePage .feeditemcontent.cxfeeditemcontent .feeditembody{margin-right:35px}
+	   .left-toggle, .right-toggle{margin:0px !important}
+	   .userProfilePage .leftContent .guestBadge, .userProfilePage .leftContent .guestGroupBadge{width:170px !important}
+	   .FileDetailPage .threecolumn{width:100%}
+	   .threecolumn .mainContent{margin-left: 224px; width:80%}
+	   .threecolumn .mainContent .lowerMainContent{width:100%}
+	   .FileDetailPage .threecolumn .rightContent{width:25%}
+	   .FileDetailPage .centerContent{width:75%}
+	   
+	   .ChatterPage .threecolumn{max-width:1170px; width:100%}
+		.ChatterPage .threecolumn .mainContent{max-width:892px; width:100%;}
+		.ChatterPage .chatterPage .threecolumn .rightContent{max-width:200px; width:100%}
+		.ChatterPage .chatterPage .threecolumn .centerContent, .ChatterPage .chatterPage .publishercontainer, .ChatterPage .chatterPage .feedcontainer{max-width:675px; width:100%}
+	
+	/*----------------------------------------1024------------------------------------------*/
+	@media screen and (max-width: 1024px){
+		/*.bg-nav-meta .container{ max-width:1024px; width:100%}*/
+        .threecolumn, .userProfilePage{width:100%;}
+        .threecolumn .headerContent{width:100%;}
+        .threecolumn .leftContent, .userProfilePage .leftContent {width: 20%;}
+        .threecolumn .mainContent{float: left;width: 79%; padding-left: 1%; margin-left: 0px;}
+        .threecolumn .mainContent .lowerMainContent{float:left; width: 100%;}
+        .threecolumn .rightContent{width:25%;}
+        .userProfilePage .rightContent {width: 25%; margin-right: 4%;}
+        
+        .chatterFilesTabPage,.zen .chatterFilesTabPage .rightContent,.zen .chatterListViewContainer td.TopicName,.centerContent 
+        #dpvPreviewWrapper .chatterFileViewerPanel{width: auto;}
+        .zen .chatterListViewContainer td.IsFollowing{text-align: right;}
+        .profileSection .publishercontainer,.profileSection  .feedcontainer{max-width: none;}
+		#PersonalSetup {top:150px !important}
+		#contactInfo{top:45px !important}
+		.nav-main.navbar-collapse{border-top:none; box-shadow: none;}
+		.search_icon_search_bar{top:105px !important}
+		.userProfilePage .vfButtonBar a.editLink img{height: 20px; width:20px;}
+		.GroupProfilePage .groupprofilepage .userProfileContainer{min-height:536px;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .profilePage { min-height: 546px;}
+    }
+	
+	@media screen and (min-width: 1024px) and (max-width: 1199px){
+		.recommend .recommendationsPage{width:925px}
+		.TopicPage #topicEpso.overlayDialog , .GroupProfilePage #groupInformation.overlayDialog{left: 260px !important; top: 80px!important }
+		.UserProfilePage .feedcommentactions .commentActionMenu .zen-options.netmodx-menu, .UserProfilePage .cxallfeedactions .feeditemActionMenu .netmodx-menu.zen-open .zen-options{left: -150px!important}
+		.UserProfilePage .cxallfeedactions .feeditemActionMenu .zen-options{left: -95px}
+		.UserProfilePage #contactInfo.overlayDialog, .UserProfilePage #aboutMe.overlayDialog{left:200px !important; top:45px !important}
+		.GroupProfilePage #uploadPhoto.overlayDialog{left:310px !important; top:185px !important}
+		.logout_ul{
+			top: 28px !important;
+			left: 90% !important;
+			text-align: left !important;
+			min-width: 115px !important;
+		}
+		#chatterFindExistingContent {top:60px !important}
+		.threecolumn .centerContent{width: 73%;}
+		.userProfilePage .centerContent {width: 70%;}
+		.pointerCursor.hoverLine{padding: 0 12px !important; font-size:14px}
+		#uploadPhoto{
+			width: 400px !important;
+			left: 184px !important;
+			top: 200px !important;
+		}
+   }
+	/*-----------------------------------768----------------------------------------*/
+	@media screen and (min-width: 768px) and (max-width: 991px){
+	    .container {width: auto;}
+		.groupprofilepage{min-height:546px}
+	    #PersonalSetup {width:750px !important}
+		.PersonalSetup .buttonTable{width:90% !important;}
+		#aboutMe{top:30px !important;}
+		.TopicListPage.chatterListViewContainer, .chatterFileListView.chatterListViewContainer{width: 100%;}
+        .groupListPage.chatterListViewContainer .zen-content td {padding:  12px 7px !important;}
+        .topicPageContainer .headerContent {padding-top: 50px;}
+        .configLinks.helpLink, .helpIcon{display: none;}
+		
+		.threecolumn .headerContent .helpLink, .userProfilePage .profileHeader, .threecolumn .rightContent, .GroupProfilePage #rightContent{display: none;}
+		.userProfilePage .profileHeader{left: -234px; display: block;}
+		
+        .btnDiv {display: block;}
+        .fileTab .brdPalette {border-top: 0px;}
+        td.GroupLastActivity {width: auto;}
+        .FileListView table {table-layout: auto !important;}
+        .footer-last-tab {width:140px !important;}
+        .footer_strip .container{width: 100%;}
+        .connect_BG_style{min-height:470px;}
+        .nav-meta li a{padding:0 20px;}
+        .bg-nav-meta .container, .bg-nav-main .container, .banner-bg .container,.pic-footer .container{margin-left: unset !important;margin-right: unset !important;}
+        .nav-main > ul > li > a {font-size: 16px;}
+        .zen-bodyZen.brdPalette.brandPrimaryBrd {float: left;width: 100%;}
+        .threecolumn .headerContent{float: left;}
+        .threecolumn .mainContent{width: 100%;}
+        .offcanvas {
+          position: relative;
+          -webkit-transition: all .25s ease-out;
+               -o-transition: all .25s ease-out;
+                  transition: all .25s ease-out;
+        }
+		.logout_ul{
+			top: 28px !important;
+			left: 86% !important;
+			text-align: left !important;
+			min-width: 115px !important;
+		}
+		.feedcommentactions .commentActionMenu .zen-options{left: -150px !important}
+		.chatterPage .threecolumn .leftContent{width:24% !important}
+		.RecommendationsPage .recommend .recommendationsPage,.RecommendationsPage .recommend .recTable {width:100%}
+		.RecommendationsPage .recommend .recElement{width:100%; margin-bottom:5px}
+		.TopicPage .offcanvas-left .leftbar-offcanvas{left:-25% !important}
+		.TopicPage #topicEpso.overlayDialog , .GroupProfilePage #groupInformation.overlayDialog{top: 80px!important }
+		.GroupProfilePage #groupInformation.overlayDialog{left:140px !important}
+		.UserProfilePage .bodyDiv.brdPalette.brandPrimaryBrd, .TopicPage .bodyDiv.brdPalette.brandPrimaryBrd{overflow:hidden; float:none!important;}
+		.UserProfilePage #contactInfo.overlayDialog ,.UserProfilePage #aboutMe.overlayDialog{left:55px !important}
+		.UserProfilePage .cxallfeedactions .feeditemActionMenu .zen-options{left: -95px!important}
+		
+        .offcanvas-left {left: 0;}
+        .offcanvas-left .leftbar-offcanvas {left: -25%;}
+        .leftbar-offcanvas { position: absolute; width: 55%; }
+		.detailOffcanvas{
+          position: relative;
+          -webkit-transition: all .25s ease-out;
+               -o-transition: all .25s ease-out;
+                  transition: all .25s ease-out;
+        }
+        .detailOffcanvas-left {
+          left: 0;
+          top: 30px;
+        }
+        .detailOffcanvas-left .detailLeftbar-offcanvas { left: -35%;}
+        .detailOffcanvas-left.active_chatter{ left: 37%; }
+		.GroupProfilePage .detailOffcanvas-left.active_chatter, .offcanvas-left.active_chatter{left:30%}
+		.GroupProfilePage .detailOffcanvas-left .detailLeftbar-offcanvas{left:-29%}
+        .userProfilePage .mainContent{margin-left: 0px !important;}
+		.GroupProfilePage .userProfilePage .groupprofilepage{overflow:hidden}
+		.GroupProfilePage .centerContent.zen{width:100%}
+        .fileOffcanvas{
+          position: relative;
+          -webkit-transition: all .25s ease-out;
+               -o-transition: all .25s ease-out;
+                  transition: all .25s ease-out;
+        }
+        .fileOffcanvas-left {
+          left: 0;
+        }
+        .fileOffcanvas-left .fileLeftbar-offcanvas {
+          left: -35%; 
+        }
+		
+		.fileOffcanvas-left.active_chatter{
+          left: 37%; 
+        }
+		
+        .chatterFilesTabPage .rightContent{
+            margin-left: 0px !important;
+        }
+        .publishercontainer, .feedcontainer{max-width:100%; }
+        .profilePage.userProfilePage .mainContent{width: 88%  }
+		.userProfilePage.detailOffcanvas{width: 88% !important;}
+		
+		.zen .zen-listView.zen-listViewFixed .zen-data th, .zen .zen-listView.zen-listViewFixed .zen-data td, .zen .zen-listView.zen-listViewFixed .zen-data td .zen-cellShim {height: 1em; overflow: hidden; text-overflow: ellipsis; white-space: initial;}
+		.chatterFilesTabPage .chatterListViewContainer div.chatterFileListBlock {width: 77%;}
+		.cxallfeedactions .feeditemActionMenu .zen-options, .userProfilePage .cxallfeedactions .feeditemActionMenu .zen-options{left: -150px}
+		.userProfilePage .netmodx-menu .feeditemActionMenu .zen-options{left: -150px !important}
+		.threecolumn .centerContent{width:100% !important}
+		
+		.offcanvas-left .leftbar-offcanvas{left: -29% !important}
+		.FileDetailPage .threecolumn .headerContent .headerRightContent{display:none !important;}
+		.threecolumn .centerContent, .userProfilePage .centerContent{width: 100%;}
+		#chatterFindExistingContent {width:750px !important}
+		.UserProfilePage .detailOffcanvas-left.active_chatter{left:30%}
+		.UserProfilePage .userProfilePage .leftContent{width:24%}
+		.UserProfilePage .detailOffcanvas-left .detailLeftbar-offcanvas{left:-30%}
+		.chatterFileViewerPanel{border: none;}
+		
+    }
+	
+	/*--------------------------------------767-------------------------------*/  
+	@media screen and (max-width: 767px){
+        .publishercontainer .LinkPost input[type="text"] {width: 90%;}
+        .zen .comboMenu.feedsupermenu .zen-select {left: -20px;}
+        .banner_height {height: auto;}
+        .threecolumn .mainContent {width:48%}
+        .chatterPage .publishercontainer,.publisherWrapper,.cxfeedinnerwrapper {float: left;width: 100%;}
+        .threecolumn .rightContent,.feedSearch,.zen-smlineSep{display: none;}
+        
+          .zen-bodyZen.brdPalette.brandPrimaryBrd {padding-top: 150px;}
+          .offcanvas {
+				position: relative;
+				-webkit-transition: all .25s ease-out;
+               -o-transition: all .25s ease-out;
+                  transition: all .25s ease-out;
+        }
+        .offcanvas-left {
+          left: 0;
+        }
+        .leftbar-offcanvas {
+          position: absolute;
+          width: 55%;
+        }
+        .offcanvas-left.active_chatter{
+          left: 30%; 
+        }
+    }
+	/*--------------------------------------------736-------------------------------*/  
+	@media only screen 
+	and (max-device-width : 736px)		
+	and (orientation : landscape) { 
+		.btnDiv{display:block !important}
+		/*.container{max-width:736px; width:100%}*/
+		.rightContent{display:none;}
+		.zen-bodyZen.brdPalette.brandPrimaryBrd{padding-top:0px !important;}
+		.headerRightContent{display:none}
+		.threecolumn .rightContent{display: none;}
+		.threecolumn .mainContent{width: 100% !important;}
+		.offcanvas {
+		  position: relative;
+		  -webkit-transition: all .25s ease-out;
+			   -o-transition: all .25s ease-out;
+				  transition: all .25s ease-out;
+		}
+		.UserProfilePage .userProfilePageButtonGroup{display:block !important}
+		.ChatterPage .userProfilePageButtonGroup{display:none;}
+		.GroupProfilePage .userProfilePageButtonGroup{display:block !important;}
+		.offcanvas-left { left: 0;}
+		.offcanvas-left .leftbar-offcanvas { left: -30%;}
+		.FileDetailPage .offcanvas-left .leftbar-offcanvas{left: -33%; width:25% !important}
+		.ChatterPage .threecolumn .leftContent{width:26%}
+		.leftbar-offcanvas { position: absolute; width: 55%;}
+		.offcanvas-left.active_chatter{ left:30%;}
+		.detailOffcanvas{
+		  position: relative;
+		  -webkit-transition: all .25s ease-out;
+			   -o-transition: all .25s ease-out;
+				  transition: all .25s ease-out;
+		}
+		.detailOffcanvas-left { left: 0; top: 30px;}
+		.detailOffcanvas-left .detailLeftbar-offcanvas { left: -25%; }
+		.UserProfilePage .detailOffcanvas-left .detailLeftbar-offcanvas{left:-35% !important}
+		.detailOffcanvas-left.active_chatter{  left: 26%; }
+		.UserProfilePage .detailOffcanvas-left.active_chatter {left:35% !important}
+		.userProfilePage .mainContent{margin-left: 0px !important;}
+		.threecolumn .centerContent, .userProfilePage .centerContent{width:100%}
+		.chatterPage .feedcontainer{max-width:685px ; width:100%}
+		.zen .zen-main{padding:15px 0 15px 12px}
+		.chatterPage .publishercontainer{max-width:685px; width:100%}
+		a.Apttuslogolink{margin-left:7% !important}
+		.cxallfeedactions .feeditemActionMenu .zen-options, .feedcommentactions .commentActionMenu .zen-options, .feedmainandrightbar .feedrightbar .zen-options{left:-150px}
+		.search-input-custom{font-size:18px !important}
+		.threecolumn .headerContent .helpLink{display: none;}
+		.userProfilePage .profileHeader {display: none;}
+		.userProfilePage .profileHeader {left: -234px; display: block;}
+		.UserProfilePage .detailOffcanvas-left .detailLeftbar-offcanvas{left:-35% !important}
+		.detailOffcanvas-left.active_chatter{  left: 26%; }
+		.UserProfilePage .detailOffcanvas-left.active_chatter {left:35% !important}
+		#bodyInner .filesDetailPage.offcanvas-left.active_chatter{left:35%;}
+		.FileDetailPage .filesDetailPage{min-height:470px;}
+		.userProfilePage .mainContent{margin-left: 0px !important;}
+		.UserProfilePage .profilePage.userProfilePage .mainContent{max-width: 750px; width:100%;}
+		.userProfilePage .headerContent .profileHeader{display: none;}
+		.userProfilePage .rightContent {position: relative; margin-right: 7%;}
+		#contentWrapper .profilePage .headerContent .profileHeader { display: block; left: -2px;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .profilePage { min-height: 546px;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .profilePage .mainContent .centerContent ul#profileTabContent div#profileOverview .profileRightColumn {display:none}
+		.threecolumn, .userProfilePage { width: 100%;}
+		.UserProfilePage .userProfilePage .headerContent{width:100% !important}
+		.UserProfilePage .userProfilePage .leftContent{width:28%}
+		.detailOffcanvas .mainContent #profileOverview .profileLeftColumn{width:100% !important}
+		.FileDetailPage .filesDetailPage .threecolumn .centerContent{width:100%}
+		
+		
+		.topicPage .profileTabSetContainer.topic-st-topic-feedTab{max-width:750px; width:100%}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd #topic-page .mainContent #topic-tabContainer .profileTabSetHeader{margin-top:-40px; width:100%}
+		.topicPageContainer .headerContent{padding-top:35px}
+		.TopicPage .profileSection{margin-bottom: 0;}
+		.TopicPage .topicPage .leftContent{margin-top:-42px}
+		#quickActionContainer{margin-left:-282px !important; top:61px !important}
+		#topicEpso{width:500px !important; left:118px !important; top:30px !important}
+		#nameAndDescDialog{left:118px !important; top:43px !important}
+		#chatterFilesTabPageUploadDialog{left:108px !important; top:134px !important}
+		.zen-page .zen-bodyZen.brdPalette.brandPrimaryBrd .chatterPage .mainContent #centerContent .groupinfo .ownerSection{white-space: normal;}
+		.ChatterPage .groupListPage .groupinfo{margin-left:0px}
+		#aboutMe{left: 33px !important; top:30px !important}
+		#uploadPhoto{
+			width: 400px !important;
+			left: 168px !important;
+			top: 112px !important;
+		}
+		#contactInfo{
+			width: 670px !important;
+			left: 33px !important;
+			top:45px !important;
+		}
+		.UserFileListPage .btnDiv, .UserFileListPage .userProfilePageButtonGroup{display:none !important;}
+		.helpLink {display:none;}
+		#chatterFileSharedWithListDialog{
+			width: 400px !important;
+			left: 6px !important;
+			top: 50px !important;
+		}
+		#chatterFilesEditDialog{margin-left: -245px !important; width: 490px !important; margin-top:0px !important}
+		#chatterFindExistingContent{
+			width: 720px !important;
+			left: 6px !important;
+			top: 29px !important;
+		}
+		#PersonalSetup{
+			max-width: 720px !important;
+			width: 100% !important;
+			left: 6px !important;
+			top: 60px !important;
+		}
+		#chatterFileVersionListDialog{width:500px !important; left:118px !important; top:80px !important}
+		.GroupProfilePage .detailOffcanvas-left .detailLeftbar-offcanvas{left:-30%}
+		.GroupProfilePage .userProfilePage .leftContent{width:27%;}
+		.GroupProfilePage .detailOffcanvas-left.active_chatter{left:30%}
+		.UserFileListPage .listViewportWrapper .chatterBreadcrumbs{max-width:740px; width:100%;}
+		.GroupProfilePage .profileHeaderContent .chatterBreadcrumbs{max-width:740px; width:100%}
+		#groupDescription{
+			width: 500px !important;;
+			left: 118px !important;;
+			top: 75.5px !important;;
+		}
+	}
+	/*-------------------------------667-----------------------------*/
+	@media only screen 
+	and (max-device-width : 667px)		
+	and (orientation : landscape) { 
+		/*body { width: 667px;}*/
+		.search-input-custom{ font-size:18px !important}
+		.outerNoSidebar .container{width: 100% !important}
+		.container{width:100% !important}
+		.logo-xs{padding-left:15px}
+		.TopicListPage.chatter.ListViewContainer, .chatterFileListView.chatterListViewContainer{width: 100%;}
+		.groupListPage.chatterListViewContainer .zen-content td {padding:  12px 7px !important;}
+		.topicPageContainer .headerContent {padding-top: 50px;}
+		.configLinks.helpLink, .helpIcon{display: none;}
+		
+		.threecolumn .headerContent .helpLink{display: none;}
+		.userProfilePage .profileHeader {display: none;}
+		.userProfilePage .profileHeader {left: -234px; display: block;}
+		
+		.btnDiv {display: block !important;}
+		.fileTab .brdPalette {border-top: 0px;}
+		td.GroupLastActivity {width: auto;}
+		.FileListView table {table-layout: auto !important;}
+		.footer-last-tab {width:140px !important;}
+		.footer_strip .container{width: 100%;}
+		.connect_BG_style{min-height:470px;}
+		.nav-meta li a{padding:0 20px;}
+		.bg-nav-meta .container, .bg-nav-main .container, .banner-bg .container,.pic-footer .container{margin-left: unset !important;margin-right: unset !important;}
+		.nav-main > ul > li > a {font-size: 16px;}
+		.zen-bodyZen.brdPalette.brandPrimaryBrd {float: left;width: 100%; padding-top:0px !important}
+		
+		.threecolumn .headerContent{float: left;}
+		.threecolumn .rightContent{display: none;}
+		.threecolumn .mainContent{width: 100% !important;}
+		.offcanvas {
+		  position: relative;
+		  -webkit-transition: all .25s ease-out;
+			   -o-transition: all .25s ease-out;
+				  transition: all .25s ease-out;
+		}
+		.offcanvas-left { left: 0;}
+		.offcanvas-left .leftbar-offcanvas { left: -30%;}
+		.FileDetailPage .offcanvas-left .leftbar-offcanvas{left: -33%}
+		.ChatterPage .threecolumn .leftContent{width:26%}
+		.leftbar-offcanvas { position: absolute; width: 55%;}
+		.offcanvas-left.active_chatter{ left:30%;}
+		.detailOffcanvas{
+		  position: relative;
+		  -webkit-transition: all .25s ease-out;
+			   -o-transition: all .25s ease-out;
+				  transition: all .25s ease-out;
+		}
+		.detailOffcanvas-left { left: 0; top: 30px;}
+		.detailOffcanvas-left .detailLeftbar-offcanvas { left: -25%; }
+		.UserProfilePage .detailOffcanvas-left .detailLeftbar-offcanvas{left:-35% !important}
+		.detailOffcanvas-left.active_chatter{  left: 26%; }
+		.UserProfilePage .detailOffcanvas-left.active_chatter {left:35% !important}
+		#bodyInner .filesDetailPage.offcanvas-left.active_chatter{left:35%}
+		.userProfilePage .mainContent{margin-left: 0px !important;}
+
+		.fileOffcanvas{
+		  position: relative;
+		  -webkit-transition: all .25s ease-out;
+			   -o-transition: all .25s ease-out;
+				  transition: all .25s ease-out;
+		}
+		.fileOffcanvas-left { left: 0;}
+		.fileOffcanvas-left .fileLeftbar-offcanvas { left: -35%;}
+		
+		.fileOffcanvas-left.active_chatter{left: 37%; }
+		
+		.chatterFilesTabPage .rightContent{margin-left: 0px !important;}
+		.publishercontainer, .feedcontainer{max-width:100%; }
+		.UserProfilePage .profilePage.userProfilePage .mainContent{max-width: 750px; width:100%;}
+		
+		.zen-page .banner-bg {width: 68% !important;}
+		.banner-bg {width: 84% !important;}
+		.zen-bodyZen.brdPalette.brandPrimaryBrd {padding-top: 0px;}
+		
+		.userProfilePage .headerContent .profileHeader{display: none;}
+		.footer-style-ipad-iphone .footer_border {width: 84%;}
+		#profileTabSetHeader {width: 99%;}
+		.userProfilePage .rightContent {position: relative; margin-right: 7%;}
+		//.userProfilePage .centerContent {width: 64%;}
+		.topicPageContainer .lowerCenterContent {margin-top: -32px;}
+		.topicPageContainer .rightContent {margin-right: 13%;}
+		.topicPageContainer .centerContent {width: 100%;}
+		
+		.chatterPage .chatterListViewContainer div.chatterFileListBlock {width: 99%;}
+		.zen .zen-listView.zen-listViewFixed .zen-data th, .zen .zen-listView.zen-listViewFixed .zen-data td, .zen .zen-listView.zen-listViewFixed .zen-data td .zen-cellShim {white-space: initial;}
+		
+		.chatterFilesTabPage .chatterListViewContainer div.chatterFileListBlock {width: 66%;}
+		.zen .zen-listView.zen-listViewFixed .zen-data th, .zen .zen-listView.zen-listViewFixed .zen-data td, .zen .zen-listView.zen-listViewFixed .zen-data td .zen-cellShim {white-space: initial;}
+		.collaborationGroupTab .bPageBlock {width: 88%;}
+		.chatterform .dataCol textarea {width: 383px;}
+		body .bPageTitle .ptBody .links .helpLink {display: none;}
+		
+		#contentWrapper .userProfilePage .headerContent .zen-select { position: relative; left: -321px;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd #topic-page .mainContent #topic-tabContainer .profileTabSetHeader { margin-top: -40px; width: 100%;}
+		
+		#quickActionContainer { margin-left: -282px !important; top: 286.5px !important;}
+		.overlayBackground { width: 100% !important;}
+		#quickActionContainer .middle .innerContent .publisherBottomBarPlaceholder .bottomBar { height: 74px;}
+		#quickActionContainer .middle .innerContent .publisherBottomBarPlaceholder .bottomBar .postTo { display: block;}
+		
+		.zen-page .footer-style-ipad-iphone .footer_border .fixed_width { width: 20%;}
+		.zen-page .footer-style-ipad-iphone p.text-align-iphone { margin: 0 0 10px;}
+		
+		#contentWrapper .profilePage .headerContent .profileHeader { display: block; left: -2px;}
+		
+		#aboutMe { width: 94% !important; -webkit-overflow-scrolling: touch !important;}
+		#aboutMe #aboutMeContentId { width: 91% !important;}
+		
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .profilePage { min-height: 546px;}
+		
+		#PersonalSetup { width: 97% !important;}
+		#PersonalSetup .middle iframe#PersonalSetupContentId .personalSetupTable { width: 77%;}
+		
+		//#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .profilePage .mainContent .centerContent ul#profileTabContent //div#profileOverview .profileLeftColumn { width: 64%;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .profilePage .mainContent .centerContent ul#profileTabContent div#profileOverview .profileRightColumn { position: relative; right: 8px;}
+		//#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .profilePage .mainContent .centerContent ul#profileTabContent //div#profileOverview .profileLeftColumn .profileFilesOwnedDiv { width: 45%;}
+		//#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .profilePage .mainContent .centerContent ul#profileTabContent //div#profileOverview .profileLeftColumn .profileGroupsDiv { width: 45%;}
+		.zen .zen-listView .zen-pagerJumpToPage {float: none;}
+		.zen .zen-listView .zen-pager {float: none; display: block; margin: 0px;}
+		
+		#contentWrapper header.navbar-static-top .bg-nav-meta { width: 100%;}
+		.zen-page .zen-bodyZen.brdPalette.brandPrimaryBrd .chatterPage .mainContent #centerContent .ContentPost #chatterFileStageOne { margin-bottom: 0px;}
+		.zen-page .contentPublisherSlideDown .panel { margin-bottom: 0px;}
+		.filesDetailPage #chatterFileViewerPanel div:nth-child(1) { width: 100% !important;}
+		.chatterPage .publishercontainer ul li:nth-child(2) { display: none;}
+		.fileTailNode { width: 80%;}
+		.fileTailNode .sharedWithStatusBadge { display: none;}
+		.FileDetailPage .threecolumn .headerContent .headerRightContent, .GroupProfilePage .userProfileContainer .mainContent .rightContent{ display: none;}
+		
+		.ui-autocomplete.ui-front.ui-menu.ui-widget.ui-widget-content.ui-corner-all { width: 91% !important;}
+		
+		.ui-autocomplete { display: none !important;}
+		.ChatterPage .cxallfeedactions .feeditemActionMenu .zen-options { left: -145px !important;}
+		.zen-page header.navbar-static-top .bg-nav-meta { width:100%}
+		
+		.threecolumn, .userProfilePage { width: 100%;}
+		.filesDetailPage .threecolumn .mainContent{width:100%}
+		.nav-main{
+			position: relative !important;
+			width: 200% !important;
+			bottom: 0px !important;
+			top: 14px !important;
+		}
+		.list-horizontal > ul {
+			position: relative;
+			z-index: 99;
+			background-color: #FFF;
+			border: 1px solid #EEE;
+		}
+		ul.ipad_view {
+			display: block !important;
+		}
+		.list-horizontal > ul > li{float:none !important;}
+		.list-horizontal > ul > span> li{float: none !important;}
+		.lixsCss {
+			border-bottom: 1px solid #ccc;
+			padding: 15px 0;
+		}
+		li.lixsCss.collapsed div.collapse_icon span.expand_in {
+			display: inline;
+		}
+		li.lixsCss.collapsed div.collapse_icon span.expand_out {
+			display: none;
+		}
+		ul.sub_list {border-bottom: 1px solid #ccc;}
+		ul.sub_list > li > a {
+			color: #606163;
+			font-size: 16px;
+			text-decoration: none;
+		}
+		ul.sub_list > li {padding: 15px 45px;list-style-type: none;}
+		.glyphicon {text-align: center;	margin: 0 6px;}
+		.list-group{margin-bottom: 0px !important;}
+		.lixsCss:hover, li.lixsCss:hover a, li.lixsCss span:hover a{ background-color: #6bb445;}
+		.navbar-collapse{max-height: none !important;}
+		li.lixsCss .collapse_icon:hover {color:#fff}
+		.bodyDiv{overflow:hidden; float:none!important;}
+		.userProfilePage .cxallfeedactions .feeditemActionMenu .zen-options{left:-150px !important}
+		.topicPage .profileTabSetContainer.topic-st-topic-feedTab{width:100%}
+		#contentWrapper .userProfilePage .headerContent .zen-select{left:0 !important}
+		.logo-xs{padding-left:15px}
+		.ChatterPage .chatterPage #feedwrapper .feedcontainer{min-height:auto}
+		#groupDescription{top: 60px !important; left:75px !important}
+		.GroupProfilePage .groupprofilepage .userProfileContainer{min-height:536px;}
+		.GroupProfilePage .detailOffcanvas-left .detailLeftbar-offcanvas{left:-30%}
+		.GroupProfilePage .detailOffcanvas-left.active_chatter{left:30%}
+		.GroupProfilePage .threecolumn .centerContent{width:88% !important}
+		.UserProfilePage .userProfilePage .centerContent{width:100%;}
+		.logout_ul{top:22px !important; left:81% !important; min-width:120px !important}
+		.logout_ul li:not(.divider){padding:4px 0}
+		.nav-main.navbar-collapse{border-top:none; box-shadow: none;}
+		.search_icon_search_bar{top:95px;}
+		.UserProfilePage .userProfilePage .headerContent{width:100% !important}
+		.UserProfilePage .userProfilePage .leftContent{width:30%}
+		.userProfilePage .vfButtonBar a.editLink img{height: 20px; width:20px;}
+		#chatterFindExistingContent{width:650px !important; top:40px !important}
+		.mainContent #lowerMainContent .centerContent{width:100% !important}
+		#contactInfo{width:655px !important}
+		.detailOffcanvas .mainContent #profileOverview .profileRightColumn{display: none;}
+		.detailOffcanvas .mainContent #profileOverview .profileLeftColumn{width:100%}
+		#topicEpso{top:28px !important; left:70px !important;}
+		.col-xs-offset-2.search_box_div{width:84%; margin-left:40px}
+		#uploadPhoto{left:130px !important; top:130px !important}
+		.userProfilePage .leftContent .profileImage, .chatter-avatarFull .chatter-photo{width:175px;}
+		.TopicPage .publishercontainer ul.publisherFeedItemTypeChoices{margin-top:15px;}
+		.TopicPage .userProfilePage .leftContent{width:25%}
+	}
+	/*---------------------------------568-----------------------------------*/
+	@media only screen 
+	and (min-width : 568px)		
+	and (max-width : 600px) {
+		/*body{width:568px !important}*/
+		.GroupProfilePage .detailOffcanvas-left .detailLeftbar-offcanvas{left:-40%;}
+		.GroupProfilePage .userProfilePage .leftContent{width:37%;}
+		.GroupProfilePage .detailOffcanvas-left.active_chatter{left:40%}
+		.reputationWidgetLevelIcon img{width:25px !important; height:25px !important;}
+		.reputationWidgetFull .reputationWidgetLevelIcon{margin-right:0px !important; width:35px;}
+		.FileDetailPage .filesDetailPage .threecolumn .rightContent{display:none !important}
+		#bodyInner .filesDetailPage.offcanvas-left.active_chatter{left:40%}
+		.FileDetailPage .offcanvas-left .leftbar-offcanvas{padding-top:38px; left:-40%}
+		.publishercontainer ul.publisherFeedItemTypeChoices{margin-top:10px;}
+		.TopicPage .userProfilePage .leftContent{width:25%}
+		.userProfilePage .leftContent .guestBadge, .userProfilePage .leftContent .guestGroupBadge{width:170px !important}
+		#chatterFileSharedWithListDialog {
+			width: 400px !important;
+			left: 80px !important;
+			top: 50px !important;
+		}
+	}
+	/*-------------------------------------414----------------------------------------*/
+	@media only screen 
+	and (max-device-width : 414px)		
+	and (orientation : portrait) {   
+		.btnDiv{display:block !important}
+		.container{max-width:736px; width:100%}
+		.rightContent{display:none;}
+		.zen-bodyZen.brdPalette.brandPrimaryBrd{padding-top:0px !important;}
+		.headerRightContent{display:none}
+		.threecolumn .rightContent{display: none;}
+		.threecolumn .mainContent{width: 100% !important;}
+		.offcanvas {
+		  position: relative;
+		  -webkit-transition: all .25s ease-out;
+			   -o-transition: all .25s ease-out;
+				  transition: all .25s ease-out;
+		}
+		.UserProfilePage .userProfilePageButtonGroup{display:block !important}
+		.offcanvas-left { left: 0;}
+		.offcanvas-left .leftbar-offcanvas { left: -30%;}
+		.ChatterPage .offcanvas-left .leftbar-offcanvas{left:-50%}
+		.TopicPage .offcanvas-left .leftbar-offcanvas{left: -35%}
+		.FileDetailPage .offcanvas-left .leftbar-offcanvas{left: -55%}
+		.FileDetailPage .threecolumn .leftContent{width:52%}
+		.ChatterPage .threecolumn .leftContent{width:26%}
+		.leftbar-offcanvas { position: absolute; width: 55%;}
+		.offcanvas-left.active_chatter{ left:30%;}
+		.ChatterPage .offcanvas-left.active_chatter{ left:50%;}
+		.TopicPage .offcanvas-left.active_chatter{left:35%}
+		.detailOffcanvas{
+		  position: relative;
+		  -webkit-transition: all .25s ease-out;
+			   -o-transition: all .25s ease-out;
+				  transition: all .25s ease-out;
+		}
+		.detailOffcanvas-left { left: 0; top: 30px;}
+		.detailOffcanvas-left .detailLeftbar-offcanvas { left: -25%; }
+		.UserProfilePage .detailOffcanvas-left .detailLeftbar-offcanvas{left:-55% !important}
+		.detailOffcanvas-left.active_chatter{  left: 26%; }
+		.UserProfilePage .detailOffcanvas-left.active_chatter {left:55% !important}
+		#bodyInner .filesDetailPage.offcanvas-left.active_chatter{left:52%}
+		.userProfilePage .mainContent{margin-left: 0px !important;}
+		.threecolumn .centerContent, .userProfilePage .centerContent{width:100%}
+		.UserFileListPage .listViewportWrapper .chatterBreadcrumbs{max-width:740px; width:100%;}
+		.chatterPage .feedcontainer{max-width:685px ; width:100%}
+		.zen .zen-main{padding:15px 0 15px 12px}
+		.chatterPage .publishercontainer{max-width:685px; width:100%}
+		.TopicPage .chatterPage .publishercontainer{margin-top:10px}
+		a.Apttuslogolink{margin-left:7% !important}
+		.cxallfeedactions .feeditemActionMenu .zen-options, .feedcommentactions .commentActionMenu .zen-options, .feedmainandrightbar .feedrightbar .zen-options{left:-150px}
+		.search-input-custom{font-size:18px !important}
+		.threecolumn .headerContent .helpLink{display: none;}
+		.userProfilePage .profileHeader {display: none;}
+		.userProfilePage .profileHeader {left: -234px; display: block;}
+		.detailOffcanvas-left.active_chatter{  left: 26%; }
+		.userProfilePage .mainContent{margin-left: 0px !important;}
+		.UserProfilePage .profilePage.userProfilePage .mainContent{max-width: 750px; width:100%;}
+		.userProfilePage .headerContent .profileHeader{display: none;}
+		.userProfilePage .rightContent {position: relative; margin-right: 7%;}
+		#contentWrapper .profilePage .headerContent .profileHeader { display: block; left: -2px;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .profilePage { min-height: 546px;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .profilePage .mainContent .centerContent ul#profileTabContent div#profileOverview .profileRightColumn { display:none}
+		.threecolumn, .userProfilePage { width: 100%;}
+		.UserProfilePage .userProfilePage .headerContent{width:100% !important}
+		.UserProfilePage .userProfilePage .leftContent{width:50%}
+		.detailOffcanvas .mainContent #profileOverview .profileLeftColumn{width:100% !important}
+		.FileDetailPage .filesDetailPage{min-height:470px;}
+		
+		.TopicPage .userProfilePage .leftContent{width:32% !important}
+		.ChatterPage .threecolumn .leftContent{width: 45%}
+		.topicPage .profileTabSetContainer.topic-st-topic-feedTab{max-width:400px; width:100%}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd #topic-page .mainContent #topic-tabContainer .profileTabSetHeader{margin-top:-40px; width:100%}
+		.topicPageContainer .headerContent{padding-top:35px}
+		.TopicPage .topicPageContainer .headerContent{padding-top:0px}
+		.TopicPage .profileSection{margin-bottom: 0;}
+		.TopicPage .topicPage .leftContent{margin-top:-42px}
+		#quickActionContainer{margin-left:-200px !important; top:65px !important; width:405px !important}
+		#topicEpso{width:400px !important; left:6px !important; top:75px !important}
+		#nameAndDescDialog{left:10px !important; top:43px !important; width:395px !important; top:120px !important}
+		#chatterFilesTabPageUploadDialog{width:400px !important; left:6px !important; top:210px !important}
+		.zen-page .zen-bodyZen.brdPalette.brandPrimaryBrd .chatterPage .mainContent #centerContent .groupinfo .ownerSection{white-space: normal;}
+		.ChatterPage .groupListPage .groupinfo{margin-left:0px}
+		#aboutMe{left: 6px !important; top:30px !important; width:400px !important}
+		#uploadPhoto{
+			width: 400px !important;
+			left: 7px !important;
+			top: 170px !important;
+		}
+		#contactInfo{
+			width: 400px !important;
+			left: 6px !important;
+			top:45px !important;
+		}
+		
+		.helpLink {display:none;}
+		.UserFileListPage .btnDiv, .UserFileListPage .userProfilePageButtonGroup{display:none !important;}
+		#chatterFileSharedWithListDialog{
+			width: 400px !important;
+			left: 6px !important;
+			top: 50px !important;
+		}
+		#chatterFilesEditDialog{margin-left: -200px !important; width: 400px !important;}
+		#chatterFilesEditPanel .textAreaFullSize{max-width:414px !important; width:100% !important; margin-top:0px !important} 
+		.publishercontainer input[type="text"]{max-width:407px; width:100%;}
+		.publishercontainer .LinkPost .postInput input[type="text"]{max-width:235px; width:100%;}
+		.search_icon-xs{margin-top:5px; margin-right:5px}
+		.publishercontainer .contentPublisherSlideDown table.postInput{max-width:500px; width:97%}
+		.publishercontainer .LinkPost .contentPublisherSlideDown table.postInput th{width:22%; }
+		#chatterFindExistingContent{width:400px !important; left:6px !important; top:50px !important}
+		.groupSelection input.groupSelectionInput, .groupSelection .groupRecipient{width:auto}
+		#PersonalSetup{
+			max-width: 400px !important;
+			width: 100% !important;
+			left: 6px !important;
+			top: 60px !important;
+		}
+		#chatterFileVersionListDialog{width:400px !important; left:6px !important; top:80px !important}
+		#dpvPreviewWrapper .chatterFileViewerPanel{height:auto;}
+		.GroupProfilePage .profileHeaderContent .chatterBreadcrumbs{max-width:400px; width:100%}
+		.GroupProfilePage .detailOffcanvas-left .detailLeftbar-offcanvas{left:-55%;}
+		.GroupProfilePage .userProfilePage .leftContent{width:51%;}
+		.GroupProfilePage .detailOffcanvas-left.active_chatter{left:55%}
+		.visibilityWidgetParent div.visibilityHelpContainer{
+			width:258px !important;
+			padding:0 5px !important;
+			right:-232px !important;
+		}
+		#groupDescription{
+			width: 400px !important;
+			left: 6px !important;
+			top: 150px !important;
+		}
+		.search_icon_search_bar {
+			top: 105px !important;
+		}
+		.search_header {
+			font-size: 18px !important;
+		}
+		.col-xs-offset-2.search_box_div{
+			margin-left: 0px !important;
+			width: 100% !important;
+		}
+		.search-input-custom {
+			font-size: 14px !important;
+			font-family: berthold_akzidenz_grotesk_bRg !important;
+		}
+		.search-btn-span .btn-custom {
+			padding: 10px 10px !important;
+		}
+		.btn-custom {
+			width: 100%;
+			font-weight: normal !important;
+			border-radius: 0px !important;
+			font-size: 14px !important;
+		}
+	}
+	/*-----------------------------------------375-----------------------------------*/
+	@media only screen 
+	and (min-width : 375px) 
+	and (max-width : 400px) {
+		.container{width:100% !important}
+		.offcanvas { position: relative; -webkit-transition: all .25s ease-out; -o-transition: all .25s ease-out; transition: all .25s ease-out;}
+		.offcanvas-left { left: 0;}
+		.offcanvas-left .leftbar-offcanvas { left: -45%;}
+		.ChatterPage .offcanvas-left .leftbar-offcanvas { left: -55%;}
+		.TopicPage .offcanvas-left .leftbar-offcanvas { left: -40% !important;}
+		.leftbar-offcanvas { position: absolute; width: 55%;}
+		
+		.offcanvas-left.active_chatter{left:45%}
+		.chatterPage.offcanvas-left.active_chatter{ left: 55% !important;}
+		.TopicPage .offcanvas-left.active_chatter{ left: 40% !important;}
+		.FileDetailPage .offcanvas-left.active_chatter{ left: 66%;}
+		.detailOffcanvas{ position: relative; -webkit-transition: all .25s ease-out; -o-transition: all .25s ease-out; transition: all .25s ease-out;}
+		.detailOffcanvas-left { left: 0; top: 30px;}
+		.detailOffcanvas-left .detailLeftbar-offcanvas { left: -35%;}
+		.GroupProfilePage .detailOffcanvas-left .detailLeftbar-offcanvas{left:-55% !important}
+		.detailOffcanvas-left.active_chatter{ left: 37%;}
+		.GroupProfilePage .detailOffcanvas-left.active_chatter{left:63%}
+		.UserProfilePage .detailOffcanvas-left.active_chatter{left:60% !important}
+		.UserProfilePage .detailOffcanvas-left .detailLeftbar-offcanvas{left:-60% !important}
+		.fileOffcanvas{ position: relative; -webkit-transition: all .25s ease-out; -o-transition: all .25s ease-out; transition: all .25s ease-out;}
+		.fileOffcanvas-left { left: 0;}
+		.fileOffcanvas-left .fileLeftbar-offcanvas {left: -35%;}
+		.fileOffcanvas-left.active_chatter{ left: 37%;}
+		.zen .zen-listView.zen-listViewFixed .zen-data th, .zen .zen-listView.zen-listViewFixed .zen-data td, .zen .zen-listView.zen-listViewFixed .zen-data td .zen-cellShim {height: 1em; overflow: hidden; text-overflow: ellipsis; white-space: initial;}
+		
+		.zen-page .navbar-static-top .banner-bg { width: 39%;}
+		#contentWrapper .navbar-static-top .banner-bg { width: 48%;}
+		
+		.zen-page .zen-bodyZen.brdPalette.brandPrimaryBrd { padding-top: 0px !important;}
+		.zen-page .zen-bodyZen.brdPalette.brandPrimaryBrd .filesDetailPage .headerContent { margin-top: 33px; left: -17px;}
+		#contentWrapper #topic-page .headerContent { margin-top: 33px;}
+		.zen-page .zen-bodyZen.brdPalette.brandPrimaryBrd .chatterFilesTabPageHeader { margin-top: 33px; left: -20px; position: relative;}
+		
+		.zen-page .footer-style-ipad-iphone .footer_border .fixed_width { width: 20%;}
+		
+		#contentWrapper .userProfilePage .mainContent { margin-left: 0px;}
+		.zen-page .zen-bodyZen.brdPalette.brandPrimaryBrd .chatterFilesTabPage .rightContent { margin-left: 0px;}
+		
+		.zen-page .zen-bodyZen.brdPalette.brandPrimaryBrd .mainContent { width: 100%;}
+		.zen-page .zen-bodyZen.brdPalette.brandPrimaryBrd .chatterFilesTabPage .rightContent { width: 36%; position: relative; left: -12px;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .userProfilePage .mainContent { width:100%;}
+		
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .userProfileContainer .mainContent {width: auto;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .userProfileContainer .mainContent .centerContent {width: 100%; left: -7px; position: relative;}
+
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd #topic-page .mainContent #topic-tabContainer .profileTabSetHeader { margin-top: -40px; width: 100%;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd #topic-page .mainContent { width: auto;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd #topic-page .mainContent #topic-tabContainer .centerContent { width: 100%; margin-top: -30px;}
+		
+		.zen .zen-listView .zen-pagerJumpToPage {float: none;}
+		.zen .zen-listView .zen-pager {float: none; display: block; margin: 0px;}
+		
+		.feedcontainer .feeditem .preamblecontainer.displayblock { width: 89%;}
+		
+		.zen .TopicListPage .zen-listView.TopicListView .zen-navigation {height: 75px;}
+		.zen .TopicListPage .zen-listView.TopicListView .zen-navigation .zen-select {width: 105%; left: -20px;}
+		
+		#contentWrapper .userProfilePage .headerContent .zen-select { position: relative; left: -613px; display: none;}
+		
+		#PersonalSetup { width: 97% !important; top: 7px !important;}
+		#aboutMe { width: 97% !important; top: 7px !important;}
+		
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .profilePage .mainContent .centerContent .profileOverview .followers { left: -156px; position: relative; width: 175%;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .profilePage .mainContent .centerContent .profileOverview .following { left: -156px; position: relative; width: 175%;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .profilePage .mainContent .centerContent .profileOverview .profileLeftColumn { width: 99%;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .profilePage .mainContent .centerContent .profileOverview .profileFilesOwnedDiv { float: none; width: 101%;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .profilePage .mainContent .centerContent .profileOverview .profileGroupsDiv { width: 100%;}
+		
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .noSidebarCell .group-edit-form .bPageBlock { width: 45%;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .noSidebarCell .bPageTitle .ptBody .pageDescription { width: 56%;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .noSidebarCell .group-edit-form .bPageBlock .pbTitle { display: none;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .noSidebarCell .group-edit-form .bPageBlock .pbButton { text-align: center;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .noSidebarCell .group-edit-form .bPageBlock .pbBody div:nth-child(1) .pbSubbody table tbody tr:nth-child(4) .chatterradiobutton .zen-mlm { width: 200px;}
+		
+		.zen-page .zen-bodyZen.brdPalette.brandPrimaryBrd .filesDetailPage .headerContent .fileTailNode { width: 35%;}
+		
+		#nameAndDescDialog { width: 97% !important; top: 7px !important;}
+		
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .userProfilePage .groupprofilepage .mainContent .rightContent { display:none; position: relative; left: -22px; width: 45%;}
+		
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .userProfilePage .groupprofilepage .mainContent { 
+			position: relative;
+			-webkit-transition: all .25s ease-out;
+			-o-transition: all .25s ease-out;
+			transition: all .25s ease-out;
+		}
+		
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .userProfilePage .groupprofilepage .mainContent.shiftMainContentToLeft {
+			left: -48%;
+		}
+		
+		#quickActionContainer { width: 100% !important; top: 60px !important; margin-left: -187.5px !important;}
+		
+		#quickActionContainer .middle .innerContent .publisherBottomBarPlaceholder .bottomBar { height: 74px;}
+		#quickActionContainer .middle .innerContent .publisherBottomBarPlaceholder .bottomBar .postTo { display: block;}
+		
+		#directMessageContainer { width: 104%;}
+		#directMessageContainer .streamList #streamListContainer a.streamRow { width: 96%;}
+		#directMessageContainer #streamDetailContent #streamReplyInputContainer { width: 100%;}
+		#directMessageContainer #streamDetailContent #streamReplyInputContainer textarea { width: 95%;}
+		#directMessageContainer #streamDetailContent #messageContainer { width: 100%;}
+		#directMessageContainer #streamDetailContent #messageContainer .messageTimestamp { padding-top: 9px; float: none;}
+		#directMessageContainer #streamDetailContent #messageContainer .messageContent { margin-top: 0px;}
+		#directMessageContainer .streamList #streamListContainer a.streamRow .streamContent { margin-top: 0px; margin-left: 75px;}
+		#directMessageContainer .streamList #streamListContainer a.streamRow .streamTimestamp { float: none; padding-left: 76px;}
+		
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .profilePage { min-height: 700px;}
+		
+		#contentWrapper header.navbar-static-top .bg-nav-meta { width: 100%;}
+		.zen-page .zen-bodyZen.brdPalette.brandPrimaryBrd .chatterPage .mainContent #centerContent .ContentPost #chatterFileStageOne { margin-bottom: 0px;}
+		.zen-page .contentPublisherSlideDown .panel { margin-bottom: 0px;}
+		#contentWrapper .contentPublisherSlideDown .panel { margin-bottom: 0px;}
+		
+		.zen-page .publishercontainer #choiceinput1, .zen-page .publishercontainer #choiceinput2 { width: 70%;}
+		#contentWrapper .publishercontainer #choiceinput1, #contentWrapper .publishercontainer #choiceinput2 { width: 70%;}
+		.zen-page .navbar-static-top .banner-bg .search_div .form-control { font-size: 7px;}
+		#contentWrapper .navbar-static-top .banner-bg .search_div .form-control { font-size: 7px;}
+		.zen-page .zen-bodyZen.brdPalette.brandPrimaryBrd .chatterPage .mainContent #centerContent .topicInput .input { width: 101%}
+		.chatterListViewContainer .zen-listView.zen-listViewFixed .zen-data td .chatter-avatar { display: none;}
+		.zen-page .zen-bodyZen.brdPalette.brandPrimaryBrd .chatterPage .mainContent #centerContent .groupinfo { margin-left: 0px;}
+		.zen-page .zen-bodyZen.brdPalette.brandPrimaryBrd .chatterPage .mainContent #centerContent .groupinfo .ownerSection { white-space: normal;}
+		.chatterListViewContainer .zen-listView.zen-listViewFixed .zen-data td .chatter-photo, .chatterListViewContainer .zen-listView.zen-listViewFixed .zen-data td .chatter-avatarStyle { display:none;}
+		
+		.zen .zen-listView.zen-listViewFixed .zen-data td .peopleInfoContent { margin-left: 0px;}
+		/*body { width: 375px;}*/
+		.zen-page .zen-bodyZen.brdPalette.brandPrimaryBrd .chatterPage .mainContent .chatterFileListView .FileListView .zen-content .actions { display: none;}
+		.zen-page .zen-bodyInner .chatterFilesTabPage .rightContent .chatterFileListView .zen-content .actions { display:none;}
+		.filesDetailPage #chatterFileViewerPanel div:nth-child(1) { width: 100% !important;}
+		.chatterPage .publishercontainer ul li:nth-child(2) { display: none;}
+		#contentWrapper #topic-page .topicPageContainer .rightContent { display: none;}
+		#chatterFilesTabPageUploadDialog { width: 97% !important;}
+		#chatterFilesTabPageUploadDialog .middle table.postInput { margin: 0;}
+		form#chatterFileForm_upload table.postInput tbody tr:nth-child(4) td .fileFormInputElement { width: 100%;}
+		#chatterFileSharedWithListDialog { width: 95% !important; left: 5.5px !important; top: 92.5px !important;}
+		.sharedWithListOverlayPanel .chatterListOverlay .overlayListHeader .firstColumn { width: 50% !important;}
+		.sharedWithListOverlayPanel .sharedWithLinkBar .makePrivateLinkPanel { float: none !important;}
+		.publishercontainer .publisherTemplate.activeTemplate .publisherpollchoiceinput { width: 70%;}
+		.ui-autocomplete.ui-front.ui-menu.ui-widget.ui-widget-content.ui-corner-all { width: 86% !important;}
+		.ui-autocomplete { display: none !important;}
+		.zen .chatterListViewContainer .zen-listView.zen-listViewFixed .zen-data { table-layout: auto;}
+		.zen .chatterListViewContainer .zen-listView.zen-listViewFixed .zen-data { table-layout: fixed;}
+		.zen-page .zen-bodyZen.brdPalette.brandPrimaryBrd .filesDetailPage .leftContent { top: 0px;}
+		a.cxcontentcommentaction img { display: none;}
+		a.cxcontentcommentaction span { top: 5px; position: relative; }
+		.cxallfeedactions .feeditemActionMenu .zen-options { left: -145px;}
+		#groupRolesDialog { width: 97% !important;}
+		#groupRolesDialog .middle .chatterListOverlay table.overlayListTable .memberDisplayName { width: 241px;}
+		#groupRolesDialog .middle .chatterListOverlay .extras .filter { display: block; position: relative; right: 0px;}
+		#groupRolesDialog .middle .chatterListOverlay .extras .quickfindContainer { padding: 4px 0px 0px;}
+		.FileDetailPage .zen-page .zen-bodyZen.brdPalette.brandPrimaryBrd .mainContent, .zen-page .zen-bodyZen.brdPalette.brandPrimaryBrd .filesDetailPage .headerContent .fileTailNode{width:100%}
+		.headerRightContent{display:none;}
+		.FileDetailPage .offcanvas-left .leftbar-offcanvas{left:-62%}
+		#bodyInner .filesDetailPage.offcanvas-left.active_chatter{left:60%}
+		#navbar-collapse-1.nav-main{position:relative;}
+		
+		#chatterFilesEditDialog{margin-left: -180px !important; width:360px !important;}
+		.FileDetailPage .filesDetailPage .leftContent .leftbar-offcanvas{left: -33% !important}
+		#chatterFilesEditDialog .middle .postInput #ext-gen1 .textAreaFullSize{width:100% !important}
+		.logout_ul{left:67% !important; top:16px !important; min-width:120px !important}
+		.logout_ul li:not(.divider){padding:4px 0}
+		.ChatterPage .threecolumn .leftContent {width:50% !important}
+		.userProfilePage .leftContent{width:40%}
+		.TopicPage .topicPageContainer .leftContent{width:35%}
+		.UserProfilePage .userProfilePage .leftContent{width:50%}
+		.GroupProfilePage .groupprofilepage .leftContent{width:50% !important}
+		#chatterFileVersionListDialog{width:360px !important}
+		.userProfilePage .cxallfeedactions .feeditemActionMenu .zen-options{left:-150px !important}
+		.logo-xs{padding-left:15px}
+		.btnDiv { display: block !important;}
+		#groupDescription{top: 135px !important; width:360px !important; left:6px !important}
+		.GroupProfilePage .groupprofilepage .userProfileContainer{min-height:536px;}
+		.GroupProfilePage .publishercontainer .LinkPost input[type="text"]{width:50% !important}
+		.threecolumn .mainContent{width:100%}
+		.nav-main.navbar-collapse{border-top:none; box-shadow: none;}
+		.UserProfilePage .userProfilePage .headerContent{width:100% !important}
+		.zen div.zen-select{margin:0px}
+		.publishercontainer input[type="text"]{max-width:407px; width:100%;}
+		.userProfilePage .vfButtonBar a.editLink img{height: 20px; width:20px;}
+		.topicPage .profileTabSetContainer.topic-st-topic-feedTab{max-width:750px !important; width:100% !important}
+		.GroupProfilePage .profileHeaderContent .chatterBreadcrumbs{max-width:740px; width:100%}
+		#chatterFindExistingContent{width:360px !important}
+		#rypple{left:20px !important; width:340px !important;}
+		.badgeListSearchInputElement .fileFormInputElement{width:305px !important}
+		.mainContent #lowerMainContent .centerContent{width:100% !important}
+		.outerNoSidebar .container{width: 100% !important}
+		#contactInfo{width:360px !important}
+		.search_icon-xs{margin-top:5px !important}
+		.search_box_div .input-group-btn{width:30%}
+		.detailOffcanvas .mainContent #profileOverview .profileRightColumn{display: none;}
+		.detailOffcanvas .mainContent #profileOverview .profileLeftColumn{width:100%}
+		#aboutMe{left:6px !important;}
+		#topicEpso{top:35px !important; width:360px !important; left: 6px !important;}
+		.search_icon-xs{margin-right:5px; margin-top:5px;}
+		.search_box_div{padding-left:7px !important; padding-right:7px !important;}
+		.search-input-custom{font-size:14px !important; font-family:berthold_akzidenz_grotesk_bRg !important;}
+		.search-btn-span .btn-custom{padding:10px 10px !important;}
+		.search_header{font-size:18px !important}
+		.col-xs-offset-2.search_box_div{margin-left:0px !important; width:100% !important}
+		#dpvPreviewWrapper .chatterFileViewerPanel{height:auto;}
+		#uploadPhoto{max-width:360px; width:100%; left:6px !important; top:215px !important}
+		.GroupProfilePage .userProfilePage .leftContent{width:48%; }
+		.GroupProfilePage .detailOffcanvas-left .detailLeftbar-offcanvas{left:-55%}
+		.GroupProfilePage .detailOffcanvas-left.active_chatter{left:55%;}
+		.userProfilePage .leftContent .profileImage, .chatter-avatarFull .chatter-photo{width:175px;}
+		#aboutMe {
+			left: 6px !important;
+			top: 100px !important;
+			width: 350px !important;
+		}
+	}
+	/*---------------------------------320px---------------------------------*/
+	@media only screen 
+		and (min-width : 320px)		
+		and (max-width : 350px) {   
+		/*body{width:320px !important}*/
+		.btnDiv{display:block !important}
+		.container{max-width:736px; width:100%}
+		.rightContent{display:none;}
+		.zen-bodyZen.brdPalette.brandPrimaryBrd{padding-top:0px !important;}
+		.headerRightContent{display:none}
+		.threecolumn .rightContent{display: none;}
+		.threecolumn .mainContent{width: 100% !important;}
+		.offcanvas {
+		  position: relative;
+		  -webkit-transition: all .25s ease-out;
+			   -o-transition: all .25s ease-out;
+				  transition: all .25s ease-out;
+		}
+		.UserProfilePage .userProfilePageButtonGroup{display:block !important}
+		.offcanvas-left { left: 0;}
+		.offcanvas-left .leftbar-offcanvas { left: -30%;}
+		.ChatterPage .offcanvas-left .leftbar-offcanvas{left:-60%}
+		.ChatterPage .threecolumn .leftContent{width: 55%}
+		.FileDetailPage .offcanvas-left .leftbar-offcanvas{left: -75%}
+		.FileDetailPage .threecolumn .leftContent{width:50%}
+		.ChatterPage .offcanvas-left.active_chatter{ left:60%;}
+		.leftbar-offcanvas { position: absolute; width: 55%;}
+		.offcanvas-left.active_chatter{ left:30%;}
+		
+		.TopicPage .offcanvas-left .leftbar-offcanvas{left: -45%}
+		.TopicPage .offcanvas-left.active_chatter{left:45%}
+		.TopicPage .userProfilePage .leftContent{width:38% !important}
+		.detailOffcanvas{
+		  position: relative;
+		  -webkit-transition: all .25s ease-out;
+			   -o-transition: all .25s ease-out;
+				  transition: all .25s ease-out;
+		}
+		.detailOffcanvas-left { left: 0; top: 30px;}
+		.detailOffcanvas-left .detailLeftbar-offcanvas { left: -25%; }
+		.UserProfilePage .detailOffcanvas-left .detailLeftbar-offcanvas{left:-56% !important}
+		.detailOffcanvas-left.active_chatter{  left: 26%; }
+		.UserProfilePage .detailOffcanvas-left.active_chatter {left:55% !important}
+		#bodyInner .filesDetailPage.offcanvas-left.active_chatter{left:70%}
+		.userProfilePage .mainContent{margin-left: 0px !important;}
+		.threecolumn .centerContent, .userProfilePage .centerContent{width:100%}
+		.UserFileListPage .listViewportWrapper .chatterBreadcrumbs{max-width:740px; width:100%;}
+		.chatterPage .feedcontainer{max-width:685px ; width:100%}
+		.zen .zen-main{padding:15px 0 15px 12px}
+		.chatterPage .publishercontainer{max-width:685px; width:100%}
+		a.Apttuslogolink{margin-left:7% !important}
+		.cxallfeedactions .feeditemActionMenu .zen-options, .feedcommentactions .commentActionMenu .zen-options, .feedmainandrightbar .feedrightbar .zen-options{left:-150px}
+		.search-input-custom{font-size:18px !important}
+		.threecolumn .headerContent .helpLink{display: none;}
+		.userProfilePage .profileHeader {display: none;}
+		.userProfilePage .profileHeader {left: -234px; display: block;}
+		.detailOffcanvas-left.active_chatter{  left: 26%; }
+		.userProfilePage .mainContent{margin-left: 0px !important;}
+		.UserProfilePage .profilePage.userProfilePage .mainContent{max-width: 750px; width:100%;}
+		.userProfilePage .headerContent .profileHeader{display: none;}
+		.userProfilePage .rightContent {position: relative; margin-right: 7%;}
+		#contentWrapper .profilePage .headerContent .profileHeader { display: block; left: -2px;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .profilePage { min-height: 546px;}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd .profilePage .mainContent .centerContent ul#profileTabContent div#profileOverview .profileRightColumn { display:none}
+		.threecolumn, .userProfilePage { width: 100%;}
+		.UserProfilePage .userProfilePage .headerContent{width:100% !important}
+		.UserProfilePage .userProfilePage .leftContent{width:50%}
+		.detailOffcanvas .mainContent #profileOverview .profileLeftColumn{width:100% !important}
+		.FileDetailPage .filesDetailPage{min-height:470px;}
+		
+		.topicPage .profileTabSetContainer.topic-st-topic-feedTab{max-width:400px; width:100%}
+		#contentWrapper .bodyDiv.brdPalette.brandPrimaryBrd #topic-page .mainContent #topic-tabContainer .profileTabSetHeader{margin-top:-40px; width:100%}
+		.topicPageContainer .headerContent{padding-top:35px}
+		.TopicPage .profileSection{margin-bottom: 0;}
+		.TopicPage .topicPage .leftContent{margin-top:-42px}
+		#quickActionContainer{margin-left:-155px !important; top:65px !important; width:305px !important}
+		#topicEpso{width:305px !important; left:6px !important; top:75px !important}
+		#nameAndDescDialog{left:10px !important; top:43px !important; width:300px !important; top:120px !important}
+		#chatterFilesTabPageUploadDialog{width:305px !important; left:6px !important; top:210px !important}
+		.zen-page .zen-bodyZen.brdPalette.brandPrimaryBrd .chatterPage .mainContent #centerContent .groupinfo .ownerSection{white-space: normal;}
+		.ChatterPage .groupListPage .groupinfo{margin-left:0px}
+		#aboutMe{left: 6px !important; top:30px !important; width:305px !important}
+		#uploadPhoto{
+			width: 305px !important;
+			left: 7px !important;
+			top: 100px !important;
+		}
+		#contactInfo{
+			width: 305px !important;
+			left: 6px !important;
+			top:35px !important;
+		}
+		
+		.helpLink {display:none;}
+		.UserFileListPage .btnDiv, .UserFileListPage .userProfilePageButtonGroup{display:none !important;}
+		#chatterFileSharedWithListDialog{
+			width: 305px !important;
+			left: 6px !important;
+			top: 50px !important;
+		}
+		#chatterFilesEditDialog{margin-left: -155px !important; width: 305px !important;}
+		#chatterFilesEditPanel .textAreaFullSize{max-width:414px !important; width:100% !important; margin-top:0px !important} 
+		.publishercontainer input[type="text"]{max-width:407px; width:100%;}
+		.publishercontainer .LinkPost .postInput input[type="text"]{max-width:235px; width:100%;}
+		.search_icon-xs{margin-top:5px; margin-right:5px}
+		.publishercontainer .contentPublisherSlideDown table.postInput{max-width:500px; width:97%}
+		.publishercontainer .LinkPost .contentPublisherSlideDown table.postInput th{width:22%; }
+		#chatterFindExistingContent{width:305px !important; left:6px !important; top:50px !important}
+		.groupSelection input.groupSelectionInput, .groupSelection .groupRecipient{width:auto}
+		#PersonalSetup{
+			max-width: 305px !important;
+			width: 100% !important;
+			left: 6px !important;
+			top: 60px !important;
+		}
+		#chatterFileVersionListDialog{width:305px !important; left:6px !important; top:80px !important}
+		#dpvPreviewWrapper .chatterFileViewerPanel{height:auto;}
+		.GroupProfilePage .profileHeaderContent .chatterBreadcrumbs{max-width:305px; width:100%}
+		.GroupProfilePage .detailOffcanvas-left .detailLeftbar-offcanvas{left:-60% !important;}
+		.GroupProfilePage .userProfilePage .leftContent{width:52% !important;}
+		.GroupProfilePage .detailOffcanvas-left.active_chatter{left:60%}
+		.visibilityWidgetParent div.visibilityHelpContainer{
+			width:195px !important;
+			padding:0 5px !important;
+			right:-167px !important;
+		}
+		#groupDescription{
+			width: 305px !important;
+			left: 6px !important;
+			top: 150px !important;
+		}
+		.userProfilePage .leftContent .profileImage, .chatter-avatarFull .chatter-photo{width:155px;}
+		.userProfilePage .lowerCenterContent{padding-left:0px}
+		.reputationWidgetLevelIcon img{width:25px !important; height:25px !important;}
+		.reputationWidgetFull .reputationWidgetLevelIcon{margin-right:0px !important; width:35px;}
+		.reputationWidgetInfo .reputationWidgetLevelName{font-size:14px !important}
+		.userProfilePage .leftContent .guestBadge, .userProfilePage .leftContent .guestGroupBadge{width:150px !important}
+		table.influence{width:150px}
+		.publishercontainer ul.publisherFeedItemTypeChoices{font-size:12px}
+		.ChatterPage .zen .zen-listView.GroupListView .GroupName .displayName{overflow:visible;}
+		.feedcontainer .feeditemcontent .preamblecontainer{max-width:155px; width:100% !important}
+	}
+	
+	
+	@media only screen and (max-width: 479px){
+		.threecolumn .mainContent {width: 30%;}
+		.publishercontainer li.publisherFeedItemTypeChoice{margin-right: 5px;}
+	}
+	@media only screen and (-webkit-min-device-pixel-ratio:0) and (max-width: 768px) {
+		.bg-nav-meta .container, .bg-nav-main .container, .pic-footer .container, .banner-bg .container {
+			margin: 0 !important;
+		}
+	}
+	
+	

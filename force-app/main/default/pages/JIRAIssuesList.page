@@ -1,0 +1,102 @@
+<apex:page standardController="Case" extensions="JiraIssueListController" sidebar="false" showHeader="false">
+    <!--<apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, 'Communitybuilder/bootstrap/JQ.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/bootstrap/JiraIssueList.js')}"/>-->
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, 'Communitybuilder/js/jquery-1.10.2.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/JiraIssueList.js')}"/>
+    
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/JiraIssueList.css')}"/>
+    <script>
+    window.onload=func1;
+    function func1(){
+        var a = document.getElementsByClassName("unlinkbtn");
+        a[0].disabled = true;
+        a[0].classList.add("btnDisabled");
+        a[0].classList.remove("btn");
+    }
+    function checkDisable(){
+        var btnattr = document.getElementsByClassName("checkIssues");
+        var a = document.getElementsByClassName("unlinkbtn");
+        for (var i=0; i<btnattr.length; i++) {
+            if(btnattr[i].checked == true){
+                a[0].disabled = false;
+                a[0].classList.remove("btnDisabled");
+                a[0].classList.add("btn");
+                break;
+            }else{
+                a[0].disabled = true;
+                a[0].classList.add("btnDisabled");
+                a[0].classList.remove("btn");
+            }
+        }
+    }
+    function allJiraIssues(checkedbox){
+        var btnattr = document.getElementsByClassName("checkIssues");
+        var a = document.getElementsByClassName("unlinkbtn");
+        for (var i=0; i<btnattr.length; i++) {
+            if(checkedbox.checked==true){
+                btnattr[i].checked = true;
+                a[0].disabled = false;
+                a[0].classList.remove("btnDisabled");
+                a[0].classList.add("btn");
+            }
+            else{
+                btnattr[i].checked = false;
+                a[0].disabled = true;
+                a[0].classList.add("btnDisabled");
+                a[0].classList.remove("btn");
+            }
+        }
+    }
+    </script>
+    
+    <apex:form id="issueList">
+        <apex:outputPanel rendered="{!jiraIssuesList.size==0}">
+            {!$Label.ErrorMsg_Label2} 
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{!jiraIssuesList.size>0}" layout="block" styleclass="text-center">
+            
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 linecolor nopad" style="margin-top:10px;padding-top:5px;">
+                <div style="float:left;margin: 3px 0 0 1px;">
+                    <h3> {!$Label.RelatedJiraIssueList_Label}</h3> 
+                </div>
+                <div style="text-align:center;">
+                    <apex:commandButton styleClass="unlinkbtn" id="unlink" value="{!$Label.Unlink_Label}" action="{!unlinkIssues}" reRender="issueList" oncomplete="window.top.location='/{!caseId}'; return false"/>
+                </div>
+                <apex:outputPanel id="jira_issue_list">
+                    
+                    <table border="0" cellspacing="0" cellpadding="0" style="width:100%;margin-top:5px;">
+                        <tr class="x-grid3-hd-row">
+                            <th class="Tableheader"><apex:outputPanel rendered="{!jiraIssuesList.size!=0}"><input id='one' type="checkbox" onChange="allJiraIssues(this);"/></apex:outputPanel></th>
+                            <th class="Tableheader">{!$Label.JiraIssueKey_Label}</th> 
+                            <th class="Tableheader">{!$Label.ViewinJira_Label}</th>  
+                            <th class="Tableheader">{!$Label.Priority_Label}</th>
+                            <th class="Tableheader">{!$Label.FIxVersions_Label}</th>
+                            <th class="Tableheader">{!$Label.Resolution_Label}</th>
+                            <th class="Tableheader">{!$Label.IssueStatus_Label}</th>
+                            <th class="Tableheader">{!$Label.Assignee_Label}</th>
+                            <th class="Tableheader">{!$Label.Action_Label}</th>  
+                        </tr>
+                        <apex:repeat value="{!jiraIssuesList}"  var="issue" >
+                            <div class="bordered">
+                                <tr class="">
+                                    <td class="tablerows"><apex:inputCheckbox value="{!issue.selected}" styleClass="checkIssues" onClick="checkDisable();"/></td>
+                                    <td class="tablerows">
+                                        <a href="/{!issue.jiraIssueRel.JiraIssue__r.Id}?jirakey={!issue.jiraIssueRel.JiraIssue__r.IssueKey__c}&caseId={!caseId}" target="_top">{!issue.jiraIssueRel.JiraIssue__r.IssueKey__c}</a>
+                                    </td>
+                                    <td class="tablerows"> <a target="_Blank" href="{!issue.jiraIssueRel.JiraIssue__r.Jira_Link__c}">{!$Label.View_Label}</a></td>
+                                    <td class="tablerows">{!issue.jiraIssueRel.JiraIssue__r.Priority__c}</td>
+                                    <td class="tablerows">{!issue.fixVersion}</td>
+                                    <td class="tablerows">{!issue.resolution}</td>
+                                    <td class="tablerows">{!issue.jiraIssueRel.JiraIssue__r.Status__c}</td>
+                                    <td class="tablerows">{!issue.jiraIssueRel.JiraIssue__r.Assignee__c}</td>
+                                    <td class="tablerows"><a href="/apex/EditAddJiraIssue?id={!issue.jiraIssueRel.JiraIssue__r.Id}&caseid={!caseId}" target="_top">{!$Label.Edit_Label}</a></td>
+                                </tr>
+                            </div>
+                        </apex:repeat>
+                    </table>
+                    
+                </apex:outputPanel>
+            </div>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

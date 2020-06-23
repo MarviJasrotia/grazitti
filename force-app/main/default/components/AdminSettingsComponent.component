@@ -1,0 +1,676 @@
+<!-- Parent Page Adminsetting.vfp -->
+<!-- Parent Controller AdminSettingController EXTENSION RuleSetFlowComponentController-->
+<apex:component >
+    <apex:attribute name="adminsetting" description="Jira_login__c object to hold the values from vf page." type="Jira_login__c" required="true" />
+    <apex:attribute name="checkUrlChange" description="The save method from the parent controller." type="ApexPages.Action" required="true"/>
+    <apex:attribute name="loginSuccess" description="Boolean value to tell if the loin is succesfull." type="Boolean" required="true" />
+    <apex:attribute name="checkloginsuccess" description="" type="ApexPages.Action" required="true" />
+    <apex:attribute name="RefreshRequestToken" description="" type="ApexPages.Action" required="true" />
+    <apex:attribute name="relation" description="list of relations between jira and case" type="selectoption[]" required="true" />
+    <apex:attribute name="token" description="request token" type="String" required="true" />
+    <apex:attribute name="PrivateKey" description="PrivateKey" type="String" required="true" />
+    <apex:attribute name="adminSettingPublic" description="JiraSalesforceDetail__c object to hold the values from vf page." type="map" required="true" />
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/newstyle.css')}"/>
+    
+    <script>
+    $( document ).ready(function() {
+     
+        if('{!adminSettingPublic["Auto_SF_Comment_Sync_Type"].value__c}'=='private'){
+            $('#Auto_private_input').attr('checked', true);
+            document.getElementById('Auto_private').classList.add("backgroundtd");
+        }else if('{!adminSettingPublic["Auto_SF_Comment_Sync_Type"].value__c}'=='public'){
+            $('#Auto_public_input').attr('checked', true);
+            document.getElementById('Auto_public').classList.add("backgroundtd");
+        }else{
+            $('#Auto_both_input').attr('checked', true);
+            document.getElementById('Auto_both').classList.add("backgroundtd");
+        }
+        
+        
+        if('{!adminSettingPublic["Auto_SF_Comment_Sync_Type"].value__c}'==''){
+            document.getElementById('Auto_private_input').checked=false;
+            document.getElementById('Auto_public_input').checked=false;
+            document.getElementById('Auto_both_input').checked=false;
+            document.getElementById('Auto_both').classList.remove("backgroundtd");
+        }
+        
+        
+        if('{!adminSettingPublic["Sync_SF_Attachment"].value__c}'=='yes'){
+            document.getElementById('YessyncAtt').checked=true;
+        }else{
+            document.getElementById('NosyncAtt').checked=true;
+        }
+        
+        if('{!adminSettingPublic["Jira_Type_Server"].value__c}'=='yes'){
+            document.getElementById('serverbtn').checked=true;
+        }else{
+            document.getElementById('cloudbtn').checked=true;
+        }
+        
+        if('{!adminSettingPublic["Jira_Comment_As_Private"].value__c}'=='yes'){
+            document.getElementById('private').checked=true;
+        }else{
+            document.getElementById('public').checked=true;
+        }
+        if('{!adminSettingPublic["Edit_Jira_In_SF"].value__c}'=='yes'){
+            document.getElementById('EditJiraId').checked=true;
+        }else{
+            document.getElementById('NoEditJiraId').checked=true;
+        }
+        
+        
+        if('{!adminSettingPublic["Sync_SF_Comments"].value__c}'=='yes'){
+            document.getElementById('Yessynccom').checked=true;
+        }else{
+            document.getElementById('Nosynccom').checked=true;
+            document.getElementById('AutoSyncTypediv').classList.add('hide');
+        }
+        
+        
+        
+        //added new code
+        if('{!adminSetting.Basic_Authentication__c}'=='true'){
+            
+            document.getElementById('YesbasicOauth').checked=true;
+        }else{
+            
+            document.getElementById('AuthTypediv').classList.add('hide');
+        }
+        
+        if('{!adminSetting.Token_Authentication__c}'=='true'){
+            
+            document.getElementById('YesTokenBasedOauth').checked=true;
+        }else{
+            
+            document.getElementById('TokenBasedAuthTypediv').classList.add('hide');
+        } 
+     
+        if('{!adminSettingPublic["JiraCommentsSyncToJiraIssue"].value__c}'=='no'){
+            
+            document.getElementById('NosyncAttJira').checked=true;
+            document.getElementById('publicomDiv').classList.add('hide');
+            document.getElementById('private').checked=false;
+            document.getElementById('public').checked=false;
+            document.getElementById("publicomDiv").style.display = "none";
+            
+        }else{
+            document.getElementById('YessyncAttJira').checked=true;
+            document.getElementById("publicomDiv").style.display = "block";
+            document.getElementById('YessynctdJiraComments').classList.add("backgroundtd");
+            document.getElementById('NosynctdJiraComments').classList.remove("backgroundtd");
+            if('{!adminSettingPublic["Store_Jira_Comment_in_Case"].value__c}'=='yes'){
+                document.getElementById('YessyncAttt').checked=true;
+            }else{
+                document.getElementById('NosyncAttt').checked=true;
+            }
+            if('{!adminSettingPublic["Jira_Comment_As_Private"].value__c}'=='yes'){
+                document.getElementById('private').checked=true;
+            }else{
+                document.getElementById('public').checked=true;
+            }
+        }
+       
+        
+        
+    });
+    function checklogin(){
+        checkloginaction();
+    }
+    function autosyncval(inputhiddenid,data){
+        
+        if(data=='yes'){
+            document.getElementById(inputhiddenid).value=data;
+            document.getElementById('Yessynctd').classList.add("backgroundtd");
+            document.getElementById('Nosynctd').classList.remove("backgroundtd");
+        }else{
+            document.getElementById(inputhiddenid).value=data;
+            document.getElementById('Nosynctd').classList.add("backgroundtd");
+            document.getElementById('Yessynctd').classList.remove("backgroundtd");
+        }
+    }
+    function autosynccomval(inputhiddenid,data){
+        
+        if(data=='yes'){
+            document.getElementById(inputhiddenid).value=data;
+            document.getElementById('Yessynccomtd').classList.add("backgroundtd");
+            document.getElementById('Nosynccomtd').classList.remove("backgroundtd");
+            
+            document.getElementById('AutoSyncTypediv').classList.remove("hide");
+            
+        }else{
+            document.getElementById(inputhiddenid).value=data;
+            document.getElementById('Nosynccomtd').classList.add("backgroundtd");
+            document.getElementById('Yessynccomtd').classList.remove("backgroundtd");
+            document.getElementById('AutoSyncTypediv').classList.add("hide");
+        }
+    }
+    
+    
+    function EditJiraClick(inputhiddenid,data){
+        
+        
+        if(data=='yes'){
+            document.getElementById(inputhiddenid).value=data;
+            document.getElementById('EditJiraIdtd').classList.add("backgroundtd");
+            document.getElementById('NoEditJiraIdtd').classList.remove("backgroundtd");
+        }else{
+            
+            document.getElementById(inputhiddenid).value=data;
+            document.getElementById('NoEditJiraIdtd').classList.add("backgroundtd");
+            document.getElementById('EditJiraIdtd').classList.remove("backgroundtd");
+        }
+    }
+    function autosyncserver(inputhiddenid,data){
+        
+        
+        if(data=='yes'){
+            document.getElementById(inputhiddenid).value=data;
+            document.getElementById('serverbtnId').classList.add("backgroundtd");
+            document.getElementById('cloudbtnId').classList.remove("backgroundtd");
+        }else{
+            
+            document.getElementById(inputhiddenid).value=data;
+            document.getElementById('cloudbtnId').classList.add("backgroundtd");
+            document.getElementById('serverbtnId').classList.remove("backgroundtd");
+        }
+    }
+    function commentPrivate(inputhiddenid,data){
+        
+        if(data=='yes'){
+            
+            document.getElementById(inputhiddenid).value=data;
+            document.getElementById('privateId').classList.add("backgroundtd");
+            document.getElementById('publicId').classList.remove("backgroundtd");
+            
+        }else{
+            
+            document.getElementById(inputhiddenid).value=data;
+            document.getElementById('publicId').classList.add("backgroundtd");
+            document.getElementById('privateId').classList.remove("backgroundtd");
+        }
+    }
+    
+    function AutoSyncTypefill(inputid,data){
+        
+        document.getElementById(inputid).value=data;
+        
+        if(data=='public'){
+            
+            
+            document.getElementById('Auto_'+data).classList.add("backgroundtd");
+            document.getElementById('Auto_private').classList.remove("backgroundtd");
+            document.getElementById('Auto_both').classList.remove("backgroundtd");
+        }else if(data=='private'){
+            
+            document.getElementById('Auto_'+data).classList.add("backgroundtd");
+            document.getElementById('Auto_public').classList.remove("backgroundtd");
+            document.getElementById('Auto_both').classList.remove("backgroundtd");
+        }else{
+            
+            document.getElementById('Auto_'+data).classList.add("backgroundtd");
+            document.getElementById('Auto_private').classList.remove("backgroundtd");
+            document.getElementById('Auto_public').classList.remove("backgroundtd");
+        }
+    }
+    /*  function commentcheck(checkboxvalue){
+        
+        var Id = checkboxvalue.getAttribute("id");
+        console.log('Id == '+Id);
+        var check = document.getElementById(Id).checked;
+        
+        if(check == true){
+            
+            document.getElementById('publicomDiv').classList.remove('hide');
+            document.getElementById("publicomDiv").style.display = "block";
+            document.getElementById('privateId').classList.add("backgroundtd");
+            document.getElementById('publicId').classList.remove("backgroundtd");
+            document.getElementById('private').checked=true;
+            
+        }else{
+            document.getElementById('publicomDiv').classList.add('hide');
+            document.getElementById('private').checked=false;
+            document.getElementById('public').checked=false;
+        }
+    }*/
+    function autosyncJiraComments(inputhiddenidJiraComments,data){
+        
+        if(data=='yes'){
+            document.getElementById(inputhiddenidJiraComments).value=data;
+            document.getElementById('YessynctdJiraComments').classList.add("backgroundtd");
+            document.getElementById('NosynctdJiraComments').classList.remove("backgroundtd");
+            document.getElementById('publicomDiv').classList.remove('hide');
+            document.getElementById("publicomDiv").style.display = "block";
+            document.getElementById('privateId').classList.add("backgroundtd");
+            document.getElementById('publicId').classList.remove("backgroundtd");
+        }else{
+            
+            document.getElementById(inputhiddenidJiraComments).value=data;
+            document.getElementById('NosynctdJiraComments').classList.add("backgroundtd");
+            document.getElementById('YessynctdJiraComments').classList.remove("backgroundtd");
+            document.getElementById('publicomDiv').classList.add('hide');
+            document.getElementById('private').checked=false;
+            document.getElementById('public').checked=false;
+        }
+    }
+    
+    function autosyncCaseComments(inputhiddenidCaseComments,data){
+        
+        if(data=='yes'){
+            document.getElementById(inputhiddenidCaseComments).value=data;
+            document.getElementById('YessynctdCaseComments').classList.add("backgroundtd");
+            document.getElementById('NosynctdCaseComments').classList.remove("backgroundtd");
+         
+        }else{
+            
+            document.getElementById(inputhiddenidCaseComments).value=data;
+            document.getElementById('NosynctdCaseComments').classList.add("backgroundtd");
+            document.getElementById('YessynctdCaseComments').classList.remove("backgroundtd");
+           
+        }
+    }
+    <!--***********Function for Authentication 1.0a*****************-->
+        function AUTHENTICATION(Basicinputhiddenid,Authinputhiddenid,authType){
+            
+            if(authType=='basic'){
+                document.getElementById(Basicinputhiddenid).checked=true;
+                document.getElementById(Authinputhiddenid).checked=false;
+                
+                document.getElementById('YesbasicOauthtd').classList.add("backgroundtd");
+                document.getElementById('YesTokenBasedOauthtd').classList.remove("backgroundtd");
+                
+                document.getElementById('AuthTypediv').classList.remove("hide");
+                document.getElementById('TokenBasedAuthTypediv').classList.add("hide");
+                
+            }else if(authType=='token'){
+                document.getElementById(Authinputhiddenid).checked=true;
+                document.getElementById(Basicinputhiddenid).checked=false;
+                
+                document.getElementById('YesTokenBasedOauthtd').classList.add("backgroundtd");
+                document.getElementById('YesbasicOauthtd').classList.remove("backgroundtd");
+                document.getElementById('AuthTypediv').classList.add("hide");
+                document.getElementById('TokenBasedAuthTypediv').classList.remove("hide");
+                
+            }
+        }
+    
+    </script>
+    <style>
+        .radiooption td{
+        border:1px solid #ccc;
+        padding:3px 10px;
+        
+        }
+        .radiooption td label{
+        padding:0 10px;
+        }
+        .backgroundtd{
+        background-color :#ececec;
+        }
+        #publicomDiv{
+        display:none;
+        .}
+        .Emailtool:hover .Emailtooltip .Emailpoint {
+        visibility:visible;
+        }
+        .Emailtool{
+        position: relative;
+        float: left;
+        margin-left: 10px;
+        display: inline-block;
+        }
+        .Emailtooltip{
+        visibility: hidden;
+        position: absolute;
+        width: 427px;
+        top: -9px;
+        left: 30px;
+        padding: 0;
+        font-size: 12px;
+        line-height: 20px;
+        box-shadow: #3a3a42 5px 2px 12px 0;
+        text-align: center;
+        font-family: Open Sans;
+        background-color: #000000;
+        border-radius: 10px;
+        color: white;
+        }
+        .Emailpoint{
+        border: 9px solid;
+        visibility: hidden;
+        border-color: transparent #000000 transparent transparent;
+        width: 0px;
+        position: absolute;
+        top: 2px;
+        left: 13px;
+        }
+    </style>     
+    <apex:actionFunction action="{!checkloginsuccess}" name="checkloginaction"/>
+    
+    <label style="font-size:20px;font-family: 'Open Sans', sans-serif;  color: #000000;margin-top: 16px;margin-bottom: 16px;">{!$Label.AdminSettingsComponent_Label1}</label>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom:30px;padding-top:15px;padding-left:0px;border-top: 1px solid #cccccc;">
+        <!-- <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nopad">
+<p style="font-size: 18px;color: #333333;">Enter the <b>Jira-details</b> to Sync the SF with JIRA</p>
+</div>
+<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nopad">
+<label >Jira Url</label>
+<apex:inputField styleClass="form-control" value="{!adminsetting.End_Point__c}" required="true" type="url"/>
+&nbsp;&nbsp;
+</div> -->
+        
+        
+        <!--****************The option for Slecting Basic or Authentication 1.0a ********************************-->
+        
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nopad">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 radiooption nopad ">
+                    
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                        <label >{!$Label.AdminSettingsComponent_Label2}</label>
+                        <Table>
+                            <tr>
+                                <td id="YesbasicOauthtd" Class="{!if(adminSetting.Basic_Authentication__c ,'backgroundtd','')}">
+                                    <input id="YesbasicOauth" type="radio" name="authentication" onclick="AUTHENTICATION('{!$Component.basicAuthvalue}','{!$Component.TokenBasedAuthValue}','basic')"/>
+                                    <label>{!$Label.AdminSettingsComponent_Label3}</label>
+                                </td>
+                                
+                                <td id="YesTokenBasedOauthtd" Class="{!if(adminSetting.Token_Authentication__c ,'backgroundtd','')}">
+                                    <input id="YesTokenBasedOauth" type="radio" name="authentication" onclick="AUTHENTICATION('{!$Component.basicAuthvalue}','{!$Component.TokenBasedAuthValue}','token')"/>
+                                    <label>{!$Label.AdminSettingsComponent_Label4}</label>
+                                </td>
+                            </tr>
+                        </Table>
+                        <apex:inputCheckbox Style="display:None;" id="basicAuthvalue" value="{!adminSetting.Basic_Authentication__c}" />  
+                        
+                        <apex:inputCheckbox Style="display:None;" id="TokenBasedAuthValue" value="{!adminSetting.Token_Authentication__c}" /> 
+                    </div>
+                    
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad"><br/>
+                        <label >{!$Label.AdminSettingsComponent_Label5}</label>
+                        <apex:inputField styleClass="form-control" value="{!adminsetting.End_Point__c}"  type="url"/>
+                    </div><br/>
+                    
+                    <div id="AuthTypediv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding:20px 0 0 0;">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 nopad">
+                            <label for="inlineFormInputGroup">{!$Label.AdminSettingsComponent_Label6}</label>
+                            <apex:inputField style="width:95%" styleClass="form-control" value="{!adminsetting.Username__c}" />
+                        </div>
+                        
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 nopad">
+                            <label style="padding-left:20px;" for="inlineFormInputGroup">{!$Label.AdminSettingsComponent_Label7}</label>
+                            <div class="">
+                                <apex:inputSecret style="width:95%;float:right;" styleClass="form-control" value="{!adminsetting.Password__c}" redisplay="true" />
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="TokenBasedAuthTypediv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                        
+                        
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 nopad">
+                            <br/><label for="inlineFormInputGroup">{!$Label.AdminSettingsComponent_Label8}</label>
+                            
+                            <apex:inputField id="CS_Key" style="width:100%" styleClass="form-control" value="{!adminsetting.Consumer_Key__c}"/>
+                        </div>
+                        
+                        <br/><br/>
+                        <div  class="col-lg-1 col-md-1 col-sm-1 col-xs-1 " style="float:right;padding: 12px 0px;">
+                            
+                            <apex:outputPanel id="refresh" styleclass="refreshtool"> 
+                                <apex:actionFunction name="GenerateAccessToken" action="{!RefreshRequestToken}" oncomplete="afterSave()" reRender="TokenCall">
+                                    
+                                </apex:actionFunction>
+                                <div  onclick="GenerateAccessToken()" class='refreshimg' ></div>
+                                <div class="refreshtooltip">
+                                    {!$Label.AdminSettingsComponent_Label9} 
+                                    
+                                </div>
+                                <div class="refreshpoint">
+                                    
+                                </div>
+                            </apex:outputPanel>
+                        </div>
+                        
+                        
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 nopad">
+                            <br/><label for="inlineFormInputGroup">{!$Label.AdminSettingsComponent_Label10}</label>
+                            
+                            <apex:inputTextarea id="p_Key" rows="4" cols="61" value="{!PrivateKey}"/><br/>
+                        </div>
+                        
+                        <div  class="col-lg-10 col-md-10 col-sm-10 col-xs-10 nopad">
+                        </div>
+                        
+                    </div> 
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        <!--****************The option for filling UserName and Password for Basic authentication ********************************-->        
+        <!-- <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nopad">
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 nopad">
+<label for="inlineFormInputGroup">Username</label>
+<apex:inputField style="width:95%" styleClass="form-control" value="{!adminsetting.Username__c}" required="true"/>
+</div>
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 nopad">
+<label style="padding-left:20px;" for="inlineFormInputGroup">Password</label>
+<div class="">
+<apex:inputSecret style="width:95%;float:right;" styleClass="form-control" value="{!adminsetting.Password__c}" redisplay="true" required="true"/>
+&nbsp;&nbsp;
+</div>
+</div>
+</div>
+-->
+        <!--****************The option for Defining relationship and syncing of attachments  ********************************-->              
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nopad">
+            <div class="co-lg-12 col-xs-12 col-md-12 col-sm-12 " style="padding:20px 0px">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 nopad">
+                    <label >{!$Label.AdminSettingsComponent_Label11}</label>
+                    <apex:selectList style="width:95%"  value="{!adminSettingPublic['Relationship_Type'].value__c}" styleClass="form-control" required="true" multiselect="false" size="1">
+                        <apex:selectOptions value="{!relation}"></apex:selectOptions>
+                    </apex:selectList>
+                </div> 
+                
+            </div>
+        </div>
+        
+        
+        <!--****************The option for Editing jira Issue and version setting********************************--> 
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nopad">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="padding:0 0 20px 0">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 radiooption nopad">
+                    <label >{!$Label.AdminSettingsComponent_Label12}</label>
+                    <Table>
+                        <tr>
+                            <td id="EditJiraIdtd" class="{!if(adminSettingPublic['Edit_Jira_In_SF'].value__c == 'yes','backgroundtd','')}">
+                                <input id="EditJiraId" type="radio" name="EditJira" onclick="EditJiraClick('{!$Component.EditJirainput}','yes')"/> <label>{!$Label.Yes_Label}</label>
+                            </td>
+                            <td id="NoEditJiraIdtd" class="{!if(adminSettingPublic['Edit_Jira_In_SF'].value__c == 'yes','','backgroundtd')}">
+                                <input id="NoEditJiraId" type="radio" name="EditJira" onclick="EditJiraClick('{!$Component.EditJirainput}','no')"/> <label>{!$Label.No_Label}</label>
+                            </td>
+                        </tr>
+                    </Table>
+                    <apex:inputHidden id="EditJirainput" value="{!adminSettingPublic['Edit_Jira_In_SF'].value__c}" />
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 radiooption">
+                    <label >{!$Label.AdminSettingsComponent_Label15}</label>
+                    <Table>
+                        <tr>
+                            <td id="serverbtnId" class="{!if(adminSettingPublic['Jira_Type_Server'].value__c == 'yes','backgroundtd','')}">
+                                <input id="serverbtn" type="radio" name="Jira_Type_Server" onclick="autosyncserver('{!$Component.syncservervalue}','yes')"/> <label>{!$Label.AdminSettingsComponent_Label16}</label>
+                            </td>
+                            <td id="cloudbtnId" class="{!if(adminSettingPublic['Jira_Type_Server'].value__c == 'yes','','backgroundtd')}">
+                                <input id="cloudbtn" type="radio" name="Jira_Type_Server" onclick="autosyncserver('{!$Component.syncservervalue}','no')"/> <label>{!$Label.AdminSettingsComponent_Label17}</label>
+                            </td>
+                        </tr>
+                    </Table>
+                    <apex:inputHidden id="syncservervalue" value="{!adminSettingPublic['Jira_Type_Server'].value__c}" />
+                </div>   
+            </div>
+        </div>
+        
+        <!--****************The option for type of case comment and syncing of comments********************************--> 
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nopad">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 radiooption nopad ">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nopad">
+                        <label>{!$Label.AdminSettingsComponent_Label18}</label>
+                        <Table>
+                            <tr>
+                                <td id="Yessynccomtd" class="{!if(adminSettingPublic['Sync_SF_Comments'].value__c == 'yes','backgroundtd','')}">
+                                    <input  id="Yessynccom" type="radio" name="autosynccom"  onclick="autosynccomval('{!$Component.autosynccomvalue}','yes')" /> <label>{!$Label.Yes_Label}</label>
+                                </td>
+                                <td id="Nosynccomtd" class="{!if(adminSettingPublic['Sync_SF_Comments'].value__c == 'yes','','backgroundtd')}">
+                                    <input  id="Nosynccom" type="radio" name="autosynccom" onclick="autosynccomval('{!$Component.autosynccomvalue}','no')"  /> <label>{!$Label.No_Label}</label>
+                                </td>
+                            </tr>
+                        </Table>
+                        <apex:inputHidden id="autosynccomvalue" value="{!adminSettingPublic['Sync_SF_Comments'].value__c}" />   
+                    </div>
+                    
+                    <div id="AutoSyncTypediv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="padding: 20px 0 10px 0;">
+                        <label>{!$Label.AdminSettingsComponent_Label19}</label>
+                        <Table>
+                            <tr>
+                                <td id="Auto_private"> 
+                                    <input   id="Auto_private_input" type="radio" name="AutoSyncType" onclick="AutoSyncTypefill('{!$Component.AutoSyncType}','private')"/> <label>{!$Label.AdminSettingsComponent_Label20}</label>
+                                </td>
+                                <td  id="Auto_public">
+                                    <input id="Auto_public_input"  type="radio" name="AutoSyncType" onclick="AutoSyncTypefill('{!$Component.AutoSyncType}','public')"/> <label>{!$Label.AdminSettingsComponent_Label21}</label>
+                                </td>
+                                <td id="Auto_both">
+                                    <input  id="Auto_both_input" type="radio" name="AutoSyncType" onclick="AutoSyncTypefill('{!$Component.AutoSyncType}','both')"/> <label>{!$Label.AdminSettingsComponent_Label22}</label>
+                                </td>
+                            </tr>
+                        </Table>
+                        <apex:inputHidden id="AutoSyncType" value="{!adminSettingPublic['Auto_SF_Comment_Sync_Type'].value__c}" />
+                        
+                    </div>                
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 radiooption "  >
+                    <label >{!$Label.AdminSettingsComponent_Label23} </label>
+                    <Table>
+                        <tr>
+                            <td id="Yessynctd" class="{!if(adminSettingPublic['Sync_SF_Attachment'].value__c == 'yes','backgroundtd','')}">
+                                <input  id="YessyncAtt" type="radio" name="autosync"  onclick="autosyncval('{!$Component.autosyncvalue}','yes')" /> <label>{!$Label.Yes_Label}</label>
+                            </td>
+                            <td id="Nosynctd" class="{!if(adminSettingPublic['Sync_SF_Attachment'].value__c == 'yes','','backgroundtd')}">
+                                <input  id="NosyncAtt" type="radio" name="autosync" onclick="autosyncval('{!$Component.autosyncvalue}','no')"  /> <label>{!$Label.No_Label}</label>
+                            </td>
+                        </tr>
+                    </Table>
+                    <apex:inputHidden id="autosyncvalue" value="{!adminSettingPublic['Sync_SF_Attachment'].value__c}" />
+                    
+                </div>
+            </div>
+        </div>
+        
+        
+        <!--****************The Jira comments to sync with "Custom Comment" option  ********************************--> 
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad" style="">
+            <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12  SubheadingLeft" style="padding-bottom:12px;padding-left:0px;">
+              <!--  <apex:inputField value="{!adminSetting.JIRA_Comments_Sync_Enable_SF__c}" styleClass="adminCommCheck" onclick="commentcheck(this);" id="syncom"/>
+                &nbsp;&nbsp;
+                Sync Jira comments into salesforce?
+                &nbsp;&nbsp;
+                <div class="commenttool">
+                    <img style="width:15px"  src="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/images/info-icon.png')}" />
+                    <span class="commenttooltip" Style="left:300px">Jira comments sync to JiraIssueComment object under Jira issue, if left unmarked all Jira comment goes under Case Comments as private.</span>
+                    <div class="commentpoint" Style="left:283px">   
+                    </div>
+                </div> -->
+                <label >  {!$Label.AdminSettingsComponent_Label24}</label>
+                &nbsp;&nbsp;<div class="commenttool">
+                    <img style="width:15px"  src="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/images/info-icon.png')}" />
+                    <span class="commenttooltip" Style="left:300px">{!$Label.AdminSettingsComponent_Label25}</span>
+                    <div class="commentpoint" Style="left:283px"></div>
+                </div>
+                
+                <Table>
+                        <tr>
+                            <td id="YessynctdJiraComments" class="{!if(adminSettingPublic['JiraCommentsSyncToJiraIssue'].value__c == 'yes','backgroundtd','')}">
+                                <input  id="YessyncAttJira" type="radio" name="autosyncJiraCom"  onclick="autosyncJiraComments('{!$Component.autosyncJiraComment}','yes')" /> <label>{!$Label.Yes_Label}</label>
+                            </td>
+                            <td id="NosynctdJiraComments" class="{!if(adminSettingPublic['JiraCommentsSyncToJiraIssue'].value__c == 'yes','','backgroundtd')}">
+                                <input  id="NosyncAttJira" type="radio" name="autosyncJiraCom" onclick="autosyncJiraComments('{!$Component.autosyncJiraComment}','no')"  /> <label>{!$Label.No_Label}</label>
+                            </td>
+                        </tr>
+                    </Table>
+                    <apex:inputHidden id="autosyncJiraComment" value="{!adminSettingPublic['JiraCommentsSyncToJiraIssue'].value__c}" />
+                
+            </div>
+        </div>
+        
+        <!--private or public comments -->
+        <div class="col-lg-12 col-xs-12 col-md-12 col-sm-12 radiooption nopad" id="publicomDiv" style="margin-bottom: 22px;padding-left:30px !important;">
+            <!--****************The option for Enabling Chatter********************************--> 
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad" style="padding-bottom: 10px !important;">
+                <div class="col-lg-3 col-md-3 col-xs-12 col-sm-3  nopad" style="padding-left:0px">
+                  <!--  <apex:inputField value="{!adminSettingPublic['Store_Jira_Comment_in_Case'].value__c}"/>-->
+                    
+                    <label > {!$Label.AdminSettingsComponent_Label26} </label>
+                    &nbsp;&nbsp;
+                    <div class="chattertool">
+                        <img style="width:15px"  src="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/images/info-icon.png')}" />
+                        <span class="chattertooltip" >{!$Label.AdminSettingsComponent_Label27}</span>
+                        <div class="chatterpoint">
+                            
+                        </div>
+                    </div>
+                    <Table>
+                        <tr>
+                            <td id="YessynctdCaseComments" class="{!if(adminSettingPublic['Store_Jira_Comment_in_Case'].value__c == 'yes','backgroundtd','')}">
+                                <input  id="YessyncAttt" type="radio" name="InnerautosyncJiraCom"  onclick="autosyncCaseComments('{!$Component.autosyncCaseComment}','yes')" /> <label>{!$Label.Yes_Label}</label>
+                            </td>
+                            <td id="NosynctdCaseComments" class="{!if(adminSettingPublic['Store_Jira_Comment_in_Case'].value__c == 'yes','','backgroundtd')}">
+                                <input  id="NosyncAttt" type="radio" name="InnerautosyncJiraCom" onclick="autosyncCaseComments('{!$Component.autosyncCaseComment}','no')"  /> <label>{!$Label.No_Label}</label>
+                            </td>
+                        </tr>
+                    </Table>
+                    <apex:inputHidden id="autosyncCaseComment" value="{!adminSettingPublic['Store_Jira_Comment_in_Case'].value__c}" />
+                    
+                    
+                </div>
+            </div>
+            <label >{!$Label.AdminSettingsComponent_Label28}</label>         
+            <Table>
+                <tr>
+                    <td id="privateId" class="{!if(adminSettingPublic['Jira_Comment_As_Private'].value__c =='yes','backgroundtd','')}">
+                        <input id="private" type="radio" name="Jira_Comment_As_Private" onclick="commentPrivate('{!$Component.privatecomvalue}','yes')"/> <label>{!$Label.AdminSettingsComponent_Label20}</label>
+                    </td>
+                    <td id="publicId" class="{!if(adminSettingPublic['Jira_Comment_As_Private'].value__c =='yes','','backgroundtd')}">
+                        <input id="public" type="radio" name="Jira_Comment_As_Private" onclick="commentPrivate('{!$Component.privatecomvalue}','no')"/> <label>{!$Label.AdminSettingsComponent_Label21}</label>
+                    </td>
+                    
+                </tr>
+            </Table>
+            <apex:inputHidden id="privatecomvalue" value="{!adminSettingPublic['Jira_Comment_As_Private'].value__c}" />
+        </div> 
+        
+        
+        
+        <div class="col-lg-12 col-xs-12 col-md-12 col-sm-12 nopad" style="margin-bottom:60px;">
+            
+            <apex:commandButton styleClass="btn" value="{!$Label.Save_Label}" action="{!checkUrlChange}" oncomplete="afterSave()"  reRender="TokenCall,modal,leftpaneljq,outhpanel" status="status" style="background: #0577b5 !important;  font-family:'Myriad Pro'; font-size: 15px; margin-top:0px; font-weight:bold; color: #fff !important; border:1px solid #0577b5 !important; border-radius: 4px !important; margin-right: 20px; padding:6px 16px !important"/>
+            <apex:outputPanel id="TokenCall">
+                <script>
+                function afterSave() {
+                    
+                    
+                    if('{!token}'!='')
+                        window.open('{!adminSetting.End_Point__c}' +'/plugins/servlet/oauth/authorize?' + '{!token}',"width=100","height=50");
+                    
+                }
+                </script>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!loginSuccess}">
+                <a class="btn" data-toggle="tab" href="#Project" status="status" onclick="OpenProjectTab()" style="background: #0577b5 !important;  font-family:'Myriad Pro'; font-size: 15px; margin-top:0px; font-weight:bold; color: #fff !important; border:1px solid #0577b5 !important; border-radius: 4px !important; margin-right: 20px; padding:6px 16px !important">{!$Label.Next_Label}</a>
+            </apex:outputPanel>
+            
+        </div>
+        
+    </div>
+</apex:component>

@@ -1,0 +1,53 @@
+<apex:page extensions="IssueDetailPageController" language="{!lang}" standardController="JiraIssue__c" showHeader="false">
+    
+    <apex:includeScript value="{!URLFOR($Resource.Communitybuilder, 'Communitybuilder/js/jquery-1.10.2.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.Communitybuilder, 'Communitybuilder/js/bootstrap.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.Communitybuilder, 'Communitybuilder/js/jquery-ui.js')}" />
+    <link href="{!URLFOR($Resource.Communitybuilder, 'Communitybuilder/css/jquery-ui.css')}" rel="stylesheet" />
+    <link href="{!URLFOR($Resource.Communitybuilder, 'Communitybuilder/css/bootstrap.min.css')}" rel="stylesheet" />
+    <link href="{!URLFOR($Resource.Communitybuilder, 'Communitybuilder/css/customIpadBootstrap.css')}" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/issuedetailpage.css')}"/>
+    
+    
+    <apex:form prependId="true" id="jira_detail_form">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-xs-12">
+                <apex:outputPanel rendered="{!wrapRelatedSobjectList!=null && wrapRelatedSobjectList.size==0  }">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 linecolor nopad" style="margin-top:13px;">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 backcolor nopad"> 
+                            {!$Label.IssueDetailPage_Label1}
+                        </div>
+                    </div> 
+                </apex:outputPanel>
+                     
+                    
+                    <apex:outputPanel rendered="{!wrapRelatedSobjectList!=null && wrapRelatedSobjectList.size>0}">
+                       
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 linecolor nopad" style="margin-top:13px;">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 backcolor nopad"> 
+                                <apex:pageBlock title="{!$Label.IssueDetailPage_Label2}">
+                                   <table width="100%">
+                                           <th> {!$Label.IssueDetailPage_Label3} </th>
+                                           <th> {!$Label.IssueDetailPage_Label4} </th>
+                                       <apex:repeat value="{!wrapRelatedSobjectList}" var="IssueWrap">
+                                           
+                                           <apex:repeat value="{!IssueWrap.jiraInfoList}" var="issueInfo">
+                                               <tr>
+                                               
+                                                  <td> <a href="/{!issueInfo.relationid}">{!issueInfo.relationName} </a></td> 
+                                                  <td> {!issueInfo.objectName} </td> 
+                                               </tr>
+                                           </apex:repeat>
+                                           
+                                       </apex:repeat> 
+                                     </table>
+                                </apex:pageBlock>
+                            </div>
+                        </div>
+                    </apex:outputPanel>
+                  
+                </div>
+            </div>
+      
+    </apex:form>
+</apex:page>

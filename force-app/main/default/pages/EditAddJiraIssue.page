@@ -1,0 +1,53 @@
+<apex:page standardController="JiraIssue__c" language="{!lang}" docType="html-5.0" sidebar="false" extensions="EditAddJiraIssueController" showHeader="true" cache="false" action="{!InsertJiraLogs}">
+    <link href="{!URLFOR($Resource.Communitybuilder, 'Communitybuilder/css/bootstrap.min.css')}" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/editaddjiraissue.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery-ui.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/unblockUI.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/JQ.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery.validate.js')}"/>
+     
+    <style>
+        .abc{
+        display:none; 
+        }
+       
+    </style>
+   
+    
+    <apex:form id="jira_form"> 
+    
+       <apex:actionStatus id="status" startText="{!$Label.Processing_Label}" >
+            <apex:facet name="start">
+                <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.75; z-index: 1000; background-color: black;">
+                    &nbsp;
+                </div>
+                <div style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; z-index: 1001; margin: 30% 50%">
+                  <img src="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/images/load.gif')}" />
+                </div>
+            </apex:facet>
+        </apex:actionStatus>
+        <apex:pageMessages id="errorPageMessage" escape="false"/>
+        
+        <apex:outputPanel >
+            <div class="container" style='margin:0;width:100%;'>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-xs-12 ">                                                 
+                        <apex:outputPanel id="editjira" rendered="{!HasPermission}" >
+                            <c:EditAddjiracomponent LangaugeReset="{!LangaugeReset}" Languages="{!Languages}" lang="{!lang}" mapNotEmpty="{!mapNotEmpty}" IssuelinksMapValue="{!IssuelinksMapValue}" usersearchtext="{!usersearchtext}" GetUserList="{!GetUserList}" projectSelected="{!projectSelected}" subtaskParentID="{!subtaskParentID}" key="{!key}"  genericObjectID="{!genericObjectID}" dynamicObjectType="{!dynamicObjectType }" deletelinkedjira="{!deletelinkedjira}" mode="{!mode}" searchJiraIssueList="{!searchJiraIssueList}"   caseObject="{!caseObject}" jiraIssue="{!jiraIssue}" dynamicFieldsDataMap="{!dynamicFieldsDataMap}"
+                                                    dynamicFieldsMap="{!dynamicFieldsMap}" userList="{!userList}" caseid="{!caseid}" updateissuelistdelete="{!updateissuelistdelete}"
+                                                 OnProjectChange="{!OnProjectChange}"   issueTypes="{!issueTypes}" priority="{!priority}"  DynamicFieldWrapperList="{!DynamicFieldWrapperList}"
+                                                SectionOrder="{!SectionOrder}"  sectionToDynamicFieldWrapperListMap="{!sectionToDynamicFieldWrapperListMap}"  modetype="{!modetype}"  jiraProjectskeymap="{!jiraProjectskeymap}"  linkcasewithjirakey="{!linkcasewithjirakey}" searchjiraissuenew="{!searchjiraissuenew}" Reporter="{!Reporter}" projectName="{!projectName}" save="{!save}" isDefault="{!isDefault}" projects="{!projects}"
+                                                    getEpicLinkList="{!getEpicLinkList}"  fieldsToKey="{!fieldsToKey}" SizeOfMap="{!SizeOfMap}" SizeOfMapLI="{!SizeOfMapLI}" epicKey="{!epicKey}" issueLinkKey="{!issueLinkKey}" 
+                                                   HasRuleset="{!HasRuleset}" getIssueLinkList="{!getIssueLinkList}" hasIssuelinks="{!hasIssuelinks}" sizeofli="{!sizeofli}" issuelinksset="{!issuelinksset}" updateissuelist="{!updateissuelist}"  genericObjectName="{!genericObjectName}"/>
+                            
+                            
+                        </apex:outputPanel>
+                  
+                    </div>
+                </div>
+            </div>
+        </apex:outputPanel>
+    </apex:form>
+     <apex:relatedList list="JiraIssueComments__r" />
+</apex:page>

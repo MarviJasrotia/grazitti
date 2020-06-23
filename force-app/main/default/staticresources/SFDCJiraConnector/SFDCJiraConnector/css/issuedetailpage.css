@@ -1,0 +1,57 @@
+.nopad {
+            padding: 0px;
+        }
+        .heading {
+            font-size: 22px;
+            font-family: arial;
+            margin-top: 25px;
+            margin-bottom: 5px;
+            color: #000;
+        }
+        .SubHeading {
+            font-size: 18px;
+            font-family: arial;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            color: #000;
+        }
+        .linecolor {
+            border-top: 2px solid #B7A752;
+            border-radius: 2px;
+        }
+        .backcolor {
+            background-color: #f8f8f8;
+            border-radius: 2px;
+        }
+         
+        .SubheadingLeft {
+            margin-top: 15px;
+            margin-left: 55px;
+        }
+         a{
+            color: #015ba7;
+        }
+        .fontsizer {
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .homeTab .secondaryPalette, .individualPalette .homeBlock .secondaryPalette {
+            /* background-color: #cfeef8; */
+            border-color: #cfeef8;
+            border: none;
+        }
+        .borderstyling{
+            border-bottom:1px solid #eaeaea;
+            padding-bottom:10px;
+        }
+        .pbBody table.list tr.headerRow th {
+            color:#305CA7 !important;
+            border:none;
+        }
+     @media (min-width: 320px) and (max-width: 1024px)
+ {
+   .borderstyling{
+            border-bottom:none ;
+            padding-bottom:0px;
+        }
+}

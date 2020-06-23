@@ -1,0 +1,9 @@
+<apex:page Controller="DetailPageController" language="{!lang}" sidebar="false" showHeader="false" action="{!InsertJiraLogs}">
+    
+    <apex:form >
+        <apex:pageMessages />
+        <apex:outputPanel rendered="{!flag}">
+            <apex:iframe src="{!Sfdomain}/apex/{!OrgNamSpace}{!ObjectName}DetailPage?id={!caseID}" scrolling="true" id="theIframe"/>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

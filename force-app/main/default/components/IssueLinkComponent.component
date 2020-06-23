@@ -1,0 +1,226 @@
+<apex:component >
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/editaddjiraissue.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/bootstrap.js')}"/>
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/editaddjiraissue.css')}"/>
+    <apex:includeScript value="/support/console/42.0/integration.js"/>
+    <apex:attribute name="jiraIssue" description="Jira issue object instance." type="JiraIssue__c" required="false" />
+    <apex:attribute name="IssuelinksMapValue" description="map of issue links" type="map"  required="false" />
+    <apex:attribute name="sectionToDynamicFieldWrapperListMap" description="sectionToDynamicFieldWrapperListMap" type="map"  required="false" />
+    <apex:attribute name="SectionOrder" description="SectionOrder" type="String"  required="false" />
+    <apex:attribute name="issuelinksset" description="set of issue links" type="set"  required="false" />
+    <apex:attribute name="fieldsToKey" description="fieldsToKey" type="map" />
+    <apex:attribute name="SizeOfMap" description="SizeOfMap" type="Integer" />
+    <apex:attribute name="issueLinkKey" description="issueLinkKey" type="String" />
+    <apex:attribute name="sizeofli" description="" type="integer" />
+    <apex:attribute name="getIssueLinkList" description="The issue will be get IssueLink List ." type="ApexPages.Action" />
+    <apex:attribute name="updateissuelist" description="The issue will be show the list ." type="ApexPages.Action" />
+    <apex:attribute name="updateissuelistdelete" description="The issue will be delete entry from the list ." type="ApexPages.Action" />
+    <apex:includeScript value="/support/console/42.0/integration.js"/>
+    <style>
+        .issueLinkList{
+        margin: 0;
+        width: 100%;
+        display: inline-block;
+        }
+        .issueLinkList:hover {
+        background-color:#0577b5;
+        cursor: pointer;
+        }
+        .issueLinkList:hover div{
+        color:#fff;
+        background-color:#0577b5;
+        cursor: pointer;
+        }
+        .lidiv{
+        display: table;
+        }
+        .lispan{
+        padding:4px;
+        background-color: #0577b5;
+        color:#fff;
+        margin:2px 2px;
+        display: inline-block;
+        }
+        .lispan:hover .lidelete{
+        cursor: pointer;
+        }
+    </style>
+    <script>
+    var epic_val = 
+        window.onload = function(){
+            document.getElementById('issueLinkDiv').style.display ='none';
+            document.addEventListener('click', function(event){            
+                if(event.target.id != 'issueLinkDiv' && document.getElementById('issueLinkDiv')!= null){
+                    document.getElementById('issueLinkDiv').style.display ='none';
+                }
+            });
+        }
+    
+   
+    var facetId;
+    function Startfacet(facet){
+        if(document.getElementById(facet)!=null){
+            document.getElementById(facet).classList.add('Facetcss');
+            document.getElementById(facet+'.start').style.display='block';
+            document.getElementById(facet+'.stop').style.display='block';
+            facetId='';
+            facetId=facet;
+        }
+    }
+     function stopfacet(){
+         if(document.getElementById(facetId)!=null){
+             document.getElementById(facetId).classList.remove('Facetcss');
+             document.getElementById(facetId+'.start').style.display='none';
+             document.getElementById(facetId+'.stop').style.display='none';
+             facetId='';
+         }
+     }
+    function getIssueLinkText(issueLinkText,facet){
+        
+        oldval=issueLinkText.value;
+        Startfacet(facet);
+        setTimeout(function(){
+            var data = document.querySelectorAll('[id*="issueLinkfield"]');
+            if(data[0].value==oldval){
+                issueLink(issueLinkText.value);
+            }
+            stopfacet();
+        }, 1500,oldval);
+        
+    }
+    
+    function deleteli(deleteissuename,deletelabelname){
+        //modified on 02-07-2019
+        updatelistdelete(deleteissuename,deletelabelname);
+    }
+    
+    function setIssueLinkVal(val,vall){  
+        
+        var inputvalue= val.id.split('_');
+        var upper = inputvalue[0];
+     
+        var ValueOfLinkedIssues=vall;
+        /*var existingKeys = document.querySelectorAll('[id*="theHiddenInputLI"]')[0].value;
+        var upper = inputvalue[0];
+        var check = existingKeys.includes(upper.toUpperCase());
+        if(document.getElementsByClassName('issueLinkInput')[0].value != null){
+            if(check == false){
+                //document.getElementsByClassName('issueLinkInput')[0].value +=inputvalue[0];
+                var data = document.querySelectorAll('[id*="theHiddenInputLI"]');
+                data[0].value +=inputvalue[0].toUpperCase()+' ' ;
+                document.getElementsByClassName('issueLinkInput')[0].value = data[0].value;
+            }else if(check == true){
+               document.getElementsByClassName('issueLinkInput')[0].value =
+                    document.querySelectorAll('[id*="theHiddenInputLI"]')[0].value;
+            }
+            updatelist(upper);
+        }*/
+        
+        
+        //modified on 02-07-2019
+        updatelist(upper,ValueOfLinkedIssues);
+        document.getElementsByClassName('issueLinkInput')[0].value = '';
+    }
+    </script>
+    <!-- Labels field for Linked Issues -->
+    <apex:actionFunction name="issueLink" action="{!getIssueLinkList}" rerender="issueLinkPanel">
+        <apex:param name="issueLinkText" value="" />
+    </apex:actionFunction>
+    <!-- modified on 02-07-2019 -->
+    <apex:actionFunction name="updatelist" action="{!updateissuelist}" rerender="issuelistpanel,issueLinkPanel">
+        <apex:param name="issuename" value="" />
+        <apex:param name="labelname" value="" />
+    </apex:actionFunction>
+    <apex:actionFunction name="updatelistdelete" action="{!updateissuelistdelete}" rerender="issuelistpanel">
+        <apex:param name="deleteissuename" value="" />
+        <apex:param name="deletelabelname" value="" />
+    </apex:actionFunction>
+    <!-- modified on 02-07-2019 -->
+    <div style="position:relative;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="border-top: 2px solid #c0be72;padding: 10px 0;">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="font-size: 14px;">
+                <B>{!SectionOrder}</B> 
+            </div>
+            
+            <!---modified on 02-07-2019  --->
+            <apex:repeat value="{!sectionToDynamicFieldWrapperListMap[SectionOrder]}" var="dynamicOrder">
+                <apex:repeat value="{!sectionToDynamicFieldWrapperListMap[SectionOrder][dynamicOrder]}" var="dynamicFieldAPI">
+                    
+                    <apex:repeat value="{!sectionToDynamicFieldWrapperListMap[SectionOrder][dynamicOrder][dynamicFieldAPI]}" var="dynamic">
+                        
+                        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 nopad rowpad testwidth">
+                            <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6 nopad" >
+                                <div class="col-lg-4 col-md-4 col-xs-2 col-sm-2 alignright nopad "> 
+                                    <label class="headingstyle">{!dynamic.mappedfield.name}</label>
+                                </div> 
+                                <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6 nopad" > 
+                                    
+                                    <apex:selectList id="issueselect" rendered="{!AND(dynamic.mappedfield.DataType__c=='issuelinks',dynamic.mappedfield.IsArray__c==true)}" label="TEST" style="{!if(OR(dynamic.mappedfield.RequiredInSF__c,AND(dynamic.mappedfield.IsRequired__c,NOT(contains(dynamic.relatedReqIssue,'--'+jiraIssue.IssueType__c+'--')))),'border-left: 3px red solid;','')} " styleClass="{!if(dynamic.mappedfield.section__r.column__c=='1','inputcolcss','inputcss')}"  value="{!dynamic.fieldValue}" multiselect="false" size="1" disabled="{!dynamic.mappedfield.ReadOnly__c}" >
+                                        <apex:selectOptions value="{!dynamic.selectValues}"></apex:selectOptions>
+                                    </apex:selectList> 
+                                </div> 
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6 nopad" >
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12nopad rowpad testwidth">
+                            <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 nopad" >
+                                <div class="col-lg-2 col-md-2 col-xs-2 col-sm-2 alignright nopad "> 
+                                    <label class="headingstyle">{!$Label.IssueLinkComponent_Label1}</label>
+                                </div> 
+                                <div class="col-lg-10 col-md-10 col-xs-10 col-sm-10 nopad" > 
+                                    <div style="width:220px;float: left;">
+                                        <apex:inputText id="issueLinkfield" style="width:220px; {!if(OR(dynamic.mappedfield.RequiredInSF__c,AND(dynamic.mappedfield.IsRequired__c,contains(dynamic.relatedReqIssue,'--'+jiraIssue.IssueType__c+'--'))),'border-left: 3px red solid;','')} " label="{!dynamic.mappedfield.name}" styleClass="issueLinkInput " rendered="{!OR(dynamic.mappedField.DataType__c=='issuelinks')}"  disabled="{!dynamic.mappedfield.ReadOnly__c}"
+                                                        value="{!issueLinkKey}" onkeyup="javascript:getIssueLinkText(this,'{!$Component.LinkissueactStatusId}')"/>
+                                        <apex:actionStatus id="LinkissueactStatusId" >
+                                            <apex:facet name="start" >
+                                                <img src="/img/loading.gif" />                    
+                                            </apex:facet>
+                                        </apex:actionStatus> 
+                                        <apex:inputHidden value="{!issueLinkKey}" id="theHiddenInputLI"/>
+                                        <apex:outputPanel id="issueLinkPanel" >
+                                            <div id="issueLinkDiv" style="{!if(SizeOfMap > 0, 'border:1px solid black;position:absolute;width: 220px;z-index:1;background: #fff;' ,'display:none')}">
+                                                <ul style="list-style-type:none;padding-left:0;margin-bottom:0px;">
+                                                    <apex:repeat value="{!fieldsToKey}" var="key">
+                                                        <li id="{!fieldsToKey[key]}_{!key}" class="issueLinkList" onclick="setIssueLinkVal(this,'{!dynamic.fieldValue}')">
+                                                            <div id="keyVal" name="{!fieldsToKey[key]}" style="font-weight:bold;padding: 3px;float:left;width:50%;">
+                                                                ({!fieldsToKey[key]})
+                                                            </div>
+                                                            <div style="padding: 3px;float:left;width:50%;">
+                                                                {!key} 
+                                                            </div>
+                                                        </li>
+                                                    </apex:repeat>
+                                                </ul>                                                    
+                                            </div>
+                                        </apex:outputPanel>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+                                        <apex:outputPanel id="issuelistpanel" >
+                                            <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6 lidiv">
+                                                <apex:repeat value="{!IssuelinksMapValue}" var="key">
+                                                    <apex:repeat value="{!IssuelinksMapValue[key]}" var="key1">
+                                                        <span class="lispan">
+                                                            <span class="liname">
+                                                                {!key1}
+                                                            </span>
+                                                            <sup onclick="deleteli('{!key1}','{!key}')" class="lidelete">
+                                                                x
+                                                            </sup>
+                                                        </span>    
+                                                    </apex:repeat>
+                                                </apex:repeat>
+                                            </div>
+                                        </apex:outputPanel>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>            
+                    </apex:repeat> 
+                </apex:repeat>
+            </apex:repeat>
+            <!--- modified on 02-07-2019 --->
+        </div>
+    </div>
+</apex:component>

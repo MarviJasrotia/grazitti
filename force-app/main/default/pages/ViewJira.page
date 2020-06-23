@@ -1,0 +1,326 @@
+<apex:page standardController="JiraIssue__c" language="{!lang}" sidebar="false" extensions="ViewJiraIssueController" showHeader="true" action="{!InsertJiraLogs}">
+    <link href="{!URLFOR($Resource.Communitybuilder, 'Communitybuilder/css/bootstrap.min.css')}" rel="stylesheet" />
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/bootstrap.js')}"/>
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/editaddjiraissue.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery-ui.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/unblockUI.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery.validate.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/bootstrap.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/editjira.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/JQ.js')}"/>
+    <apex:includeScript value="/soap/ajax/36.0/connection.js"/>
+    <apex:includeScript value="/soap/ajax/36.0/apex.js"/>  
+    <apex:includeScript value="/support/console/42.0/integration.js"/>
+    
+    <script type="text/javascript">
+    
+    
+    function closeCommentBox(){
+        document.getElementById('myModal').style.display = "none";
+        var div = document.querySelectorAll('[id*=savebuton]');
+        document.getElementById(div[0].id).disabled=true;
+    }
+    function opencomment(divid){
+        
+        document.getElementById('myModal').style.display = "block";
+        var div = document.querySelectorAll('[id*=savebuton]');
+        document.getElementById(div[0].id).disabled=true;
+        
+    }
+    
+    function commnetbodycheck(divid,data){
+        var data = document.getElementById(data).value;
+        
+        if(data=='' ||data==undefined || data==null){
+            document.getElementById(divid).disabled=true;
+        }else{
+            document.getElementById(divid).disabled=false;
+        }
+        
+    }
+    </script>
+    
+    <style>
+        .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        
+        /* Modal Content */
+        .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 60%;
+        }
+        html body.sfdcBody{
+        background:#fff !important;
+        }
+        html .brandQuaternaryBgr{
+        background:#fff !important;
+        }
+        .abc{
+        display:none;
+        }
+        .testwidth{
+        font-size: 12px ;
+        }
+        .headingstyle {
+        text-align:right;
+        padding:0 20px;
+        color:#4a4a56;
+        font-size: 11px;
+        }
+        
+        .dateInput  input{
+        float: left;
+        display: block;
+        }
+        .dateInput  span{
+        min-width:100px !important
+        }
+        .outputcss{
+        cursor: not-allowed;
+        background-color:#ececec;
+        padding:5px 10px;
+        border: none;
+        min-width: 100%;
+        min-height: 30px;
+        }
+        .inputcss{
+        max-width: 220px;
+        min-width: 220px;
+        max-height: 60px;
+        
+        }
+        .inputcolcss{
+        width:60%;
+        }
+        .alignright{
+        text-align: right;
+        }
+        .rowpad{
+        padding: 3px 0;
+        border-top: 1px solid #ececec;
+        
+        }
+        body{overflow-x:hidden !important;}
+        #btnShow{
+        margin-left: 12px;
+        font-size: 12px;
+        height: 30px;
+        background-color: rgb(5, 119, 181) !important;
+        color: #fff;
+        padding: 6px 16px;
+        border: 1px solid #b5b5b5;
+        min-width: 60px;
+        border-radius: 4px;
+        font-weight: 700;
+        height: 36px !important;
+        }
+        .commentDiv .bRelatedList .bPageBlock, .commentDiv .listRelatedObject .bPageBlock{
+        border:0px;
+        margin-top:-42px;
+        }
+        .commentDiv .bRelatedList .bPageBlock .pbHeader, .commentDiv .listRelatedObject .bPageBlock .pbHeader{
+        height: 50px;
+        }
+        .commentDiv{
+        border-left: 1px solid #e0e3e5;
+        border-right: 1px solid #e0e3e5;
+        border-bottom: 1px solid #e0e3e5;
+        padding-top: 10px;
+        margin-bottom: 20px;
+        border-top: 3px solid #2aabab;
+        border-radius: 5px;
+        }
+    </style>
+    <script>
+    
+    
+    
+    function Redirededitjira(jiraid,objectid,mode,lg){
+        
+         var CloseOldSubtab = function CloseOldSubtab(result) {
+            
+            sforce.console.closeTab(oldsubtabid);
+            
+        };
+        var CreateJiraTab = function CreateJiraTab(result) {
+           //NameSpace removed Grz_Sf__EditAddJiraIssue to EditAddJiraIssue
+            sforce.console.openSubtab(result.id, '/apex/EditAddJiraIssue?id='+jiraid+'&genericObjectID='+objectid, true);
+ 
+ 
+            sforce.console.closeTab(oldsubtabid);
+        };
+        var CurrentSubTab = function CurrentSubTab(result) {
+           
+            oldsubtabid=result.id;
+            sforce.console.getEnclosingPrimaryTabId(CreateJiraTab);    
+        };
+      
+        if (sforce.console.isInConsole()){
+                 
+            //  sforce.console.getEnclosingPrimaryTabId(CreateJiraTab);
+            sforce.console.getEnclosingTabId(CurrentSubTab);
+      
+        }else{
+            if(mode=='link')
+            {
+                //NameSpace removed Grz_Sf__EditAddJiraIssue to EditAddJiraIssue
+                window.location.href='/apex/EditAddJiraIssue?id='+jiraid+'&mode=link&caseid='+objectid;
+            }else{
+                
+                //NameSpace removed Grz_Sf__EditAddJiraIssue to EditAddJiraIssue
+                window.location.href='/apex/EditAddJiraIssue?id='+jiraid +'&genericObjectID='+objectid;
+            }
+            window.focus();
+        }
+     
+ 
+ 
+    }
+    
+    function redirecttocase(caseid){
+        window.location.href='/'+caseid;
+    }
+    </script>
+    <apex:form id="view_jira_form"> 
+        
+        <apex:actionFunction action="{!addComment}"  status="status"  name="CommentSection"  >
+            <apex:param name="jiraIssue" value="" />
+            <apex:param name="commentBody" value="" />
+            <apex:param name="isPublished" value="" />
+            
+        </apex:actionFunction>
+        
+        <apex:actionFunction name="deletejira" action="{!deletelinkedjira}"  />
+        
+        <apex:actionStatus id="status" startText="{!$Label.Processing_Label}" >
+            <apex:facet name="start">
+                <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.75; z-index: 1000; background-color: black;">
+                    &nbsp;
+                </div>
+                <div style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; z-index: 1001; margin: 30% 50%">
+                    <img src="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/images/load.gif')}" />
+                </div>
+            </apex:facet>
+        </apex:actionStatus>
+        <apex:pageMessages id="errorPageMessage" escape="true"/>
+        
+        <apex:outputPanel rendered="{!AND(HasPermission,ProjectAvailable,OR(errorMessage==null,errorMessage==''))}" >
+            <div class="container" style='margin:0;width:100%;'>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-xs-12 "> 
+                        <apex:outputPanel > 
+                            <apex:outputPanel rendered="{!NOT(mode == 'preview')}">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12   nopad">
+                                    <div class="col-lg-offset-2 col-lg-8 col-md-8 col-md-offset-2 c col-xs-12 col-sm-12 nopad">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12   " Style="text-align:center ;padding:10px" >
+                                            <apex:outputPanel rendered="{!AND(EditJiraSetting,IssueIsEditable,projectIsEditable,sizeofli!=0,sizeofli!=null,genericObjectID!=null)}" >
+                                                <apex:commandButton id="editbuton" style="font-size: 12px;height: 30px;" onclick="Redirededitjira('{!jiraIssue.id}','{!genericObjectID}','{!mode}')" value="{!$Label.Edit_Label}" reRender="none" />
+                                                <apex:commandButton id="Sendbuton" style="font-size: 12px;height: 30px;" ACTION="{!Redirectt}" value="{!$Label.ViewJira_Label9}" reRender="none" />
+                                                <apex:commandButton id="subtaskbuton" style="font-size: 12px;height: 30px;" action="{!Subtask}" value="{!$Label.ViewJira_Label10}" reRender="none"  rendered="{!IssueType}" />
+                                                
+                                            </apex:outputPanel> 
+                                        </div>
+                                    </div>
+                                    <!--
+<div class="col-lg-12 nopad" style="text-align: right;padding: 10px;">
+<div  style="display: inline-block;font-size:12px;">
+Language</div> 
+<div  style="display: inline-block;">
+<apex:selectList label="Language" value="{!lang}" size="1" style="margin-right: 10px;
+padding: 0;
+width: 150px;
+font-size: 14px;" styleClass="" multiselect="false">
+<apex:actionSupport event="onchange"  status="status" action="{!LangaugeReset}"/>
+<apex:selectOptions id="test" value="{!Languages}"></apex:selectOptions>
+</apex:selectList>
+</div>
+</div>
+-->
+                                </div> 
+                            </apex:outputPanel> 
+                            
+                            <c:ViewJiraComponent SubtaskParentID="{!SubtaskParentID}" objectsLabelList="{!objectsLabelList}" SectionOrder="{!SectionOrder}" sizeofli="{!sizeofli}" id="viewjira" mappedObjects="{!mappedObjects}" mode="{!mode}" jiraIssue="{!jiraIssue}"
+                                                 jiraProjectskeymap="{!jiraProjectskeymap}" 
+                                                 sectionToDynamicFieldWrapperListMap="{!sectionToDynamicFieldWrapperListMap}"  sectionToDynamicFieldWrapperListMap2="{!sectionToDynamicFieldWrapperListMap2}"  projectName="{!projectName}" save="{!save}"
+                                                 Cancel="{!Cancel}"  setting="{!setting}"
+                                                 epicKey="{!epicKey}" IssuelinksMap="{!IssuelinksMap}" deleteLink="{!deleteLink}" SizeOfMapLI="{!SizeOfMapLI}"/>
+                            
+                            
+                            
+                        </apex:outputPanel> 
+                        
+                    </div>
+                </div>
+            </div>
+        </apex:outputPanel>
+        <div id="myModal" class="modal">
+            <apex:outputPanel styleClass="modal-content" layout="block" id="dialogBox">
+                <div id="dialog" style="" align = "center">
+                    
+                    <div class="container" style='margin:0;width:100%;'>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 5px;
+                                                                                        background: #ccc;
+                                                                                        text-align: left;
+                                                                                        border-radius: 5px;">
+                                <h3> {!$Label.ViewJira_Label2}</h3>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: 15px; text-align:left;">
+                                <div class="" style="float:left; padding-right: 20px;min-width: 140px;">{!$Label.ViewJira_Label3}</div>
+                                <div class="" style="">
+                                    <apex:inputCheckbox value="{!comments.IsPublished__c}"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: 20px;text-align:left;">
+                                <div class="" style="float:left; padding-right: 20px; min-width: 140px;">{!$Label.CommentBody_Label}</div>
+                                <div class="" style="">
+                                    
+                                    <apex:inputTextarea id="commentinput" style=" height: 100px; width: 500px;" value="{!comments.CommentBody__c}" onkeyup="commnetbodycheck('{!$Component.savebuton}','{!$Component.commentinput}')" />
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <apex:commandButton id="savebuton" style="font-size: 12px;height: 30px;padding: 5px 10px;margin-top: 42px;" action="{!addComment}" value="{!$Label.Save_Label}" reRender="commentList" status="status" oncomplete="closeCommentBox()" />
+                    <apex:commandButton id="cancelbuton" style="font-size: 12px;height: 30px;padding: 5px 10px;margin-top: 42px;" onclick="closeCommentBox()" value="{!$Label.Cancel_Label}" reRender="btnShow,dialog,dialogBox" />
+                </div>
+            </apex:outputPanel>  
+        </div>
+    </apex:form>
+    <apex:outputPanel rendered="{!AND(HasPermission,ProjectAvailable,$User.ContactId==null,sizeofli!=NULL,sizeofli !=0)}">
+        <div class="commentDiv">                       
+            
+            <div style="text-align: center;
+                        width: 70%;">
+                <input type="button" onclick="opencomment('{!$Component.savebuton}')" id="btnShow" value="{!$Label.ViewJira_Label7}" />
+                
+            </div>
+            
+            <apex:relatedList id="commentList" list="JiraIssueComments__r"  />
+             
+        </div>
+        <apex:relatedList list="AttachedContentDocuments"  />
+    </apex:outputPanel>   
+    
+    <apex:outputPanel rendered="{!AND(HasPermission,ProjectAvailable,OR(errorMessage==null,errorMessage==''))}">
+        <apex:outputPanel rendered="{!sizeofli !=0 && sizeofli!=NULL}" >
+            <apex:include pageName="IssueDetailPage"  />
+            <apex:iframe rendered="{!AND(RelatedList1!=null,RelatedList1!='')}" src="{!RelatedList1}" width="100%"  height="auto"  scrolling="true" /> 
+        </apex:outputPanel>
+    </apex:outputPanel>
+</apex:page>

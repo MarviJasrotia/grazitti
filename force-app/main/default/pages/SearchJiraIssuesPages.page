@@ -1,0 +1,362 @@
+<apex:page Controller="SearchJiraIssuesUpgraded" language="{!lang}" showHeader="true" sidebar="false">
+ <link href="{!URLFOR($Resource.Communitybuilder, 'Communitybuilder/css/bootstrap.min.css')}" rel="stylesheet" />
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/bootstrap.js')}"/>
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/editaddjiraissue.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery-ui.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/unblockUI.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery.validate.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/bootstrap.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/editjira.js')}"/>
+    <apex:includeScript value="/support/console/42.0/integration.js"/> 
+    <style>
+        .Pointereventnone{
+        pointer-events: none;
+        
+        }
+    </style> 
+    <script>
+    window.document.onload = function(e){ 
+        e.preventDefault();
+
+    }
+    function checkboxSel(elem){
+        var val = elem.value; 
+        
+        
+        projectData(val);
+    }
+    function linkwithjira(jirakey){
+        document.getElementById(jirakey+'_Link').style.display='None';
+        
+        document.getElementById(jirakey+'_LinkSpan').style.display='Block';
+        linkwithjirakey(jirakey);
+    }
+    
+     function AddRecord(){
+        //Add newrecord.
+        
+      
+        opener.location.href = '/{!genericObjectID}'; //This will refresh parent window.
+        window.close(); //Close child window. You may also use self.close(); 
+    }
+    function sendReq(e){
+        if(e.keyCode == 13){
+            sendRequest();
+        }
+        
+        
+    }
+  </script>
+  <style>
+      #summary{
+          margin-right: 12px;
+          width: 50% ;
+      }
+      a:hover, a:focus{
+          text-decoration: none !important;
+          color: #fff ;
+      }
+      .issueId:hover, .issueId:focus{
+          text-decoration: none !important;
+          color: #333 !important;
+      
+      }
+      td {
+            padding-right: 40px;
+      }
+      .apexp{
+        
+      }
+      label{
+        display: inline-block;
+        margin: 10px 5px;
+      }
+      .searchbtn1{
+      padding: 5px !important;
+      height: 28px;
+      min-width:50px;
+      }
+      .searchbtn{
+      background: #428bca !important;
+      color: #fff !important;
+      font-size: 15px !important;
+      font-weight: bold !important;
+      padding: 6px !important;
+      border-radius: 5px !important;
+      text-decoration: none !important;
+      }
+      .link:hover{
+      color:#0070d2 !important;
+      }
+      @media(min-width:500px){
+        
+      }
+      @media(min-width:768px){
+        
+      }
+      .searchinput{
+      width: 80%;
+      margin-right: 5px;
+      margin-bottom: 20px;
+      height: 28px;
+      }
+      .searchview{
+      background-size: contain;
+      <!--NameSpace removed  Grz_Sf__SFDCJiraConnector to SFDCJiraConnector-->
+      background-image: url(/resource/SFDCJiraConnector/SFDCJiraConnector/images/lookup.png);
+      background-repeat: no-repeat;
+      width: 100px;
+      height: 100px;
+      opacity: .5;
+      margin: 30px auto 0;
+      display: inline-block;
+      }
+      .SearchViewText{
+      font-size: 70px;
+      display: inline-block;
+      position: relative;
+      top: -30px;
+      }
+      .ProjectSelectList{
+      margin-top: 10px;
+      font-size: 15px;
+      height: 120px !important;
+      padding: 1px 12px;
+      line-height: 1.428571429;
+      color: #555;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+      width: 200px;
+      }
+      .ProjectSelectList option{
+      white-space: normal;
+      }
+      label{
+          margin: 0;
+      }
+      .resulttable {
+       
+      }
+      .resulttable td{
+      vertical-align: top;
+      padding:0 10px 0 0;
+      word-break: break-all;
+      }
+      .resulttable td:nth-child(1){
+      width: 50px;
+      MiHeight:400px;
+      padding: 0 5px;
+      }
+      .resulttable td:nth-child(2){
+      width:100px;
+      }
+      .NoResultFound{
+      opacity: .5;
+      font-size: 55px;
+      text-align: center;
+      margin: 40px;
+      }
+  </style>
+  <apex:form >
+      <apex:actionStatus id="status" startText="{!$Label.Processing_Label}" >
+          <apex:facet name="start">
+              <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.80; z-index: 1000; background-color: black;">
+                  &nbsp;
+              </div> 
+              <div style="position: fixed; width:60px ; left: 0; top:-250px; bottom: 0; right: 0; z-index: 1001; margin: 30% 50%">
+                  <img width="50px" src="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/images/loader.gif')}" />
+              </div>
+          </apex:facet>
+      </apex:actionStatus>
+        
+      <apex:actionFunction name="searchresults" action="{!SendSearchReqToJIRA}" reRender="filterData" status="status" />
+      
+      <apex:actionFunction name="linkwithjirakey" action="{!linkcasewithjirakey}" reRender="filterData" >
+          <apex:param name="linkjirakey" value="" />
+      </apex:actionFunction> 
+      <div class="col-sm-12 col-lg-12 nopad" style="min-height:400px;">
+        <!--  <div class="col-sm-12 col-lg-12 nopad" style="text-align:right;">
+              
+              <div  style="display: inline-block;font-size:12px;">
+                  Language</div> 
+              <div  style="display: inline-block;">
+                  <apex:selectList label="Language" value="{!lang}" size="1" style="margin-right: 10px;
+                                                                                    padding: 0;
+                                                                                    width: 150px;
+                                                                                    font-size: 14px;" styleClass="" multiselect="false">
+                      <apex:actionSupport event="onchange"  status="status" action="{!LangaugeReset}"/>
+                      <apex:selectOptions id="test" value="{!Languages}"></apex:selectOptions>
+                  </apex:selectList>
+              </div>
+          </div>-->
+          <div class="col-sm-12 col-lg-12 nopad" >
+              
+              <div Style="width: 600px;
+                          margin: 20px auto;">
+                  <apex:inputText id="summary" value="{!searchText}" onkeyup="if(event.keyCode==13){searchresults();}" styleClass="searchinput"/>
+                  <input id="hidden" style="display:none;" />
+                  <apex:commandLink id="searchText" action="{!SendSearchReqToJIRA}" value="{!$Label.Search_Label}" styleClass="searchbtn" reRender="filterData,projectvalidate" status="status" onComplete="validateName();" />
+                  <apex:outputPanel id="projectvalidate">
+                      
+                      <script>
+                      function validateName(){
+                          
+                          if('{!projectcount}'=='true'){
+                              alert("{!$Label.SearchJiraIssuesPages_Label3}");
+                              return false;
+                          }
+                      }
+                      </script>
+                  </apex:outputPanel> 
+                  
+              </div>   
+                  
+           
+          </div>
+
+          <div class="col-sm-12 col-lg-12 nopad" >
+              <div class="col-sm-2 col-lg-2 " style="padding:0px;">
+                   <div class="col-sm-12 col-lg-12 " style="padding:0px;" >
+                      <label>{!$Label.Projects_Label}</label>
+                  </div>
+                  <div class="col-sm-12 col-lg-12 " style="padding: 1px;">
+                      <apex:selectList multiselect="true" label="{!$Label.Projects_Label}" value="{!SelectedProjectsSet}"  styleClass="ProjectSelectList" > 
+                          <apex:selectOptions value="{!options}"  />
+                          <apex:actionSupport event="onchange" action="{!updateIssueTypeList}"  reRender="Messagesection,issuetypeoption,issuetypeoptioncontainer" />
+                      </apex:selectList>
+                  </div>
+                  <div class="col-sm-12 col-lg-12 nopad" >
+                      <apex:outputPanel id="issuetypeoptioncontainer" >
+                          <div class="col-sm-12 col-lg-12 " style="padding:0px;">
+                              <apex:outputPanel rendered="{!issuetypesOption.size>0}">
+                                  <label style="    padding: 10px 0 0 0;">{!$Label.SearchJiraIssuesPages_Label5}</label>
+                              </apex:outputPanel>
+                          </div>
+                          <div class="col-sm-12 col-lg-12 nopad" style="padding: 0px;">
+                              <apex:selectList id="issuetypeoption" rendered="{!issuetypesOption.size>0}" multiselect="true" label="{!$Label.SearchJiraIssuesPages_Label6}" value="{!SelectedIssueTypeSet}"  styleClass="ProjectSelectList" > 
+                                  <apex:selectOptions value="{!issuetypesOption}"  />
+                              </apex:selectList>
+                          </div>
+                      </apex:outputPanel>
+                  </div>
+              </div>
+              <div class="col-sm-10 col-lg-10 " >
+                   <div style="width: 100%;">
+                  <div class=" col-sm-10 col-lg-10 nopad linkdiv" id="linkdivbox" style="max-width: 100%;
+                                                                                         min-height: 350px;
+                                                                                         border: 1px solid #ccc;">
+                      <apex:outputPanel id="filterData">
+                          
+                          <apex:pageMessages ></apex:pageMessages>
+                          
+                          <apex:outputPanel id="SearchTable" rendered="{!wrapFieldList.size>0}" layout="block">
+                              <div style="border-bottom:1px solid #ccc">
+                                  <div colspan="5" style="text-align: center;
+                                                         padding: 10px;">
+                                      
+                                      <apex:commandButton id="previous" action="{!previousPage}" value="{!$Label.Previous_Label}" reRender="filterData" disabled="{!index==0}" status="status" styleClass="searchbtn1" />
+                                      <apex:commandButton id="next" action="{!nextPage}" value="{!$Label.Next_Label}"  reRender="filterData" disabled="{!index==(TotalPages-1)}" status="status" styleClass="searchbtn1" />      
+                                      
+                                  </div>
+                              </div>
+                              <div style="min-height:246px">
+                                  
+                              <table width="100%" class="resulttable"  cellpadding="5">
+
+                                  <theader>
+                                      <tr>
+                                          <th>{!$Label.Link_Label}</th>
+                                          <th style="min-width:100px;padding: 0;">{!$Label.SearchJiraIssuesPages_Label10}</th>
+                                          <th style="min-width:100px;text-align:left;padding: 0;">{!$Label.SearchJiraIssuesPages_Label5}</th>
+                                          <th style="min-width:100px;text-align:left;padding: 0;">{!$Label.Priority_Label}</th>
+                                          <th style="min-width:100px;text-align:left;padding: 0;">{!$Label.Status_Label}</th>
+                                          <th style="min-width:100px;text-align:left;padding: 0;">{!$Label.Summary_Label}</th>
+                                          
+                                      </tr> 
+                                  </theader>
+                                  <apex:repeat value="{!wrapFieldList}" var="srch">
+                                      <tr style="border-top:1px solid #ccc;padding:3px 0;">
+                                          <td>
+                                              <a Class="Link" style="cursor:pointer;" id="{!srch.Key+'_Link'}" onclick="linkwithjira('{!srch.Key}')">
+                                                  {!$Label.Link_Label}
+                                              </a>
+                                              <span id="{!srch.Key+'_LinkSpan'}" style="display:none;cursor:wait;">{!$Label.Link_Label}</span>
+                                          </td>
+                                          <td>
+                                              <!--NameSpace removed Grz_Sf__ViewSearchJira to ViewSearchJira-->
+                                              <apex:outputLink id="issueid"  value="{!'/apex/ViewSearchJira?id='+srch.Key+'&type=search&Objectid='+genericObjectID}" styleClass="issueId" onclick="closetab();" title="{!$Label.SearchJiraIssuesPages_Label14}"> 
+                                                  {!srch.Key}
+                                              </apex:outputLink>    
+                                          </td>
+                                           <td style="text-align:left">
+                                              {!srch.Issuetype}
+                                          </td>
+                                          <td>
+                                              <div style="text-align:left" class="block-with-text">
+                                                   {!srch.Priority}
+                                              </div>    
+                                              
+                                          </td>
+                                          <td>
+                                              <div style="text-align:left" class="status">
+                                                  {!srch.Status}
+                                              </div>
+                                              
+                                          </td>
+                                          <td>
+                                              <div style="text-align:left" class="summary">
+                                                  {!srch.Summary}
+                                              </div>
+                                          </td>
+                                          
+                                      </tr>
+                                  </apex:repeat>
+                                  
+                                 
+                                  
+                              </table>
+                               </div>
+                              <div style="border-Top:1px solid #ccc">
+                                  <div colspan="5" style="text-align: center;
+                                                         padding: 10px;">
+                                      
+                                      
+                                      <apex:commandButton id="previous1" action="{!previousPage}" value="{!$Label.Previous_Label}" reRender="filterData" disabled="{!index==0}" status="status" styleClass="searchbtn1"  />
+                                      <apex:commandButton id="next1" action="{!nextPage}" value="{!$Label.Next_Label}"  reRender="filterData" disabled="{!index==(TotalPages-1)}" status="status" styleClass="searchbtn1" />      
+                                      
+                                  </div>
+                              </div>
+                          </apex:outputPanel>  
+                          <apex:outputPanel rendered="{!!Loaded}">
+                              <div Style="text-align: left;
+                                          padding: 0 85px;
+                                          opacity: .2;">
+                                  
+                                  <div class="SearchViewText">{!$Label.Search_Label}</div>
+                                  
+                                  <div class="searchview">
+                                  </div>
+                              </div>
+                          </apex:outputPanel>
+                          <apex:outputPanel id="Messagesection">
+                              <apex:outputText rendered="{!AND(wrapFieldList.size==0,Loaded)}">
+                                  <div  class="NoResultFound"> 
+                                      {!$Label.SearchJiraIssuesPages_Label15}
+                                  </div>
+                              </apex:outputText>
+                              <apex:outputText rendered="{!AND(SelectedProjectsSet.size!=0,wrapFieldList.size==0,Loaded)}">
+                                  <div  class="NoResultFound">
+                                  </div>
+                              </apex:outputText>
+                          </apex:outputPanel>
+                      </apex:outputPanel>
+                  </div>
+                  </div>
+              </div>
+              
+          </div>
+      </div>
+  </apex:form>
+</apex:page>

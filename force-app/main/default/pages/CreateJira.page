@@ -1,0 +1,164 @@
+<apex:page standardController="Case" sidebar="false" extensions="fetchGenericObjectInfo" >
+  
+   <apex:includeScript value="/soap/ajax/36.0/connection.js"/>
+   <apex:includeScript value="/soap/ajax/36.0/apex.js"/>
+   <apex:includeScript value="/support/console/42.0/integration.js"/>
+  
+  <script>
+    sforce.connection.sessionId = "{!$Api.Session_ID}"
+    var sobjectName= "{!sobjectName}";
+    console.log(sobjectName);
+    // var dynamicName=sobjectName+"id";
+    debugger;
+    var dynamicName='genericObjectID';
+    console.log('dynamicName_'+dynamicName);
+    var genericObjectID="{!sobjectID}";
+    console.log(genericObjectID);
+    
+    var objectInstanceId = "{!sobjectID}"; 
+    console.log('objectInstanceId '+objectInstanceId );
+    var objectId = "{!sobjectID}"; 
+    var output ='true';
+  
+    //for case/idea/account
+    var relationName=''+sobjectName+'Relation__c';
+    //for rest of objects
+    //var relationName=sobjectName+'Relation__c';
+    var r = true; 
+    var RelationType = sforce.connection.query("SELECT Id, Name, Description__c, Value__c FROM JiraSalesforceDetail__c where name ='Relationship_Type' Limit 1"); 
+
+    records = RelationType.getArray("records"); 
+    var relation=records[0].Value__c ;   
+    var stringQuery = 'SELECT Id FROM JiraRelationship__c where '+ relationName +' = \'' +objectInstanceId + '\' limit 1';
+    var objectJiraRelation = sforce.connection.query(stringQuery); 
+    var  Relrecords = objectJiraRelation.getArray("records"); 
+    var valid= sforce.apex.execute("ValidationChecker","checker",{objectId :objectInstanceId }); 
+    debugger;
+   if(output == 'false'){ 
+      
+        r = false;
+        ret = false;
+        alert('Your free Sync limit is over. Please contact info@grazitti.com for increasing Limit'); 
+   }else if(valid!=''){ 
+        alert(valid); 
+        r=false; 
+        ret = false;
+    }else{ 
+        
+       if(relation == 'OCOJ' && Relrecords.length>0 && Relrecords[0].Id !=null){ 
+       
+            r=false;
+            ret = false;
+            alert( sobjectName +' already Linked to JIRA.'); 
+        }else if(relation != 'OCOJ' && Relrecords.length>0 && Relrecords[0].Id !=null ){ 
+            
+            if( Relrecords.length>0 && Relrecords[0].Id !=null){ 
+               
+                r = confirm( sobjectName + ' already Linked to JIRA. Do you want to create a new Jira Issue?');
+            
+                if(!r && sforce.console.isInConsole()){
+                    ret = false;
+                    returntoObject();
+                }
+            } 
+        } 
+    } 
+    if(r){
+       
+     
+        var openSuccess = function openSuccess(result) {
+        }
+         var closeSubtab = function closeSubtab(result) {
+            var tabId = result.id;
+            sforce.console.closeTab(tabId);
+        }
+         var Createsubtabs = function Createsubtabs(result) {
+             var pids=result.ids[0];
+             var sids=result.ids[result.ids.length-1];
+             if(pids==sids){
+                 sforce.console.getEnclosingPrimaryTabId(CreateTabIdagain);                
+            }else{
+                sforce.console.getEnclosingPrimaryTabId(CreateJiraTab1);
+                sforce.console.getEnclosingTabId(closeSubtab);
+            }           
+
+        }
+         var CreateTabIdagain = function CreateTabIdagain(result) {
+             var ids=result.id;
+             sforce.console.openPrimaryTab(ids,'/apex/EditAddJiraIssue?'+dynamicName+'='+objectId , true);
+        } 
+        var CreateJiraTab = function CreateJiraTab(result) {
+            var ids=result.id;
+            sforce.console.getSubtabIds(ids,Createsubtabs);
+        }
+        var CreateJiraTab1 = function CreateJiraTab(result) {
+            var ids=result.id;
+            sforce.console.openSubtab(ids,'/apex/EditAddJiraIssue?'+dynamicName +'='+objectId , true,'Create Jira', null, openSuccess, 'salesforceSubtab'); 
+        }
+        if (sforce.console.isInConsole()){
+            sforce.console.getEnclosingPrimaryTabId(CreateJiraTab);
+        }else{
+             console.log('ifelse__');
+            window.open('/apex/EditAddJiraIssue?genericObjectID='+objectId ,"_self",""); 
+            window.focus();
+        }
+    }else {         
+        var getsubtabs = function getsubtabs(result) {
+            var pids=result.ids[0];
+            var sids=result.ids[result.ids.length-1];
+            if(pids==sids){
+                sforce.console.getEnclosingPrimaryTabId(showTabIdagain);
+                
+            }else{
+                sforce.console.closeTab(sids);
+            }
+        }
+        var showTabIdagain = function showTabIdagain(result) {
+            var ids=result.id;
+            sforce.console.openPrimaryTab(ids,'/'+objectId , true);
+        } 
+        
+        var showTabId = function showTabId(result) {
+            var ids=result.id;
+            sforce.console.getSubtabIds(ids,getsubtabs);
+        } 
+        
+        if (sforce.console.isInConsole()){
+            sforce.console.getEnclosingPrimaryTabId(showTabId);
+        }else{
+            var theme = "{!$User.UIThemeDisplayed}";
+            if(theme == 'Theme4d' ){
+                sforce.one.navigateToSObject(objectInstanceId );
+            }else{
+                location.href='/'+objectInstanceId ;
+            } 
+        }
+        
+    }
+    function returntoObject(){
+        var openSuccess = function openSuccess(result) {
+        }
+        var closeSubtab = function closeSubtab(result) {
+            var tabId = result.id;
+            sforce.console.closeTab(tabId);
+        }
+        var CreateJiraTab = function CreateJiraTab(result) {
+            var ids=result.id;
+            sforce.console.openSubtab(ids,'/'+objectId , true, + sobjectName + 'Detail', null, openSuccess, 'salesforceSubtab'); 
+            sforce.console.getEnclosingTabId(closeSubtab);
+        }
+        
+        var getsubtabs = function getsubtabs(result) {
+            sforce.console.getEnclosingPrimaryTabId(showTabIdagain);            
+        }
+        
+        var showTabId = function showTabId(result) {
+            var ids=result.id;
+            sforce.console.getEnclosingPrimaryTabId(CreateJiraTab);
+        }
+        sforce.console.getEnclosingPrimaryTabId(showTabId);        
+    }
+   
+  </script> 
+  
+</apex:page>

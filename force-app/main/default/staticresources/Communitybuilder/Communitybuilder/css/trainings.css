@@ -1,0 +1,522 @@
+/* LESS / Social Media Brand Colors */
+
+h1, h2, h3, h4, h5, h6, p, label, span, ul, li, .list-inline {
+  margin: 0;
+  padding: 0; }
+
+input, textarea {
+  box-shadow: none !important; }
+
+.img img {
+  width: 100%;
+  max-width: 100%;
+  display: block; }
+
+.row-nopad {
+  margin-right: 0;
+  margin-left: 0; }
+  .row-nopad > .col {
+    padding: 0; }
+
+.row-5 {
+  margin-right: -5px;
+  margin-left: -5px; }
+  .row-5 > .col {
+    padding: 0 5px; }
+
+.row-10 {
+  margin-right: -8px;
+  margin-left: -8px; }
+  .row-10 > .col {
+    padding: 0 8px; }
+
+.row-30 {
+  margin-right: -30px;
+  margin-left: -30px; }
+  .row-30 > .col {
+    padding: 0 30px; }
+  @media (max-width: 767px) {
+    .row-30 {
+      margin-right: -15px;
+      margin-left: -15px; }
+      .row-30 > .col {
+        padding: 0 15px; } }
+
+@media (max-width: 650px) {
+  .row-xs > .col {
+    display: block;
+    float: none;
+    width: 100%; }
+    .row-xs > .col:before, .row-xs > .col:after {
+      content: " ";
+      display: table; }
+    .row-xs > .col:after {
+      clear: both; } }
+
+@media (max-width: 767px) {
+  .content-hidden-sm {
+    display: none; } }
+
+.affix {
+  z-index: 99999999; }
+  @media (max-width: 991px) {
+    .affix {
+      display: none; } }
+
+.twitter-color,
+.facebook-color,
+.google-plus-color,
+.pinterest-color,
+.linkedin-color,
+.youtube-color,
+.vimeo-color,
+.tumblr-color,
+.instagram-color,
+.flickr-color,
+.dribbble-color,
+.quora-color,
+.foursquare-color,
+.forrst-color,
+.vk-color,
+.wordpress-color,
+.stumbleupon-color,
+.yahoo-color,
+.blogger-color,
+.soundcloud-color,
+.mail-color {
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s; }
+
+.twitter-color:hover, .twitter-color:active, .twitter-color:focus {
+  color: #00aced !important; }
+
+.facebook-color:hover, .facebook-color:active, .facebook-color:focus {
+  color: #3b5998 !important; }
+
+.google-plus-color:hover, .google-plus-color:active, .google-plus-color:focus {
+  color: #dd4b39 !important; }
+
+.pinterest-color:hover, .pinterest-color:active, .pinterest-color:focus {
+  color: #cb2027 !important; }
+
+.linkedin-color:hover, .linkedin-color:active, .linkedin-color:focus {
+  color: #007bb6 !important; }
+
+.youtube-color:hover, .youtube-color:active, .youtube-color:focus {
+  color: #bb0000 !important; }
+
+.vimeo-color:hover, .vimeo-color:active, .vimeo-color:focus {
+  color: #aad450 !important; }
+
+.tumblr-color:hover, .tumblr-color:active, .tumblr-color:focus {
+  color: #32506d !important; }
+
+.instagram-color:hover, .instagram-color:active, .instagram-color:focus {
+  color: #517fa4 !important; }
+
+.flickr-color:hover, .flickr-color:active, .flickr-color:focus {
+  color: #ff0084 !important; }
+
+.dribbble-color:hover, .dribbble-color:active, .dribbble-color:focus {
+  color: #ea4c89 !important; }
+
+.quora-color:hover, .quora-color:active, .quora-color:focus {
+  color: #a82400 !important; }
+
+.foursquare-color:hover, .foursquare-color:active, .foursquare-color:focus {
+  color: #0072b1 !important; }
+
+.forrst-color:hover, .forrst-color:active, .forrst-color:focus {
+  color: #5B9A68 !important; }
+
+.vk-color:hover, .vk-color:active, .vk-color:focus {
+  color: #45668e !important; }
+
+.wordpress-color:hover, .wordpress-color:active, .wordpress-color:focus {
+  color: #21759b !important; }
+
+.stumbleupon-color:hover, .stumbleupon-color:active, .stumbleupon-color:focus {
+  color: #EB4823 !important; }
+
+.yahoo-color:hover, .yahoo-color:active, .yahoo-color:focus {
+  color: #7B0099 !important; }
+
+.blogger-color:hover, .blogger-color:active, .blogger-color:focus {
+  color: #fb8f3d !important; }
+
+.soundcloud-color:hover, .soundcloud-color:active, .soundcloud-color:focus {
+  color: #ff3a00 !important; }
+
+.mail-color:hover, .mail-color:active, .mail-color:focus {
+  color: #111 !important; }
+
+/* LESS / Social Media Brand Colors */
+body {
+  font-size: 14px;
+  font-weight: 400;
+   color: #141414; }
+
+/*==========  Common Styles  ==========*/
+:focus {
+  outline: none !important; }
+
+.img-responsive {
+  display: inline-block;
+  width: auto;
+  height: auto;
+  max-width: 100%; }
+
+/*==========  Training Section  ==========*/
+.training-main-banner-container {
+  background: url("../images/training-banner.png") no-repeat center center;
+  background-size: cover;
+  min-height: 580px; }
+  .training-main-banner-container .banner-text {
+    padding-top: 200px;
+    text-align: center; }
+    .training-main-banner-container .banner-text h1 {
+      display: block;
+      text-transform: uppercase;
+      letter-spacing: 7px;
+      font-family: "Flaticon", sans-serif;
+      font-size: 127.68px;
+      font-weight: 600;
+      line-height: 127.4px;
+      color: #fff;
+      font-family: 'AkzidenzGroteskBE-MdCn'; }
+    .training-main-banner-container .banner-text h3 {
+      display: block;
+      font-family: "Flaticon", sans-serif;
+      font-size: 30.1px;
+      font-weight: 400;
+      line-height: 32.2px;
+      color: #fff; }
+    @media (max-width: 991px) {
+      .training-main-banner-container .banner-text {
+        padding-top: 150px; }
+        .training-main-banner-container .banner-text h1 {
+          letter-spacing: 4px;
+          font-family: "Flaticon", sans-serif;
+          font-size: 71.68px;
+          font-weight: 600;
+          line-height: 71.4px;
+          color: #fff;
+          font-family: 'AkzidenzGroteskBE-MdCn'; }
+        .training-main-banner-container .banner-text h3 {
+          font-family: "Flaticon", sans-serif;
+          font-size: 21px;
+          font-weight: 400;
+          line-height: 23.8px;
+          color: #fff; } }
+    @media (max-width: 767px) {
+      .training-main-banner-container .banner-text {
+        padding: 0; } }
+  @media (max-width: 991px) {
+    .training-main-banner-container {
+      min-height: 400px; } }
+  @media (max-width: 767px) {
+    .training-main-banner-container {
+      min-height: 0;
+      padding: 100px 0; } }
+
+.training-getstarted-container {
+  padding: 120px 0;
+  padding-bottom: 90px;
+  text-align: center;
+  background: url("../images/clouds.png") no-repeat center center;
+  background-size: cover; }
+  .training-getstarted-container .head {
+    margin-bottom: 60px; }
+    .training-getstarted-container .head h3 {
+      display: block;
+      letter-spacing: 2px;
+      font-family: "Flaticon", sans-serif;
+      font-size: 35.98px;
+      font-weight: 400;
+      line-height: 36.4px;
+      color: #fff;
+      font-family: 'AkzidenzGroteskBE-MdCn'; }
+    @media (max-width: 767px) {
+      .training-getstarted-container .head {
+        margin-bottom: 50px; } }
+  .training-getstarted-container .training-block {
+    margin-bottom: 30px; }
+    .training-getstarted-container .training-block a {
+      margin: 0;
+      display: block; }
+      .training-getstarted-container .training-block a:hover, .training-getstarted-container .training-block a:active, .training-getstarted-container .training-block a:focus {
+        text-decoration: none; }
+    .training-getstarted-container .training-block .img-responsive {
+      margin-bottom: 20px;
+      -webkit-transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      -o-transition: all 0.5s;
+      transition: all 0.5s; }
+    .training-getstarted-container .training-block h5 {
+      display: block;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: "Flaticon", sans-serif;
+      font-size: 15.96px;
+      font-weight: 600;
+      line-height: 16.8px;
+      color: #fff; }
+    .training-getstarted-container .training-block:hover .img-responsive, .training-getstarted-container .training-block:active .img-responsive, .training-getstarted-container .training-block:focus .img-responsive {
+      -webkit-transform: scale(0.98);
+      -moz-transform: scale(0.98);
+      -ms-transform: scale(0.98);
+      -o-transform: scale(0.98);
+      transform: scale(0.98); }
+  @media (max-width: 767px) {
+    .training-getstarted-container {
+      padding-top: 70px;
+      padding-bottom: 50px; } }
+
+.training-iframe {
+  display: none;
+  background: #fff; }
+  .training-iframe iframe {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 500px; }
+
+/*==========  My Training Section  ==========*/
+.mytraining-container {
+  padding: 100px 0; }
+  .mytraining-container .head {
+    text-align: center;
+    margin-bottom: 70px;
+    padding: 0 15px; }
+    .mytraining-container .head h1 {
+      display: block;
+      letter-spacing: 4px;
+      font-family: "Flaticon", sans-serif;
+      font-size: 127.68px;
+      font-weight: 600;
+      line-height: 127.4px;
+      color: #1f5b7d;
+      font-family: 'AkzidenzGroteskBE-MdCn'; }
+    @media (max-width: 991px) {
+      .mytraining-container .head {
+        margin-bottom: 30px; }
+        .mytraining-container .head h1 {
+          letter-spacing: 2px;
+          font-family: "Flaticon", sans-serif;
+          font-size: 71.68px;
+          font-weight: 600;
+          line-height: 71.4px;
+          color: #1f5b7d;
+          font-family: 'AkzidenzGroteskBE-MdCn'; } }
+  .mytraining-container .courses-container .sub-head {
+    padding: 0 15px;
+    text-align: center;
+    margin-bottom: 15px; }
+    .mytraining-container .courses-container .sub-head h3 {
+      display: block;
+      text-transform: uppercase;
+      font-family: "Flaticon", sans-serif;
+      font-size: 30.1px;
+      font-weight: 600;
+      line-height: 32.2px;
+      color: #1f5b7d; }
+    @media (max-width: 991px) {
+      .mytraining-container .courses-container .sub-head h3 {
+        font-family: "Flaticon", sans-serif;
+        font-size: 21px;
+        font-weight: 600;
+        line-height: 23.8px;
+        color: #1f5b7d; } }
+  .mytraining-container .courses-container .courses .course-block {
+    border-bottom: 10px solid transparent; }
+    .mytraining-container .courses-container .courses .course-block .btn {
+      margin: 0;
+      border: 0;
+      padding: 40px 15px;
+      letter-spacing: 1px;
+      background: #6bb445;
+      text-transform: uppercase;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -ms-border-radius: 5px;
+      -o-border-radius: 5px;
+      border-radius: 5px;
+      font-family: "Flaticon", sans-serif;
+      font-size: 23.996px;
+      font-weight: 600;
+      line-height: 31.1948px;
+      color: #fff; }
+    .mytraining-container .courses-container .courses .course-block.muted .btn {
+      background: #cac8c8; }
+    .mytraining-container .courses-container .courses .course-block.active {
+      border-bottom-color: #6bb445; }
+      .mytraining-container .courses-container .courses .course-block.active .btn {
+        -webkit-border-radius: 5px 5px 0 0;
+        -moz-border-radius: 5px 5px 0 0;
+        -ms-border-radius: 5px 5px 0 0;
+        -o-border-radius: 5px 5px 0 0;
+        border-radius: 5px 5px 0 0; }
+      @media (max-width: 767px) {
+        .mytraining-container .courses-container .courses .course-block.active .btn {
+          -webkit-border-radius: 5px;
+          -moz-border-radius: 5px;
+          -ms-border-radius: 5px;
+          -o-border-radius: 5px;
+          border-radius: 5px; } }
+    .mytraining-container .courses-container .courses .course-block .btn {
+      padding: 30px 15px;
+      font-family: "Flaticon", sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 19.6px;
+      color: #fff; }
+    @media (max-width: 1199px) {
+      .mytraining-container .courses-container .courses .course-block .btn {
+        padding: 30px 15px;
+        font-family: "Flaticon", sans-serif;
+        font-size: 16.8px;
+        font-weight: 600;
+        line-height: 19.6px;
+        color: #fff; } }
+    @media (max-width: 991px) {
+      .mytraining-container .courses-container .courses .course-block .btn {
+        padding: 15px;
+        font-family: "Flaticon", sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 16.8px;
+        color: #fff; } }
+    @media (max-width: 767px) {
+      .mytraining-container .courses-container .courses .course-block {
+        border: 0;
+        margin-bottom: 10px; } }
+  .mytraining-container .courses-container .course-subcategories-container .course-subcategory {
+    border-top: 6px solid #6bb445;
+    padding-top: 25px;
+    display: none; }
+    .mytraining-container .courses-container .course-subcategories-container .course-subcategory .subcategory-header {
+      padding: 0 30px;
+      text-align: right;
+      margin-bottom: 20px; }
+      .mytraining-container .courses-container .course-subcategories-container .course-subcategory .subcategory-header .btn {
+        border: 0;
+        padding: 15px;
+        background: #fc8d03;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+        border-radius: 50%;
+        font-family: "Flaticon", sans-serif;
+        font-size: 20.3px;
+        font-weight: 400;
+        line-height: 14px;
+        color: #fff; }
+        .mytraining-container .courses-container .course-subcategories-container .course-subcategory .subcategory-header .btn:hover, .mytraining-container .courses-container .course-subcategories-container .course-subcategory .subcategory-header .btn:active, .mytraining-container .courses-container .course-subcategories-container .course-subcategory .subcategory-header .btn:focus {
+          background: #e37f03; }
+    .mytraining-container .courses-container .course-subcategories-container .course-subcategory .subcategory-lists .subcategory-list {
+      margin-bottom: 25px; }
+      .mytraining-container .courses-container .course-subcategories-container .course-subcategory .subcategory-lists .subcategory-list h3 {
+        display: block;
+        text-align: center;
+        margin-bottom: 40px;
+        text-transform: uppercase;
+        font-family: "Flaticon", sans-serif;
+        font-size: 20.3px;
+        font-weight: 600;
+        line-height: 22.4px;
+        color: #1f5b7d;
+        font-family: "Flaticon", sans-serif;
+        font-size: 17.5px;
+        font-weight: 600;
+        line-height: 19.6px;
+        color: #1f5b7d;
+        margin-bottom: 15px;
+        text-align: left; }
+        @media (max-width: 1199px) {
+          .mytraining-container .courses-container .course-subcategories-container .course-subcategory .subcategory-lists .subcategory-list h3 {
+            margin-bottom: 20px;
+            font-family: "Flaticon", sans-serif;
+            font-size: 17.5px;
+            font-weight: 600;
+            line-height: 19.6px;
+            color: #1f5b7d; } }
+        @media (max-width: 991px) {
+          .mytraining-container .courses-container .course-subcategories-container .course-subcategory .subcategory-lists .subcategory-list h3 {
+            margin-bottom: 15px;
+            text-align: left; } }
+      .mytraining-container .courses-container .course-subcategories-container .course-subcategory .subcategory-lists .subcategory-list ul li {
+        margin-bottom: 20px;
+        margin-bottom: 10px; }
+        .mytraining-container .courses-container .course-subcategories-container .course-subcategory .subcategory-lists .subcategory-list ul li a {
+          display: block;
+          font-family: "Flaticon", sans-serif;
+          font-size: 16.59px;
+          font-weight: 400;
+          line-height: 18.2px;
+          color: #606163;
+          font-family: "Flaticon", sans-serif;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 16.8px;
+          color: #606163; }
+          .mytraining-container .courses-container .course-subcategories-container .course-subcategory .subcategory-lists .subcategory-list ul li a:before {
+            font-family: "Flaticon", sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 18.2px;
+            color: #6bb445;
+            font-family: "Flaticon", sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 16.8px;
+            color: #606163;
+            font-family: 'FontAwesome';
+            margin-right: 10px;
+            content: "\f101"; }
+            .mytraining-container .courses-container .course-subcategories-container .course-subcategory .subcategory-lists .subcategory-list ul li a:before:hover {
+              text-decoration: none; }
+          .mytraining-container .courses-container .course-subcategories-container .course-subcategory .subcategory-lists .subcategory-list ul li a .fa {
+            font-family: "Flaticon", sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 18.2px;
+            color: #6bb445;
+            font-family: "Flaticon", sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 16.8px;
+            color: #606163;
+            font-family: 'FontAwesome';
+            margin-right: 10px; }
+        .mytraining-container .courses-container .course-subcategories-container .course-subcategory .subcategory-lists .subcategory-list ul li:last-child {
+          margin-bottom: 0; }
+        @media (max-width: 1300px) {
+          .mytraining-container .courses-container .course-subcategories-container .course-subcategory .subcategory-lists .subcategory-list ul li {
+            margin-bottom: 10px; }
+            .mytraining-container .courses-container .course-subcategories-container .course-subcategory .subcategory-lists .subcategory-list ul li a {
+              font-family: "Flaticon", sans-serif;
+              font-size: 14px;
+              font-weight: 400;
+              line-height: 16.8px;
+              color: #606163; } }
+        @media (max-width: 480px) {
+          .mytraining-container .courses-container .course-subcategories-container .course-subcategory .subcategory-lists .subcategory-list ul li a {
+            font-family: "Flaticon", sans-serif;
+            font-size: 12.6px;
+            font-weight: 400;
+            line-height: 15.4px;
+            color: #606163; } }
+  @media (max-width: 991px) {
+    .mytraining-container {
+      padding: 50px 0; } }
+
+/* Overwriting styles */
+#bodyTable tr td {
+  padding: 0; }
+
+/*# sourceMappingURL=trainings.css.map */

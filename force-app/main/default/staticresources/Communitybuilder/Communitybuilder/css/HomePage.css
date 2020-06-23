@@ -1,0 +1,53 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* carousel css*/
+.glyphicon-chevron-left:before,.glyphicon-chevron-right:before{content:none;}
+.carousel-Title{ font-size: 100px;color: rgb(255, 255, 255);font-family: AkzidenzGroteskBE-MdCn;}
+.carousel-Title-sub-div, .one-click-div{margin-top:-25px;}
+.carousel-Title-sub{ font-size: 30px;color: rgb(255, 255, 255)}
+.carousel-top{top:20%;}
+.carousel-control.right,.carousel-control.left{ background-image:none;}
+.carousel-indicators .active{background-color: #fec681;}
+/* carousel css*/
+
+/* Section Css*/
+.feature_nav_bg{background: url("../Images/green-bg.jpg") no-repeat scroll 50% 100% / cover #262626;width: 100%; padding-bottom:75px;}
+.panel-div{margin-top: 100px;text-align: center;}
+.help-style{color: #fff;font-size: 24px;}
+.margin-btw-panel{margin-top:100px;color:#fff;}
+.span-main{text-transform:uppercase;font-size:24px;font-family:berthold_akzidenz_grotesk_bMd;}
+.span-description{font-size:17px;}
+.arrow-size{font-size:8px;}
+/* Section Css*/
+
+/* What's New Css*/
+.WhatNew_nav_bg{background: url("../Images/whtsnew.png") no-repeat scroll 50% 100% / cover #262626;width: 100%; padding: 240px 0 100px;}
+.span-sprint{font-size: 30px;color: rgb(96, 97, 99);font-family:berthold_akzidenz_grotesk_bMd; text-transform:uppercase;}
+.span-one-click {color: #1f5b7d;font-size: 100px;text-transform:uppercase;font-family:AkzidenzGroteskBE-MdCn;}
+.idea_nav_bg{background: url("../Images/ideas-bg.jpg") no-repeat scroll 50% 100% / cover #262626;width: 100%; padding:100px 0px;}
+/* What's New Css*/
+	
+/*Ideas Css*/	
+.white-line	{background: url("../Images/white.png") repeat-x; margin-top:12.5px;}
+.span-idea-cart{font-size:48px;color:#fff;font-family:AkzidenzGroteskBE-MdCn; text-transform:uppercase;}
+.span-idea-description{font-size:18px; color:#fff;}
+.deliver-idea{font-size:18px;text-transform:uppercase;color:#fff;font-family:berthold_akzidenz_grotesk_bMd;}
+.idea-date{color: #fff;font-size: 358px; font-family:AkzidenzGroteskBE-MdCn;}
+.customer-idea-div{margin-top:-115px;}
+/*Ideas Css*/
+
+/*Events Css*/
+.upcoming_nav_bg{background:#f2f2f3;width: 100%; padding:100px 0px;}
+.black-line	{background: url("../Images/grey.png") repeat-x; margin-top:12.5px;}
+.upcoming-span{font-size:17px;text-transform:uppercase;color:color: #666;font-family:berthold_akzidenz_grotesk_bMd;}
+.event-title{font-size:18px;font-family:berthold_akzidenz_grotesk_bMd;color:#1f5b7d;}
+.event-venue-date{font-size:18px;color:#666;}
+.event-div{margin: 70px 0 100px;}
+/*Events Css*/
+
+/*Discussion style*/
+.recent-dsc-div{width: 19%;}
+.black-recent-div{width: 39%;}
+.discussion-div{margin: 70px 0 15px;}
+/*Discussion style*/

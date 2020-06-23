@@ -1,0 +1,244 @@
+@media only screen and (min-width: 320px) and (max-width: 767px){
+            body .x-btn-pressed, body .x-btn-click, body .x-btn-menu-active, body button:active, body .btn:active, body .btnPressed, body .btnCancel:active, body .menuButton .menuButtonButton:active {
+                border-color: none;
+            }
+            .navbar-toggle .icon-bar {
+                border: 2px solid #818181;
+                width: 28px;
+            }
+            .menu-position {
+                position: absolute;
+                right: 0;
+            }
+            .nav-main {
+                position: relative;
+                width: 200%;
+                bottom: 5px;
+            }
+            .pointerCursor {
+                padding: 0 25px;
+            }
+            .lixsCss {
+                border-bottom: 1px solid #ccc;
+                padding: 15px 0;
+            }
+            .lixsCss:hover {
+                background-color: #6bb445;
+                
+            }
+            .lixsCss:hover .pointerCursor, .lixsCss:hover >a ,.lixsCss:hover div.collapse_icon{
+                color:#fff;
+            }
+            .lixsCss:last-child {
+                border-bottom: none;
+            }
+            .lixsCss > a:hover,.lixsCss > a,.lixsCss >div> a:hover, .lixsCss >div> a  {
+                text-decoration:  none;
+            }
+            .list-horizontal > ul > li {
+                display: block;
+                float:none;
+            }
+            .list-horizontal > ul {
+                position: relative;
+                z-index: 99;
+                background-color: #fff;
+                border:1px solid #eee;
+            }
+            a.Apttuslogolink {
+                display:block;
+                margin-left: 10%;
+            }
+            ul.sub_list{
+                border-bottom : 1px solid #ccc;
+            }
+            ul.sub_list > li > a{
+                color: #606163;
+                font-size: 16px;
+                text-decoration: none;
+            }
+            ul.sub_list > li{
+                padding: 15px 45px;
+                list-style-type: none;
+            }
+            .nomargin{
+                margin:0px;
+            }
+            .navbar-collapse.in {
+                overflow-y: unset;
+            }
+            li.lixsCss.collapsed div.collapse_icon span.expand_in{
+                display:inline;
+            }
+            li.lixsCss.collapsed div.collapse_icon span.expand_out{
+                display:none;
+            }
+            li.lixsCss div.collapse_icon span.expand_in{
+                display:none;
+            }
+            li.lixsCss div.collapse_icon span.expand_out{
+                display:inline;
+            }
+            .glyphicon {
+                text-align: center;
+                margin: 0 6px;
+            }
+            a:focus{
+                outline:none;
+            }
+            .navbar-toggle {
+                border: medium none;
+            }
+        }
+        @media only screen and (min-width: 481px) and (max-width: 767px){
+            .navbar-toggle {
+                margin-top: 2px;
+            }
+            .bg-nav-main {
+                padding: 15px 0;
+            }
+            .nav-main {
+                 top: 7px;
+            }
+            .username-style {
+                font-size: 14px;
+                cursor:pointer;
+            }
+            img.user_image{
+                width:21px;
+            }
+            img.comment_image{
+                width:21px;
+            }
+            .margin-btw-span-header {
+                margin-left: 10%;
+            }
+            .bg-nav-meta {
+                line-height: 15px;
+                padding: 4px 0;
+            }
+        }
+        @media only screen and (min-width: 320px) and (max-width: 480px){
+            .username-style {
+                font-size: 10px;
+                cursor:pointer;
+            }
+            img.user_image{
+                width:16px;
+            }
+            img.comment_image{
+                width:15px;
+            }
+            .margin-btw-span-header {
+                margin-left: 6%;
+            }
+            .bg-nav-meta {
+                line-height: 14px;
+                padding: 3px 0;
+            }
+            .bg-nav-main {
+                padding: 10px 0;
+            }
+            .ApttusLogoxs {
+                width: 100px;
+            }
+            .navbar-toggle .icon-bar {
+                width: 25px;
+            }
+            .navbar-toggle {
+               margin-right: 12px;
+               margin-top: -3px;
+            }
+        }
+@media (min-width: 320px) and (max-width: 767px) {
+          .menu-position {
+            position: absolute !important;
+          }
+          .hidden-custom-xs {
+            display: none !important;
+          }
+          .visible-custom-xs{
+            display: inline !important;
+          }
+        }
+
+
+/*Footer css*/        
+
+@media only screen and (min-width: 320px) and (max-width: 480px){
+            .footer_adjust {
+                margin-left: 32%;
+            }
+        }
+        @media only screen and (min-width: 481px) and (max-width: 767px){
+            .footer_adjust {
+                margin-left: 38%;
+            }
+        }
+        @media only screen and (min-width: 320px) and (max-width: 767px){
+            .footer_nav_bg {
+                            padding: 30px 0 10px;
+                        }
+             .footer-menu-header,.footer-menu-child {
+                  font-size: 14px;
+              }
+        }
+
+/*Modal site login*/        
+
+ @media only screen and (min-width : 320px) and (max-width : 767px){
+       .apttus-login .custum-modal-body {
+            padding: 20px;
+        }
+        .modal-dialog {
+            width: 90%;
+        }
+        .modal-dialog {
+            margin: 5%;
+        }
+        .modal-header {
+            min-height: 16.4286px;
+        }
+        .apttus-login .modal-header a img {
+            right: -20px;
+            top: -22px;
+            width: 28px;
+        }
+        .apttus-login .custom-modal-content{
+            padding: 0px;
+             border: 10px solid #6bb445 ;
+        }
+        .login-fp-description {
+            display: inline;
+            font-size: 16px;
+        }
+        .login-description-div {
+            margin-top: 0;
+        }
+        .btn-custom {
+            width: 100%;
+            font-weight: normal !important;
+            border-radius: 0px !important;
+            font-size: 14px !important;
+        }
+        .remeber-span {
+            font-size: 14px;
+            }
+        .apttus-login .forgot-anchor {
+            font-size: 14px;
+        }  
+   }
+     @media only screen and (min-width : 320px) and (max-width : 480px){
+            .btn-custom {
+                padding: 7px 14px !important;
+            }
+            .login-signin {
+                font-size: 24px;
+            }
+     }
+     @media only screen and (min-width : 481px) and (max-width : 767px){
+            .login-signin {
+                font-size: 30px;
+            }
+     }
+     

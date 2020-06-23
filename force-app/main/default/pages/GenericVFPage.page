@@ -1,0 +1,147 @@
+<apex:page controller="JiraIssueListGenericController" language="{!lang}"> 
+    
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, 'Communitybuilder/js/JQ.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/JiraIssueList.js')}"/>
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/JiraIssueList.css')}"/>
+    <apex:includeScript value="/support/console/42.0/integration.js"/>
+    <style>
+        .EditLink{
+        cursor:pointer;
+        }
+        .EditLink:hover {
+        text-decoration: underline;
+        }
+        
+    </style>
+    
+    <script>
+    function OpenJira(IssueId,JiraKey,genericObjectID){
+        
+        
+        var tokenvar='{!token}';
+        var openSubtab = function openSubtab(result) {   
+            //NameSpace removed  Grz_Sf__ViewJira to ViewJira
+            sforce.console.openSubtab(result.id, '/apex/ViewJira?jirakey='+JiraKey+'&genericObjectID='+genericObjectID+'&id='+IssueId, true, 'JiraIssue '+JiraKey);
+        };
+        if (sforce.console.isInConsole()) {             
+            
+            sforce.console.getEnclosingPrimaryTabId(openSubtab);
+        }else{
+            //NameSpace removed  Grz_Sf__ViewJira to ViewJira
+            if('{!token}'==tokenvar) 
+                window.open('/apex/ViewJira?jirakey='+JiraKey+'&genericObjectID='+genericObjectID+'&id='+IssueId,'_blank');
+        }
+    }
+    
+    function theredirect(issueId,genericObjectID){ 
+        var OpenSubtab = function OpenSubtab(result) {
+        //NameSpace removed  Grz_Sf__EditAddJiraIssue to EditAddJiraIssue
+ sforce.console.openSubtab(result.id, '/apex/EditAddJiraIssue?id='+issueId+'&mode=link&genericObjectID='+genericObjectID, true, 'JiraIssueEdit');
+        }
+        if (sforce.console.isInConsole()) {             
+            sforce.console.getEnclosingPrimaryTabId(OpenSubtab);
+        }else{
+            //NameSpace removed  Grz_Sf__EditAddJiraIssue to EditAddJiraIssue
+            window.open('/apex/EditAddJiraIssue?id='+issueId+'&mode=link&genericObjectID='+genericObjectID,'_blank');
+        }
+        
+        
+    } 
+    window.onload=func1;
+    function func1(){
+        var a = document.getElementsByClassName("unlinkbtn");
+        a[0].disabled = true;
+        a[0].classList.add("btnDisabled");
+        a[0].classList.remove("btn");
+    }
+    function checkDisable(){
+        var btnattr = document.getElementsByClassName("checkIssues");
+        var a = document.getElementsByClassName("unlinkbtn");
+        for (var i=0; i<btnattr.length; i++) {
+            if(btnattr[i].checked == true){
+                a[0].disabled = false;
+                a[0].classList.remove("btnDisabled");
+                a[0].classList.add("btn");
+                break;
+            }else{
+                a[0].disabled = true;
+                a[0].classList.add("btnDisabled");
+                a[0].classList.remove("btn");
+            }
+        }
+    }
+    function allJiraIssues(checkedbox){
+        var btnattr = document.getElementsByClassName("checkIssues");
+        var a = document.getElementsByClassName("unlinkbtn");
+        for (var i=0; i<btnattr.length; i++) {
+            if(checkedbox.checked==true){
+                btnattr[i].checked = true;
+                a[0].disabled = false;
+                a[0].classList.remove("btnDisabled");
+                a[0].classList.add("btn");
+            }
+            else{
+                btnattr[i].checked = false;
+                a[0].disabled = true;
+                a[0].classList.add("btnDisabled");
+                a[0].classList.remove("btn");
+            }
+        }
+    }
+    </script>
+    
+    <apex:form id="issueList">
+        <apex:outputPanel rendered="{!jiraIssuesList.size==0}">
+            {!$Label.ErrorMsg_Label2}
+        </apex:outputPanel>
+        
+        <apex:outputText value="{!$Label.GenericVFPage_Label2}" rendered="{!(objectMappingexist==NULL || objectMappingexist==0)}"/>
+        
+        <apex:outputPanel rendered="{!AND(jiraIssuesList.size>0 && objectMappingexist >0) }" layout="block" styleclass="text-center">
+            
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 linecolor nopad" style="margin-top:10px;padding-top:5px;">
+                <div style="float:left;margin: 3px 0 0 1px;">
+                    <h3> {!$Label.RelatedJiraIssueList_Label}</h3> 
+                </div>
+                <div style="text-align:center;">
+                    <apex:commandButton styleClass="unlinkbtn" id="unlink" value="{!$Label.Unlink_Label}" action="{!unlinkIssues}" reRender="issueList" oncomplete="window.top.location='/{!genericObjectID}'; return false"/>
+                </div>
+                <apex:outputPanel id="jira_issue_list">
+                    
+                    <table border="0" cellspacing="0" cellpadding="0" style="width:100%;margin-top:5px;">
+                        <tr class="x-grid3-hd-row">
+                            <th class="Tableheader"><apex:outputPanel rendered="{!jiraIssuesList.size!=0}"><input id='one' type="checkbox" onChange="allJiraIssues(this);"/></apex:outputPanel></th>
+                            <th class="Tableheader">{!$Label.JiraIssueKey_Label}</th> 
+                            <th class="Tableheader">{!$Label.ViewinJira_Label}</th>  
+                            <th class="Tableheader">{!$Label.Priority_Label}</th>
+                            <th class="Tableheader"> {!$Label.FIxVersions_Label}</th>
+                            <th class="Tableheader"> {!$Label.Resolution_Label}</th>
+                            <th class="Tableheader">{!$Label.IssueStatus_Label}</th>
+                            <th class="Tableheader">{!$Label.Assignee_Label}</th>
+                            <th class="Tableheader">{!$Label.Action_Label}</th>  
+                        </tr>
+                        <apex:repeat value="{!jiraIssuesList}"  var="issue" >
+                            <div class="bordered">
+                                <tr class="">
+                                    <td class="tablerows"><apex:inputCheckbox value="{!issue.selected}" styleClass="checkIssues" onClick="checkDisable();"/></td>
+                                    <td class="tablerows">
+                                        <a href="javascript:void(0)"   onclick="OpenJira('{!JSINHTMLENCODE(issue.jiraIssueRel.JiraIssue__r.Id)}','{!JSINHTMLENCODE(issue.jiraIssueRel.JiraIssue__r.IssueKey__c)}','{!JSINHTMLENCODE(genericObjectID)}')">{!HTMLENCODE(issue.jiraIssueRel.JiraIssue__r.IssueKey__c)}</a>
+                                    </td>
+                                    <td class="tablerows"> <a target="_Blank" href="{!HTMLENCODE(issue.jiraIssueRel.JiraIssue__r.Jira_Link__c)}">{!$Label.View_Label}</a></td>
+                                    <td class="tablerows">{!HTMLENCODE(issue.jiraIssueRel.JiraIssue__r.Priority__c)}</td>
+                                    <td class="tablerows">{!HTMLENCODE(issue.fixVersion)}</td>
+                                    <td class="tablerows">{!HTMLENCODE(issue.resolution)}</td>
+                                    <td class="tablerows">{!HTMLENCODE(issue.jiraIssueRel.JiraIssue__r.Status__c)}</td>
+                                    <td class="tablerows">{!HTMLENCODE(issue.jiraIssueRel.JiraIssue__r.Assignee__c)}</td>
+                                    <td class="tablerows"><span class="EditLink" onClick="theredirect('{!JSINHTMLENCODE(issue.jiraIssueRel.JiraIssue__r.Id)}','{!JSINHTMLENCODE(genericObjectID)}');">{!$Label.Edit_Label}</span></td>
+                                </tr>
+                            </div>
+                        </apex:repeat>
+                    </table>
+                    
+                </apex:outputPanel>
+            </div>
+        </apex:outputPanel>
+    </apex:form>
+    
+</apex:page>

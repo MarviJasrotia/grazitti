@@ -1,0 +1,41 @@
+.child {
+display: none;
+}
+.parent {
+cursor: pointer;
+}
+.arrow-right {
+width: 0;
+height: 0;
+top: 7px;
+border-top: 10px solid transparent;
+border-bottom: 10px solid transparent;
+position: absolute;
+border-left: 6px solid #fff;
+}
+.arrow-down {
+width: 0;
+height: 0;
+top: 16px;
+left: 6px;
+border-left: 10px solid transparent;
+border-right: 10px solid transparent;
+position: absolute;
+border-top: 6px solid #fff;
+}
+.parentleft {
+cursor: pointer;
+}
+.hoverMsg{  
+display: block;
+position: absolute;
+top: -65px;
+left: -80px;
+background: #fff;
+width: 170px;
+border-radius: 4px;
+padding: 5px;
+text-align: center;
+color: black;
+border: 1px solid #DDDDDD;
+}

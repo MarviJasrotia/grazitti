@@ -1,0 +1,251 @@
+<aura:component controller="SearchJiraComponentController"  implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global">
+    <aura:attribute name="language" type="string" default="de" />
+ 
+	<aura:registerEvent name="appEvent" type="c:RefreshJiraRelatedListEvent"/>
+    <aura:attribute name="searchtxt" type="String"/>
+    <aura:attribute name="prjctvalues" type="List"/>
+    <aura:attribute name="prjctvaluesMap" type="map"/>
+    <aura:attribute name="srchvalues" type="List"/>
+    <aura:attribute name="mycolumns" type="List"/>
+    <aura:attribute name="PageNumber" type="integer" default="1"/>
+    <aura:attribute name="TotalPages" type="integer" default="0"/>
+    <aura:attribute name="Selectedissues" type="String[]"/>
+    <aura:attribute name="indexvalue" type="integer" default="0"/>
+    <aura:attribute name="ProjectAndIssueTypeMap" type="map"  />
+    <aura:attribute name="Selectedprjcts" type="String[]"/>   
+    <aura:attribute name="Likedisable" type="Boolean" default="false" />
+    <aura:attribute name="prevdisable" type="Boolean" default="false" />
+    <aura:attribute name="showplus" type="String" />
+    <aura:attribute name="showminus" type="String" />
+    <aura:attribute name="showIssues" type="List" />
+    <aura:attribute name="hideIssues" type="List" />
+    <aura:attribute name="sortedBy" type="String" default="Name"/>
+    <aura:attribute name="sortedDirection" type="String" default="asc"/>
+    <aura:attribute name="showsearch" type="Boolean" default="true" />
+    <aura:attribute name="recordId" type="ID"/>
+    <aura:attribute name="row" type="string"/>
+    <aura:attribute name="lastprojectSelected" type="String"/>
+    <aura:attribute name="projectName" type="String"/>
+    <aura:attribute name="IssueType" type="List"/>
+    <aura:attribute name="Component" type="List"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="NoRecordfound" type="String" default=''/>
+    <aura:attribute name="pageReference" type="Object"/>
+    <aura:attribute name="showprojects" type="Boolean" default="true" />
+    <aura:attribute name="showcomponents" type="Boolean" default="false" />
+   
+    <lightning:navigation aura:id="navService"/>
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <lightning:workspaceAPI aura:id="workspace" />
+    <div style="display:block;background:white;">
+        <div class="">
+            <aura:if isTrue="{!v.isModalOpen}">
+                <!-- Modal/Popup Box starts here-->
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <!-- Modal/Popup Box Header Starts here-->
+                        <header class="slds-modal__header">
+                            <lightning:buttonIcon iconName="utility:close"
+                                                  onclick="{! c.closeModel }"
+                                                  alternativeText="{!$Label.c.SearchJiraIssueCmp_Label1}"
+                                                  variant="bare-inverse"
+                                                  class="slds-modal__close"/>
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!$Label.c.SearchJiraIssueCmp_Label2}</h2>
+                        </header>
+                        <!--Modal/Popup Box Body Starts here-->
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            {!v.showError}
+                        </div>
+                        <!--Modal/Popup Box Footer Starts here-->
+                        <footer class="slds-modal__footer">
+                            <lightning:button variant="brand"
+                                              label="{!$Label.c.OK_Label}"
+                                              title="{!$Label.c.OK_Label}"
+                                              onclick="{!c.closeModel}"/> 
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </aura:if>
+        </div>
+        
+        
+        <lightning:layout horizontalAlign="center" verticalAlign="end" >
+            <lightning:layoutItem padding="around-small" size="5" flexibility="auto">
+                <span onkeypress="{!c.keyCheck}">
+                    <lightning:input name="txt" value="{!v.searchtxt}"/>
+                </span>
+            </lightning:layoutItem> 
+            <lightning:layoutItem padding="around-small" flexibility="auto">
+                <lightning:button variant="brand" label="{!$Label.c.Search_Label}" title="{!$Label.c.Search_Label}" onclick="{!c.searchreqtojira}" />
+            </lightning:layoutItem>
+            
+        </lightning:layout >
+        
+        <lightning:layoutItem padding="around-small" class="left-align">
+            
+            <div style="width: 20%;display:inline-block;vertical-align: top;max-width: 300px;">
+                <div class=" Heading">{!$Label.c.SearchJiraIssueCmp_Label5}</div>
+                <div class="slds-float_left">
+                    <!-- <a onclick="{!c.showall}" style="width:100%;" >Expand All</a>-->
+                </div>
+                <lightning:layoutItem padding="around-small" flexibility="auto">
+                    <div class="inner-box">
+                        <aura:if isTrue="{!v.showprojects}">
+                            <lightning:spinner aura:id="mySpinner1" alternativeText="{!$Label.c.Processing_Label}" title="{!$Label.c.Processing_Label}" variant="brand" size="small" class="slds-show"/>
+                        </aura:if>
+                    </div>
+                </lightning:layoutItem> 
+                <!--Scrollable content here -->
+                <ui:scrollerWrapper class="scrollerSize">
+                    <div class="slds-scrollable" style="max-height: 400px;">
+                        
+                        <aura:iteration items="{!v.prjctvalues}" var="prj">
+                            <div style="position: relative;">
+                                
+                                <aura:if isTrue="{!prj.fetchedcomponent}">
+                                    <div class="outer-div">
+                                        <lightning:spinner aura:id="mySpinner2" alternativeText="{!$Label.c.Processing_Label}" title="{!$Label.c.Processing_Label}" variant="brand" size="small" class="slds-show"/>
+                                    </div>
+                                </aura:if>
+                                
+                                <section class="slds-clearfix">
+                                    
+                                    <input id="{!prj.label+'_radio'}" type="radio" value="{!prj.label}" name="projectRadio" text="{!prj.label}"  onclick="{!c.addProject}"/>
+                                    <label class="slds-radio__label" >
+                                        <span class="slds-radio_faux"></span>
+                                        <span class="slds-form-element__label">{!prj.label}</span>
+                                    </label>
+                                    
+                                    <div class="slds-float--right"> 
+                                        <div id="{!prj.label+'_plus'}" onclick="{!c.showIssueSection}">
+                                            <lightning:buttonIcon class="buttonIcon " value="{!prj.label}" iconName="utility:add" size="x-small" alternativeText="{!$Label.c.SearchJiraIssueCmp_Label7}" />
+                                        </div>
+                                        <div id="{!prj.label+'_minus'}" class="hide" onclick="{!c.hideIssueSection}">
+                                            <lightning:buttonIcon class="buttonIcon " value="{!prj.label}" iconName="utility:dash" size="x-small" alternativeText="{!$Label.c.SearchJiraIssueCmp_Label8}" />
+                                        </div>
+                                    </div>
+                                    
+                                </section>
+                                
+                                <div class="issuetypecontainer hide "  id="{!prj.label+'_issuediv'}"  >
+                                    <p> {!$Label.c.SearchJiraIssueCmp_Label9}</p>
+                                    <aura:iteration items="{!prj.items}" var="iss">
+                                        <label class="slds-checkbox" >
+                                            <ui:inputCheckbox aura:id="IssueTypecheckbox" name="{!prj.label+'_'+iss.label}" text="{!prj.label+'_'+iss.label}"  change="{!c.addIssueType}"/>
+                                            <span class="slds-checkbox--faux" />
+                                            <span class="slds-form-element__label">{!iss.label}</span>
+                                        </label><br/>
+                                        
+                                    </aura:iteration>
+                                </div>
+                                
+                                <div class="Componentcontainer hide"  id="{!prj.label+'_componentdiv'}"  >
+                                    <div>
+                                        {!$Label.c.SearchJiraIssueCmp_Label10}
+                                        
+                                        <div style="display:inline-block;padding-left: 50px;" id="{!prj.label+'_Cplus'}" >
+                                            <lightning:buttonIcon class="buttonIcon "  value="{!prj.name}" onclick="{!c.fetchComponent}" iconName="utility:add" size="x-small" alternativeText="{!$Label.c.SearchJiraIssueCmp_Label11}" />
+                                        </div>
+                                        <div style="display:inline-block;padding-left: 0px;" id="{!prj.label+'_Cminus'}" class="hide" onclick="{!c.hideComponentSection}">
+                                            <lightning:buttonIcon class="buttonIcon " value="{!prj.label}" iconName="utility:dash" size="x-small" alternativeText="{!$Label.c.SearchJiraIssueCmp_Label12}" />
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                    <div class='hide cs' id="{!prj.label+'_component'}">
+                                        <aura:if isTrue="{!prj.component.length>0}">
+                                            <aura:iteration items="{!prj.component}" var="cmp" >
+                                                <label class="slds-checkbox" >
+                                                    <ui:inputCheckbox aura:id="checkbox2" name="{!prj.label+'_'+cmp.label}" text="{!prj.label+'_'+cmp.label}" change="{!c.addComponent}"/>
+                                                    <span class="slds-checkbox--faux" />
+                                                    <span class="slds-form-element__label">{!cmp.name}</span>
+                                                </label><br/>
+                                            </aura:iteration>
+                                            <aura:set attribute="else">
+                                                <aura:if isTrue="{!!prj.fetchedcomponent}">
+                                                    {!$Label.c.SearchJiraIssueCmp_Label13}
+                                                </aura:if>
+                                            </aura:set>
+                                        </aura:if>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                            
+                        </aura:iteration>
+                        
+                    </div>
+                </ui:scrollerWrapper>
+            </div> 
+            
+            <div style="width:80%;display:inline-block;">
+                <article class="slds-card slds-size_12-of-12 ">
+                    
+                    <lightning:layoutItem padding="around-small" flexibility="auto">
+                        <lightning:spinner aura:id="mySpinner" alternativeText="{!$Label.c.Processing_Label}" title="{!$Label.c.Processing_Label}" variant="brand" size="large" class="slds-hide"/>
+                    </lightning:layoutItem>
+                    
+                    <aura:renderIf isTrue="{!v.showsearch}">
+                        <div class="loading" >
+                        </div>
+                    </aura:renderIf>
+                    <aura:renderIf isTrue="{!v.NoRecordfound!=''}">
+                        <div class="slds-text-align_center slds-text-heading_large"  style="margin-top: 200px;">{!v.NoRecordfound}
+                        </div>
+                    </aura:renderIf>
+                    <aura:renderIf isTrue="{!v.srchvalues.length>0}">
+                        <header class="slds-card__header ">
+                            <div class="mybtn1 slds-p-bottom_xx-small">
+                                <lightning:layout class="slds-align_absolute-center">
+                                    <lightning:layoutItem padding="around-small">
+                                        <lightning:button disabled="{!v.prevdisable}" variant="brand" label="{!$Label.c.Previous_Label}" title="{!$Label.c.Previous_Label}" onclick="{!c.Previous}" />
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem padding="around-small">
+                                        <lightning:button disabled="{!v.Likedisable}" variant="brand" label="{!$Label.c.Next_Label}" title="{!$Label.c.Next_Label}" onclick="{!c.Next}" />
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </div>
+                        </header>
+                        
+                        <lightning:layoutItem padding="around-large" class="right-align">
+                            
+                            <div style="min-height:246px">
+                                
+                                <div class="slds-card__body">
+                                    
+                                    <lightning:datatable data="{! v.srchvalues }"
+                                                         columns="{! v.mycolumns }"
+                                                         keyField="id"
+                                                         aura:id="mydata"
+                                                         hideCheckboxColumn="true"
+                                                         onsort="{!c.updateColumnSorting}"
+                                                         sortedBy="{!v.sortedBy}"  
+                                                         sortedDirection="{!v.sortedDirection}"
+                                                         onrowaction="{! c.handleRowAction }" />
+                                    
+                                </div>
+                                <footer class="slds-card__footer">
+                                    <div class="mybtn">
+                                        <lightning:layout class="slds-align_absolute-center">
+                                            <lightning:layoutItem padding="around-small">
+                                                <lightning:button disabled="{!v.prevdisable}" variant="brand" aura:id="prevPage"  label="{!$Label.c.Previous_Label}"  onclick="{!c.Previous}" />
+                                            </lightning:layoutItem>
+                                            <lightning:layoutItem padding="around-small">
+                                                <lightning:button disabled="{!v.Likedisable}" aura:id="nextPage" variant="brand"  label="{!$Label.c.Next_Label}" onclick="{!c.Next}" />
+                                            </lightning:layoutItem>
+                                        </lightning:layout>
+                                    </div>
+                                </footer>
+                            </div>
+                        </lightning:layoutItem>
+                        
+                    </aura:renderIf>
+                    
+                </article>
+            </div>
+        </lightning:layoutItem>
+        
+    </div> 
+</aura:component>

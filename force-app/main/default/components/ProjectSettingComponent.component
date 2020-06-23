@@ -1,0 +1,360 @@
+<!-- Parent Page Adminsetting.vfp -->
+<!-- Parent Controller AdminSettingController EXTENSION RuleSetFlowComponentController-->
+<apex:component allowDML="true" controller="ProjectSettingController" >
+     <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery-ui.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/unblockUI.js')}"/>
+    <script>
+    function fieldtab(){
+        
+        document.getElementById('next').click();
+        stopProcessing();
+        switchtab('Fields');
+    }
+    function Projecttab(){
+        
+       
+        stopProcessing();
+        switchtab('Project');
+    }
+    
+    
+    function showProcessing(){
+        
+        jQuery.blockUI({
+            css: {
+                padding: '5px'
+            },
+            message: '{!JSENCODE($Label.PleaseWait_Label)}<img src="/img/loading.gif" />'
+            
+        });
+        
+        
+    }
+    function stopProcessing(){
+        jQuery.unblockUI();
+        
+    }
+    function selectPermission(action,id){
+        //var read='read_'+id;
+        var sync='sync_'+id;
+        var write='write_'+id;
+        
+        var synce=document.getElementById(sync);
+        //    var reade=document.getElementById(read);
+        var writee=document.getElementById(write);
+        
+        if(action=='sync'){
+            if(synce.childNodes[0].checked){
+                //   reade.childNodes[0].checked=true;
+            }else{
+                //  reade.childNodes[0].checked=false; 
+                writee.childNodes[0].checked=false; 
+            }
+        }
+        /*if(action=='read'){
+            if(reade.childNodes[0].checked){
+                synce.childNodes[0].checked=true;
+            }else{
+                writee.childNodes[0].checked=false;
+            }
+        }*/
+        if(action=='write'){
+            if(writee.childNodes[0].checked){
+                // reade.childNodes[0].checked=true;
+                synce.childNodes[0].checked=true;
+            }
+        }
+        
+    }
+    
+    function showIssueList(divid){
+        
+        //$('#'+divid).css('display','Block');
+        
+        var divLength = document.getElementsByClassName('Issuedivholder').length;
+        for(var i=1; i<=divLength ; i++){
+            if('pro_req_'+i == divid){
+                $('#'+divid).css('display','Block');
+            }else{
+                $('#pro_req_'+i).css('display','None');
+            }
+            
+        }
+        
+    }
+    
+    $(document).on('click', function(evt) {
+        if(!evt.target.classList.contains('Issuedivholder') &&  !evt.target.classList.contains('issueitem') &&  !evt.target.classList.contains('plusissue') && !evt.target.classList.contains('issuespan')){
+            $('.Issuedivholder').css('display','none'); 
+        }
+    });
+    
+    function addIssue(val ,issuename,inputid,inputidhidden){
+        var data= document.getElementById(inputidhidden).value;
+        data=data.replace('[]','');
+        
+        if(data.includes(issuename)){
+            data=data.replace(issuename,'');
+            val.classList.remove('Issuecolorfill');
+        }else{
+            data=data+','+issuename;
+            val.classList.add('Issuecolorfill');
+            
+        }
+        if(data.includes(',,')){
+            data= data.replace(',,',',');
+        }
+        if(data.slice(-1)==','){
+            data=data.slice(0, -1);
+        }
+        
+        if(data.slice(0,1)==','){
+            data=data.slice(1);
+        }
+     
+        document.getElementById(inputid).value=data;
+        document.getElementById(inputid).title=data;
+        document.getElementById(inputidhidden).value=data;
+    }
+    
+    function UpdateIssuewithdefault(box,data,inputdata,inputhiddendata){
+      
+       var boxid= document.getElementById(box+'_'+data);
+          boxid.classList.add('Issuecolorfill');
+        var Hiddendata= document.getElementById(inputhiddendata).value;
+        Hiddendata=Hiddendata.replace('[]','');
+        if(Hiddendata.includes(data)){
+            
+        }else{
+            if(Hiddendata==''){
+                document.getElementById(inputhiddendata).value=data
+                document.getElementById(inputdata).value=data
+            }else{
+                
+                document.getElementById(inputhiddendata).value=Hiddendata+','+data;
+                document.getElementById(inputdata).value=Hiddendata+','+data;
+            }
+        }
+       
+    }
+    
+    </script>
+    
+    
+    <style>
+        .Issuecolorfill{
+        background-color: #0676b8;
+        color: white !important;
+        }
+        .projectrow{
+        border-top: 1px solid #e3deb8;
+        padding: 2px 0 3px 10px;
+        }
+        .borderLeftRight{
+        border-left:1px solid black;
+        border-right:1px solid black;
+        }
+        .chkbox{
+        text-align:center;
+        }
+        .plusissue{
+        margin: 0 0 0 7px;
+        height: 18px;
+        width: 18px;
+        float: left;
+        background-position-y: 0;
+        background-image: url(/resource/Grz_Sf__SFDCJiraConnector/SFDCJiraConnector/images/add-new-btn-sprite.png);
+        background-repeat: no-repeat;
+        background-size: 18px;
+        }
+        .Issuedivholder{
+        display: none;
+        z-index: 99;
+        background-color: #e4e4e4;
+        position: absolute;
+        top: 20px;
+        left: 50px;
+        border: 1px solid #e4e4e4;
+        max-height: 100px;
+        max-width: 350px;
+        padding: 10px;
+        overflow: auto;
+        box-shadow: 3px 3px #ccc9c9;
+        }
+        
+        .Issuedivholder::-webkit-scrollbar {
+        width: 5px;
+        background: #f9f9f9;
+        }
+        .Issuedivholder::-webkit-scrollbar-thumb{
+        background: #0676b8;
+        border-radius: 5px;
+        }
+        
+        .issuespan{
+        float: left;
+        padding: 2px 10px;
+        font-size: 14px;
+        color: black;
+        cursor:pointer;
+        margin: 2px;
+        border: 1px solid #0676b8;
+        }
+        
+        .issuespan:hover{background-color: #005282;color:white}
+        
+    </style>
+    
+    <apex:outputPanel id="JobCheck">
+        <script>
+        function checkforasyncProjectdone(){
+            
+            if('{!AllJobCompleted}'=='true'){
+                stopProcessing();
+            }else{
+                setTimeout( AsyncDoneProject(), 5000);
+                
+            }
+            
+            /**/
+            
+        }
+        </script>
+        
+    </apex:outputPanel>
+    <apex:actionFunction action="{!AsyncJobDone}" reRender="JobCheck" status="status"  name="AsyncDoneProject" oncomplete="checkforasyncProjectdone()" >
+        <apex:param name="jobname" value="CreateJsonForProjects" assignTo="{!jobname}" />
+    </apex:actionFunction>
+    <apex:actionFunction name="OpenProjectTab" action="{!onProjectLoad}" reRender="onloadscript,projectCol" oncomplete="Projecttab();" status="status" />
+
+
+    
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  nopad" style="background-color:#F9F9F9;font-family: 'Open Sans', sans-serif;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad" style="border-bottom: 1px solid #cccccc;margin-bottom: 20px;"><label style="font-size:20px;font-family: 'Open Sans', sans-serif;  color: #000000;margin-top: 16px;margin-bottom: 16px;">{!$Label.Projects_Label}</label></div>
+        <div class="tab-content col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="">
+            <apex:outputPanel id="projectCol" >
+                <div style="color:red;font-size:18px">
+                    <apex:messages />
+                    
+                </div>
+                
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nopad">
+                    <label style=" {!if(projectsList.size>0,'','display:none;')} font-family: 'Open Sans', sans-serif;font-size: 15px;">{!$Label.ProjectSettingComponent_Label3}</label>
+                    <label style=" {!if(projectsList.size=0,'','display:none;')} font-family: 'Open Sans', sans-serif;font-size: 15px;">{!$Label.ProjectSettingComponent_Label4} </label>
+                    
+                </div>
+                <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12  nopad" style="margin-bottom: 30px;font-size: 12px; font-weight: bold;font-family: Arial,Helvetica,sans-serif;">
+                    
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 borderLeftRight projectrow" style=" border-top:1px solid black; {!if(projectsList.size>0,'','display:none;')} background-color: #8e9dbe;padding: 2px 0 2px 2px;font-weight: 600;">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4  ">{!$Label.ProjectSettingComponent_Label5}</div> 
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 nopad chkbox">{!$Label.ProjectSettingComponent_Label6}</div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 nopad chkbox">{!$Label.ProjectSettingComponent_Label7}</div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2  " style="padding-left:45px;" >{!$Label.ProjectSettingComponent_Label8}</div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3  " style="padding-left:45px;" >{!$Label.ProjectSettingComponent_Label9}</div>
+                    </div> 
+                    
+                    <apex:variable value="{!1}" var="count" />
+                    <apex:repeat value="{!projectsList}"  var="project" >
+                        
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 borderLeftRight projectrow " style="{!if(projectsList.size-count==0,'border-bottom:1px solid black;','')}" >
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4  nopad">{!project.project.Name}</div>
+                            <div id="sync_{!project.project.projectkey__c}" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 nopad chkbox">
+                                <apex:inputCheckbox value="{!project.selected}" onclick="selectPermission('sync','{!JSINHTMLENCODE(project.project.ProjectKey__c)}')"  >
+                                </apex:inputCheckbox>
+                            </div>
+                            <!-- <div id="read_{!project.project.projectkey__c}" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 nopad chkbox">
+<apex:inputCheckbox value="{!project.project.Read__c}" onclick="selectPermission('read','{!JSINHTMLENCODE(project.project.ProjectKey__c)}')" >
+</apex:inputCheckbox>
+</div>-->
+                            <div id="write_{!project.project.projectkey__c}" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 nopad chkbox"> 
+                                <apex:inputCheckbox value="{!project.project.Write__c}" >
+                                    <apex:actionSupport event="onclick" action="{!updateProjectOptions}" onsubmit="selectPermission('write','{!project.project.ProjectKey__c}')" reRender="defaultproject" />
+                                </apex:inputCheckbox>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 nopad nopad"> 
+                                <apex:selectList value="{!project.project.DefaultIssueType__c}"  size="1" multiselect="false" style="width: 120px; margin: 0 0 0 50px;">
+                                    <apex:actionSupport event="onchange" rerender="issuetypemainholder,issueInputhidden" oncomplete="UpdateIssuewithdefault('{!project.project.ProjectKey__c}','{!project.project.DefaultIssueType__c}','{!$Component.issueInput}','{!$Component.issueInputhidden}')"/>
+                                    <apex:selectOption itemValue="" itemLabel="{!$Label.NoneLabel}"/>
+                                    
+                                    <apex:selectOptions value="{!project.IssueSelectList}"></apex:selectOptions>
+                                    
+                                </apex:selectList>  
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3   nopad"> 
+                                
+                                
+                                <div id="pro_req_{!count}" class="Issuedivholder">
+                                    <apex:outputPanel id="issuetypemainholder">
+                                        <apex:repeat value="{!project.IssueStdList}" var="Issue">
+                                            <span id="{!project.project.projectkey__c+'_'+Issue}" class="issuespan {!if(contains(project.project.IssueType__c,Issue),'Issuecolorfill ' ,'')} {!if(contains(project.project.Subtask__c,Issue),'Issuecolorfill ' ,'')} " onclick="addIssue(this,'{!Issue}','{!$Component.issueInput}','{!$Component.issueInputhidden}')">
+                                                <div  class="issueitem" > {!Issue}
+                                                </div>
+                                            </span>
+                                        </apex:repeat>
+                                    </apex:outputPanel>
+                                </div>
+                                
+                                
+                                <apex:inputtext id="issueInput"  disabled="true"  style="width:70%;float: left;margin: 0 0 0 50px;background: white;height: 18px;border: 1px solid #a9a9a9;" /> 
+                                
+                                <apex:inputHidden id="issueInputhidden" value="{!project.SelectedIssues}"  />
+                                
+                                <span id="plus_proj_{!count}" onclick="showIssueList('pro_req_{!count}')" class="plusissue"></span>
+                                
+                                
+                            </div>
+                        </div>
+                        
+                        <apex:variable value="{!count+1}" var="count" />
+                        
+                    </apex:repeat>
+                    
+                    
+                    <apex:outputPanel id="defaultproject">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  SubheadingLeft fontsizer nopad">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad" style="font-family: 'Open Sans', sans-serif;margin-top: 10px;font-weight: bold;font-size: 15px;">{!$Label.ProjectSettingComponent_Label10}</div>
+                                <br/>
+                                <apex:selectList size="1" value="{!DefaultProject.Value__c}" style="height: 34px;width: 270px;margin-top: 10px;color: #85878c;font-size: 15px;padding: 6px 12px;line-height: 1.428571429;color: #555;border: 1px solid #ccc;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);" >
+                                    <apex:selectOption itemValue="" itemLabel="{!$Label.NoneLabel}"/>
+                                    <apex:selectOptions value="{!options}"  ></apex:selectOptions>
+                                </apex:selectList>
+                            </div>
+                        </div>
+                    </apex:outputPanel>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad " style="margin-top:20px;">
+                        <apex:commandButton rendered="{!!(null==projectsList || (null!=projectsList && projectsList.size==0))}"
+                                            styleClass="btn" style="background: #0577b5 !important;  font-family:'Myriad Pro'; font-size: 15px; margin-top:0px; font-weight:bold; color: #fff !important; border:1px solid #0577b5 !important; border-radius: 4px !important; margin-right: 20px; padding:6px 16px !important"
+                                            action="{!saveProjects}" rerender="onloadscript,newRuleSet,projectCol,leftpaneljq"
+                                            value="{!$Label.Save_Label}"  oncomplete="AsyncDoneProject()"/>
+                        <apex:outputPanel rendered="{!projectSuccess}">
+                            <a class="btn" data-toggle="tab"  onclick="getFieldData();"  status="status" 
+                               style="background: #0577b5 !important;  font-family:'Myriad Pro'; font-size: 15px; margin-top:0px; font-weight:bold; color: #fff !important; border:1px solid #0577b5 !important; border-radius: 4px !important; margin-right: 20px; padding:6px 16px !important">{!$Label.Next_Label}</a>
+                            
+                        </apex:outputPanel>
+                        <a href="#fields" data-toggle="tab" id='next'></a>
+                    </div>
+                </span>
+            </apex:outputPanel>   
+            <!--only load first time-->
+            <apex:outputPanel id="onloadscript" >   
+                
+                <script>
+                
+                var ee=document.querySelectorAll("[id$='issueInputhidden']");
+                for(var l=0;l<ee.length;l++){
+                    var d= ee[l].id.substring(0,ee[l].id.lastIndexOf(":")+1);
+                    var data=ee[l].value;
+                    var proid=d+'issueInput';
+                    
+                    document.getElementById(proid).value=data;
+                    document.getElementById(proid).title=data;
+                }
+                </script>
+            </apex:outputPanel>   
+            
+        </div>
+    </div>                            
+    
+</apex:component>

@@ -1,0 +1,227 @@
+		@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800');
+        .phHeaderCustomLogo #tsidButton {
+        background-color: #1797c0 !important;
+        }
+        
+        .tabs-left {
+        border-bottom: none;
+        padding-top: 2px;
+        }
+        .tabs-left {
+        border-right: 1px solid #ddd;
+        }
+        .tabs-left>li {
+        float: none;
+        margin-bottom: 2px;
+        }
+        .tabs-left>li {
+        margin-right: -1px;
+        }
+        .tabs-left>li.active>a,
+        .tabs-left>li.active>a:hover,
+        .tabs-left>li.active>a:focus {
+        border-bottom-color: #ddd;
+        border-right-color: transparent;
+        }
+        .tabs-left>li>a {
+        border-radius: 4px 0 0 4px;
+        margin-right: 0;
+        display: block;
+        }
+        .nopad {
+        padding: 0px !important;
+        }
+        .nav-tabs{
+        border:none;
+        }
+        .heading {
+        font-size: 22px;
+        font-family: arial;
+        margin-top: 25px;
+        margin-bottom: 5px;
+        color: #000;
+        }
+        .nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+        color: #fff;
+        cursor: default;
+        background-color: #0676B8;
+        }
+        .btn{
+        min-width: 60px;
+        font-family: 'proxima_nova_rgbold';
+        font-size: 16px;
+        color: #fff !important;
+        margin-right: 10px !important;
+        text-decoration: none;
+        border-radius: 2px;
+        line-height: 1.2;
+        background: #0676B8 !important;
+        border: 1px solid #027fbb;
+        padding: 8px 16px 8px 16px;
+        }
+        .cancelbtn {
+        min-width: 60px;
+        font-family: 'proxima_nova_rgbold';
+        font-size: 16px;
+        color: #fff !important;
+        margin-right: 10px !important;
+        text-decoration: none;
+        border-radius: 2px;
+        line-height: 1.2;
+        background: #8f8f8f !important;
+        border: 1px solid #027fbb;
+        padding: 8px 16px 8px 16px;
+        }
+        .nav-tabs>li>a:hover {
+        border-color: #eee #eee #ddd;
+        background:#0676B8;
+        color:#fff;
+        font-size: 16px;
+        font-family: 'Open Sans', sans-serif;"
+        font-weight:bold;
+        }
+        .nav-tabs>li>a {
+        margin-right: 2px;
+        background: #f0efef;
+        color:#0676B8;
+        text-decoration:none;
+        line-height: 1.01;
+        font-size: 16px;
+        font-family: 'Open Sans', sans-serif;"
+        font-weight:bold;
+        }
+        .tabs-left>li,.nav-tabs>li,.nav-tabs>ul>li{
+        margin-left: 0px !important;
+        }
+        .SubHeading {
+        font-size: 18px;
+        font-family: arial;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        color: #000;
+        }
+        .linecolor {
+        border-top: 2px solid #0676B8;
+        border-radius: 2px;
+        }
+        .backcolor {
+        background-color: #f8f8f8;
+        border-radius: 2px;
+        }
+        .SubheadingLeft {
+        margin-top: 11px;
+        }
+        .fontsizer {
+        font-size: 13px;
+        font-weight: 600;
+        }jiraFields
+        .homeTab .secondaryPalette, .individualPalette .homeBlock .secondaryPalette {
+        /* background-color: #cfeef8; */
+        border-color: #cfeef8;
+        border: none;
+        }
+        .borderstyling{
+        border-bottom:1px solid #eaeaea;
+        padding-bottom:10px;
+        }
+        .pbBody table.list tr.headerRow th {
+        color:#305CA7 !important;
+        border:none;
+        }
+        @media (min-width: 320px) and (max-width: 1024px){
+        .borderstyling{border-bottom:none !important;padding-bottom:0px;}
+        }
+        .picklistsize {
+        width: 280px;
+        }
+        .picklistsize1 {
+        width: 100%;
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555;
+        vertical-align: middle;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+        }
+        .bPageBlock{
+        border-top: 0px !important;
+        }
+        body .bPageBlock{
+        border:0px !important;
+        }
+        .apexp .bPageBlock.apexDefaultPageBlock .pbBody {
+        margin: 0px !important; 
+        }
+        tr.headerRow th {
+        background: #f2f3f3;
+        border-width: 0 0 1px 1px;
+        border-color: #e0e3e5;
+        color: #000;
+        font-size: .9em;
+        font-weight: bold;
+        padding: 5px 2px 4px 5px;
+        }
+        th {
+        color: #305CA7 !important;
+        border: none;
+        } 
+        .pbBody{
+        max-height:400px;
+        overflow-y:auto;
+        }   
+        .container {
+        width: 100%;
+        }
+        .addNewbtn{
+        color:black !important;
+        }
+        .addImage{
+        float:left;background-repeat:no-repeat;background-position:0 0;width:20px;height:20px;
+        }
+        .addImageFIelds{
+        float:left;background-repeat:no-repeat;background-position:0 0;width:20px;height:15px;
+        }
+        .addImageProjects{
+        float:left;background-repeat:no-repeat;background-position:0 0;width:20px;height:17px;
+        }
+        .activeTab:hover .addImage,.active .addImage,.activeTab:focus .addImage,li.active .activeTab:hover .addImage {
+        background-position: 0 -18px;
+        }
+        .activeTab:hover .project, .active .project, .activeTab:focus .project, li.active .activeTab:hover .project {
+        background-position: 0 -13px ;
+        }
+        .activeTab:hover .fields, .active .fields, .activeTab:focus .fields, li.active .activeTab:hover .fields{
+        background-position: 0 -15px ;
+        }
+        .activeTab:hover .rules, .active .rules, .activeTab:focus .rules, li.active .activeTab:hover .rules{
+        background-position: 0 -19px ;
+        }
+        .arrow-right1 {
+        width: 0; 
+        height: 0; 
+        border-top: 7px solid transparent;
+        border-bottom: 7px solid transparent;  
+        border-left: 7px solid black;
+        float:right;
+        margin-top: 14px;
+        display:none;
+        }
+        .arrow-right1:hover, arrow-right1:active {
+        width: 0; 
+        height: 0; 
+        border-top: 7px solid transparent;
+        border-bottom: 7px solid transparent;  
+        border-left: 7px solid black;
+        float:right;
+        margin-top: 14px;
+        display:block;
+        }
+    

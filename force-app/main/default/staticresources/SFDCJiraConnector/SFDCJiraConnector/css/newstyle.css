@@ -1,0 +1,655 @@
+.chattertool{
+display: inline-block;
+}
+.chattertool:hover .chattertooltip , .chattertool:hover .chatterpoint{
+visibility:visible;
+z-index:1;
+}
+.chattertool:hover .chatterpoint{
+visibility:visible;
+z-index:1;
+}
+.chattertooltip{
+visibility: hidden;
+position: absolute;
+width: 450px;
+top: 2px;
+left: 156px;
+padding: 0px;
+font-size: 12px;
+line-height: 20px;
+text-align: center;
+font-family: Open Sans;
+box-shadow: #3a3a42 5px 2px 12px 0;
+background-color: #000000;
+border-radius: 10px;
+color: white;
+}
+
+.chatterpoint{
+border: 8px solid;
+visibility: hidden;
+border-color: transparent #000000 transparent transparent;
+width: 0px;
+position: absolute;
+top: 4px;
+left: 144px;
+}
+
+.commenttool{
+display: inline-block;
+}
+.commenttool:hover .commenttooltip , .commenttool:hover .commentpoint{
+visibility:visible;
+z-index:1;
+}
+.commenttool:hover .commentpoint{
+visibility:visible;
+z-index:1;
+}
+.commenttooltip{
+   visibility: hidden;
+position: absolute;
+width: 427px;
+top: -9px;
+left: 588px;
+padding: 0;
+font-size: 12px;
+line-height: 20px;
+box-shadow: #3a3a42 5px 2px 12px 0;
+text-align: center;
+font-family: Open Sans;
+background-color: #000000;
+border-radius: 10px;
+color: white;
+}
+
+.commentpoint{
+   border: 9px solid;
+visibility: hidden;
+border-color: transparent #000000 transparent transparent;
+width: 0px;
+position: absolute;
+top: 4px;
+left: 571px;
+}
+.childcol{
+min-height: 35px;
+max-height: 35px;
+border: 1px solid #e3e3e3;
+border-bottom: none;
+border-right: none;
+}
+.childdiv{
+display: inline-flex;
+padding: 5px 0;
+}
+  .editRuleSet {
+width: 100%;
+display: block;
+margin: 0 auto;
+height: auto;
+}
+ .checkb:after {
+ border:blue 1 px solid;
+}
+.reqfieldhead{
+font-size: 20px;
+font-family:Open Sans;
+font-weight:bold;
+color: #333333;
+}
+
+.blocks{
+padding:10px 0px !important;
+}
+.licontainer li{
+font-size: 15px;
+font-family: Open Sans Regular;
+padding-top: 10px;
+margin: 0px;
+}
+ 
+.licontainer ol{
+padding-left: 20px;
+}
+.DefaultFields {
+font-size: 18px;
+font-family: "Open Sans";
+color: rgb(0, 0, 0);
+padding-left: 20px;
+}
+.defaultheading{
+background-color: #fef5e2;
+padding: 20px 0px;
+margin:20px 0px;
+}
+
+.info{
+position: absolute;
+top: 0;
+right: -5px;
+}
+.optional{
+font-size: 13px;
+font-family: Open Sans;
+color: #ff0000;
+border: 1px solid #ebdde3;
+border-radius: 2px;
+background-color: #e3f3e6;
+border: 1px solid #dbeade;
+padding: 5px 5px;
+float: right;
+font-style: italic;
+} 
+.optionaltip{
+border: 8px solid;
+border-color: #e3f3e6 transparent transparent transparent;
+width: 0px;
+position: absolute;
+right: 20px;
+z-index: 1;
+}
+.mandatory{
+font-size: 13px;
+font-family: Open Sans;
+color: #ff0000;
+border: 1px solid #ebdde3;
+border-radius: 2px;
+background-color: #f3e3ea;
+padding: 5px 5px;
+float: right;
+font-style: italic;
+} 
+.mandatorytip{
+border: 8px solid;
+border-color: #f3e3ea transparent transparent transparent;
+width: 0px;
+position: absolute;
+right: 20px;
+z-index: 1;
+}
+.fieldtable{
+background-color: white;
+}
+
+.fieldtable thead tr th{
+padding: 0px 0px 0 20px !important;
+height: 30px;
+font-size: 15px;
+color: #333333 !important;
+font-family: Open Sans;
+background-color: #ededed;
+}
+.fieldtable>tbody tr td{
+min-width: 100px;
+padding: 5px 5px;
+height: 30px;
+font-size: 15px;
+color: #333333 !important;
+text-align: center;
+font-family: Open Sans;
+} 
+.hide{
+	display:none;
+}
+
+.show{
+	display:block;
+}
+.addnewfields{
+font-size: 16px;
+font-family: Open Sans;
+color: #099ad6;
+font-weight:bold;
+text-transform: uppercase
+}
+.addnewfields:hover{
+float: left;
+font-size: 16px;
+font-family: Open Sans;
+color: #920fa4;
+font-weight: bold;
+cursor: pointer;
+text-transform: uppercase;
+}
+.addimg{
+float: left;
+width:35px;
+height:35px;
+background-image: url('/resource/SFDCJiraConnector/SFDCJiraConnector/images/add-new-btn-sprite.png');
+background-repeat: no-repeat;
+}
+.addnewfields:hover div{
+background-position-y: -35px;
+
+}
+.addnewfields span{
+position: absolute;
+padding: 5px 0px 0px 6px;
+}
+.saveimg{
+width: 100%;
+background-position: center 0px;
+height: 25px;
+background-image: url('/resource/SFDCJiraConnector/SFDCJiraConnector/images/action-save-icon.png');
+background-repeat: no-repeat;
+}
+.saveimg:hover{
+background-position-y: -25px;
+}
+.editimg{
+width: 100%;
+background-position: center 0px;
+height: 24px;
+ background-repeat: no-repeat;
+background-image:url('/resource/SFDCJiraConnector/SFDCJiraConnector/images/action-edit-icon.png'); 
+}
+.editimg:hover{
+background-position-y: -24px;
+}
+.fornew input, .fornew select {
+   background-color:#ededed;
+}
+
+.delimg{
+width: 100%;
+height: 24px; 
+background-image:  url('/resource/SFDCJiraConnector/SFDCJiraConnector/images/delete-icon.png');
+background-repeat: no-repeat;
+}
+.delimg:hover{
+background-position-y: -24px;
+}
+.floatleft {
+   float:left;
+}
+.padleft5{
+padding-left:5px;
+}
+
+#reqtable input,#reqtable select {
+border:1px solid #e3e3e3;
+border-radius: 2px;
+ }
+
+#optable input,#optable select {
+border:1px solid #e3e3e3;
+border-radius: 2px;
+ }
+
+.action{
+ display:inline-flex;
+}
+.action div{
+ width:24px;
+}
+.checkboxop{
+opacity:0;
+}
+.checkboxcustom{
+display: inline-flex;  
+text-align: center;
+background-image:url('/resource/SFDCJiraConnector/SFDCJiraConnector/images/checkbox-gray.png');
+background-repeat: no-repeat;
+background-position: center;
+width: 20px;
+}
+.checkboxcheck{
+display: inline-flex;
+text-align: center; 
+background-image:url('/resource/SFDCJiraConnector/SFDCJiraConnector/images/green-check.png');
+background-repeat: no-repeat;
+background-position: center;
+width: 20px;
+}
+.checkcontainer{
+	height: 21px;
+display: inline-flex;
+text-align: center;
+background-image: url('/resource/SFDCJiraConnector/SFDCJiraConnector/images/checkbox-gray.png');
+background-repeat: no-repeat;
+background-position: center;
+}
+.projectselect{
+width:100%;
+padding: 6px 9px;
+}
+.deldiv{
+display: inline-block;
+float: left;
+width: 24px;
+height: 24px; 
+background-image:url('/resource/SFDCJiraConnector/SFDCJiraConnector/images/delete-icon.png');
+background-repeat: no-repeat;
+}
+.deldiv:hover{
+background-position-y: -24px;
+
+}
+.adddiv{
+float: left;
+margin-left: 15px;
+width: 24px;
+height: 24px;  
+background-image: url('/resource/SFDCJiraConnector/SFDCJiraConnector/images/plus-icon.png');
+background-repeat: no-repeat;
+}
+.adddiv:hover{
+background-position-y: -24px;
+
+}  
+
+.filtertool{
+display: inline-block;position: relative;
+}
+.filtertool:hover .filtertooltip , .filtertool:hover .filtertoolpoint{
+visibility:visible;
+z-index:1;
+}
+.filtertool:hover .filtertoolpoint{
+visibility:visible;
+z-index:1;
+}
+.filtertooltip{
+visibility: hidden;
+position: absolute;
+width: 261px;
+top: -64px;
+right: -15px;
+border-radius: 10px;
+box-shadow: #3a3a42 5px 2px 12px 0;
+padding: 10px;
+font-size: 14px;
+line-height: 20px;
+text-align: center;
+font-family: Open Sans;
+background-color: #000000;
+border: 2px solid black;
+color: white;
+}
+
+.filtertoolpoint{
+border: 9px solid;
+visibility: hidden;
+border-color: #000000 transparent transparent transparent;
+width: 0px;
+position: absolute;
+top: 0px;
+right: 0;
+}
+.licmodal{
+
+}
+.licmoddiv{
+width: 525px;
+margin: 10% auto;
+background-color: #ffffff;
+
+}
+.licmodal_content{
+z-index: 2;
+background: white;
+position: absolute;
+}
+.licmodal_header{
+border-bottom: 1px solid #d3d3d3;
+padding: 25px 0 15px 25px;
+}
+.licmodal_title{
+font-size: 20px;
+font-family: Open sans;
+font-weight: bold;
+text-transform: uppercase;
+}
+.licmodal_body{
+font-size: 18px;
+font-family: Open Sans;
+color: #333333;
+	padding: 15px 25px;
+}
+.licmodal_body	p{
+font-size: 18px;
+font-family: open Sans;
+color: #333333;
+}
+.licmodal_footer{
+padding: 5px 25px;
+background-color: #090909;
+color: white;
+}
+.OR {
+font-size: 18px;
+font-family: "Open Sans italics";
+color: #ffffff;
+margin-left: 10px;
+position: relative;
+background: black;
+}
+.modalfade{
+position: fixed;
+top: 0;
+width: 100%;
+z-index: 1;
+background: black;
+opacity: 0.8;
+left: 0;
+right: 0;
+bottom: 0;
+}
+
+
+
+.addruleimg{
+float: left;
+width:35px;
+height:35px;  
+
+background-image: url('/resource/SFDCJiraConnector/SFDCJiraConnector/images/add-new-btn-sprite.png');
+background-repeat: no-repeat;
+}
+.addnewrule:hover div{
+background-position-y: -35px;
+
+}
+.addnewrule span{
+position: absolute;
+padding: 5px 0px 0px 6px;
+}
+ .addnewrule:hover span{
+color: #920fa4;
+font-weight: bold;
+cursor: pointer;
+text-transform: uppercase;
+}
+.addnewrule{
+	padding: 15px 25px;
+font-size: 16px;
+font-family: Open Sans;
+color: #099ad6;
+font-weight:bold;
+text-transform: uppercase
+}
+addnewrule:hover{
+float: left;
+font-size: 16px;
+font-family: Open Sans;
+color: #920fa4;
+font-weight: bold;
+cursor: pointer;
+text-transform: uppercase;
+}
+.hasruleset{
+
+}
+.noruleset{
+left: 35%;
+position: absolute;
+}
+.liactive>a{
+	border-color: #eee #eee #ddd !important;
+	background: #0676B8  !important;
+	color: #fff !important;
+}
+.autoDisable {
+	pointer-events: none;
+}
+.actisdsve>a{
+	border-top-right-radius: 20px !important;
+}
+.colorfill{
+	background-color: #0676b8;
+	color: white !important;
+}
+.projdivholder{
+	display: none;
+	z-index:99;
+	background-color: #e4e4e4;
+	position: absolute;
+
+	border: 1px solid #e4e4e4;
+	max-height: 150px;
+	max-width: 350px;
+	padding: 10px;
+	overflow: auto;
+	box-shadow: 3px 3px #ccc9c9;
+}
+.projdivholder::-webkit-scrollbar {
+	width: 0px;  /* remove scrollbar space */
+	background: transparent;  /* optional: just make scrollbar invisible */
+}
+.prodiv{
+	float: left;
+	padding: 2px 10px;
+	font-size: 14px;
+	color: black;
+	cursor:pointer;
+	margin: 2px;
+	border: 1px solid #0676b8;
+}
+.plus{
+	margin: 5px 0 0 7px;
+	height: 18px;
+	width: 18px;
+	float: left;
+	background-position-y: 0;
+	//background-image: url(/resource/namespace__SFDCJiraConnector/SFDCJiraConnector/images/add-new-btn-sprite.png);
+	background-image: url(/resource/SFDCJiraConnector/SFDCJiraConnector/images/add-new-btn-sprite.png);
+	background-repeat: no-repeat;
+	background-size: 18px;
+}
+.prodiv:hover{background-color: #005282;color:white}
+.refreshimg{
+//background-image: url(/resource/namespace__SFDCJiraConnector/SFDCJiraConnector/images/Refresh.png);
+background-image: url(/resource/SFDCJiraConnector/SFDCJiraConnector/images/Refresh.png);
+background-repeat: no-repeat;
+cursor: pointer;
+width: 23px;
+height: 23px;
+border-radius: 25px;
+float: right;
+background-size: contain;
+margin: 0 5px;
+}
+
+.refreshtool{
+display: inline-block;
+}
+.refreshtooltip{
+visibility: hidden;
+position: absolute;
+top: -75px;
+right: 0;
+padding: 0;
+font-size: 12px;
+line-height: 20px;
+box-shadow: #3a3a42 5px 2px 12px 0;
+text-align: center;
+font-family: Open Sans;
+background-color: #000000;
+border-radius: 10px;
+color: white;
+}
+.refreshpoint{
+border: 9px solid;
+visibility: hidden;
+border-color: transparent #000000 transparent transparent;
+width: 0px;
+position: absolute;
+top: -24px;
+right: 33px;
+}
+.refreshtool:hover .refreshtooltip , .refreshtool:hover .refreshpoint{
+visibility:visible;
+z-index:1;
+}
+.refreshtool:hover .refreshpoint{
+visibility:visible;
+z-index:1;
+}
+.chattertooltipobj{
+top: 2px;
+padding: 2px 5px;
+font-size: 12px;
+line-height: 20px;
+font-family: Open Sans;
+box-shadow: #3a3a42 5px 2px 12px 0;
+background-color: #000000;
+border-radius: 10px;
+color: white;
+width: 200px;
+}
+
+.hideadv{
+display:none;
+}
+
+.mappedObjClass:hover .delClass {
+color:#0676B8 !important;
+}
+#alertDelDiv{
+position: absolute;
+top: 0;
+left: 0;
+z-index: 9999;
+background-color: #fbf5f5;
+display:none;
+text-align: center;
+border: 1px solid #0676B8;
+padding: 20px;
+box-shadow: 1px 1px 30px #0676B8;
+cursor: pointer;
+}
+.defaultsection{
+position: absolute;
+top: 0;
+left: 0;
+z-index: 9999;
+background-color: #fbf5f5;
+display:none;
+text-align: center;
+border: 1px solid #0676B8;
+padding: 20px;
+box-shadow: 1px 1px 30px #0676B8;
+cursor: pointer;
+}
+.blur{
+-webkit-filter: blur(2px); /* Chrome, Safari, Opera */
+filter: blur(2px);   
+}
+
+
+.Configureimg{
+width: 100%;
+background-position: center 0px;
+height: 24px;
+background-repeat: no-repeat;
+background-image:url('/resource/SFDCJiraConnector/SFDCJiraConnector/images/plus-icon.png'); 
+}
+.Configureimg:hover{
+background-position-y: -24px;
+}
+
+.marginleft{ 
+margin-left: 5px;
+}

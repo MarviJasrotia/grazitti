@@ -1,0 +1,175 @@
+.THIS .loading{
+    
+    background-image: url(/resource/GI_Support__SFDCJiraConnector/SFDCJiraConnector/images/searchimage.jpg);
+    
+    opacity: .05;
+    margin: 60px auto 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 237px;
+    width: 261px;
+}
+.THIS.scrollerSize {
+    height: 40px;
+}
+
+.THIS .inputSel {
+    width:150px;
+}
+.THIS .inputSel1 {
+    width:150px;
+}
+.THIS .a1 {
+    width:50px;
+}
+.THIS .a2 {
+    width:140px;
+}
+.THIS .a3 {
+    width:75px;
+    white-space: normal;
+    word-break: break-all;
+}
+.THIS .a4 {
+    width:140px;
+    white-space: normal;
+    word-break: break-all;
+}
+.THIS .a5 {
+    width:160px;
+    white-space: normal;
+    word-break: break-all;
+}
+.THIS .a6 {
+    width:300px;
+    white-space: normal;
+    word-break: break-all;
+}
+.THIS .issuetypecontainer {
+    padding-left:25px;
+    
+}
+.THIS .Componentcontainer{
+    padding-left:25px;
+    display: block;
+    overflow: hidden;
+    transition-property: max-height;
+    transition-duration: 1s;
+    transition-timing-function: ease-in-out;
+    transition-delay: .15s;
+    max-height: 1000px;
+}
+
+.THIS .slds-form-element__label {
+    padding-left:5px;
+}
+.THIS .mybtn {
+    padding-top:30px;
+    
+}
+.THIS .buttonIcon{
+    border: 0;
+}
+.THIS .buttonIcon:focus{
+    border: 0;
+    box-shadow: none;
+}
+.THIS .slds-card__body{
+    padding:.5rem;
+}
+.THIS .hide{
+    max-height: 0 !important;
+    overflow: hidden;
+   }
+
+.THIS .Heading{
+    padding-bottom:5px;
+    font-weight:bold;
+    font-variant:small-caps;
+    font-size:20px;
+    
+    
+}
+.THIS .Initialheight{
+    height:0;
+}
+.THIS .issuetypecontainer{
+    display: block;
+    overflow: hidden;
+    transition-property: max-height;
+    transition-duration: 1s;
+    transition-timing-function: ease-in-out;
+    transition-delay: .15s;
+    max-height: 1000px;
+    
+}
+@media only screen and (min-width: 1224px) {
+    .THIS .slds-card{
+        min-height:435px;
+        
+    }  
+}
+@media (min-width: 1824px) {
+    .THIS .slds-card{
+        min-height:600px;
+    }  
+}
+.THIS ::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+.THIS ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+/* Handle */
+.THIS ::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+/* Handle on hover */
+.THIS ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+.THIS .exampleHolder{
+    vertical-align: middle;
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    position: relative;
+}
+.THIS .inner-box {
+    position: relative;
+    top: 75px;
+    right: 0;
+    bottom: 0;
+    left: -46px;
+}
+.THIS .slds-hide {
+    position: relative;
+    
+}
+.THIS .cmp{
+    position: relative;
+}
+.THIS .slds-card__header{
+    margin-bottom: -50px;
+    margin-top: -30px;
+}
+.THIS .slds-card__footer{
+    margin-bottom: -30px;
+    margin-top: -60px;
+}
+.THIS .outer-div{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 111;
+    height: 100%;
+}
+.THIS .cs{
+     color: rgb(107, 109, 112);
+
+}

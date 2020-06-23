@@ -1,0 +1,387 @@
+<apex:component >    
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/editaddjiraissue.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/bootstrap.js')}"/>
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/editaddjiraissue.css')}"/>
+    <apex:attribute name="setting" description="Jira issue object instance." type="Jira_login__c" required="true" />
+    <apex:attribute name="jiraIssue" description="Jira issue object instance." type="JiraIssue__c" required="true" />
+    <apex:attribute name="projectName" description="project name for jira." type="String" required="true" />
+    <apex:attribute name="mode" description="caseid" type="String"  />
+    <apex:attribute name="save" description="The save method from the parent controller." type="ApexPages.Action" required="true"/>
+    <apex:attribute name="Cancel" description="The cancel method from the parent controller." type="ApexPages.Action" required="true"/>
+    <apex:attribute name="jiraProjectskeymap" description="jiraProjectskeymap" type="map"  />
+    <apex:attribute name="sectionToDynamicFieldWrapperListMap" description="sectionToDynamicFieldWrapperListMap" type="map"  required="true" />
+    <apex:attribute name="sectionToDynamicFieldWrapperListMap2" description="sectionToDynamicFieldWrapperListMap2" type="map"  required="true" />
+    <apex:attribute name="SectionOrder" description="SectionOrderMap" type="map"  required="true" />
+    <apex:attribute name="mappedObjects" description="mappedObjects" type="Set"  required="true" />
+    <apex:attribute name="epicKey" description="Epic Name." type="String" required="true" />
+    <apex:attribute name="IssuelinksMap" description="Map to represent the data of the Linked Issues" type="map" required="false" />
+    <apex:attribute name="deleteLink" description="Method to delete Linked Issues" type="ApexPages.Action" required="false" />
+    <apex:attribute name="SizeOfMapLI" description="Size Of Linked Issues Map" type="Integer" required="false" />
+    <apex:attribute name="sizeofli" type="integer" description="hold the size of list" required="true"/> 
+    <apex:attribute name="objectsLabelList" description="relatedObjectsToJiraIssue" type="Set"  required="true" />
+    <apex:attribute name="SubtaskParentID" description="SubtaskParentID" type="String" required="true" />
+    
+    <style>
+        .outputcss{
+        cursor: not-allowed;
+        background-color:#ececec;
+        padding:5px 10px;
+        border: none;
+        min-width: 100%;
+        min-height: 30px;
+        }
+        .inputcss{
+        word-break:break-word;
+        min-width: 220px;
+        max-height: 60px;
+        white-space: pre-wrap;
+        }
+        .rowpad{
+        padding: 5px 0;
+        border-top: 1px solid #ececec;
+        font-size: 90%;
+        }
+        .textboxDiv input, .textboxDiv select {width:100%; min-height:30px}
+        
+        .width20{
+        width:25% !important
+        }
+        .padtop20{
+        padding-top:20px!important;
+        }
+        .headingstyle {
+        text-align:right;
+        padding:0 20px;
+        color:#4a4a56;
+        }
+        
+        .dateInput  input{
+        min-width: 100%;
+        display: block;
+        }
+        .dateInput  span{
+        min-width:100px !important
+        }
+        .issuelinktable{
+            min-width:100%;
+        }
+        .issuelinktable tr{
+            border-bottom: 1px solid darkgray;          
+        }
+        .issuelinktable tr tr{
+            border-bottom: none !important; 
+        }
+        .issuelinktable td{
+            padding:4px 0;
+        }
+        .issuelinktable td td{
+            padding:none !important;
+        }
+        .deleteissuedata{
+            padding:0 10px !important;
+        }
+        .deleteissuelink{
+        width: 24px;
+        height: 24px; 
+        <!--NameSpace removed Grz_Sf__SFDCJiraConnector to SFDCJiraConnector-->
+        background-image:  url('/resource/SFDCJiraConnector/SFDCJiraConnector/images/delete-icon.png');
+        background-repeat: no-repeat;
+        }
+        .deleteissuelink:hover{
+        background-position-y: -24px;
+        }
+        .innerTable{
+            width:60%;
+        }
+        .innerTable th{
+            width: 25%;
+        }
+        .innerTable td{
+            width: 25%;
+        }
+        .detailsection{
+            padding-bottom: 10px;
+        }
+    </style>
+    <script>
+    
+    /*function savebutton(){//alert();
+        // console.log('{!jiraIssue}');//alert();
+        savebtn();
+        }
+    */
+    function deletelinkfunction(key,linktype){
+        deletelinkaction(key,linktype);
+    }
+    
+  
+    </script>
+    <!--  <apex:actionFunction name="savebtn" action="{!save123}" reRender="errorPageMessage,jira_form" />-->
+    <apex:actionFunction name="deletelinkaction" action="{!deleteLink}" reRender="issuelinkspanel">
+        <apex:param name="key" value="" />
+        <apex:param name="linktype" value="" />
+    </apex:actionFunction>
+    
+    <apex:outputText rendered="{!sizeofli ==0 || sizeofli==NULL}" value="{!$Label.ViewJiraComponent_Label1}"/> 
+    <apex:outputPanel styleclass="col-lg-12 col-md-12 col-sm-12 col-xs-12  nopad" rendered="{!sizeofli !=0 && sizeofli!=NULL}">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="border-top: 2px solid #c0be72;padding: 10px 0;">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="font-size: 14px;">
+                        <B>{!$Label.Project_Label}</B> 
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 nopad  testwidth">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 nopad alignright">
+                            <label class="headingstyle">{!$Label.JiraProject_Label}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nopad">
+                            <apex:outputText value="{!jiraIssue.Project__c}" styleClass="inputcss"/>
+                        </div>  
+                    </div>
+                </div>
+            </div>  
+          
+<!-- /**********************************************************************************************************************/
+        
+    
+   
+        
+
+
+
+<!-- /**********************************************************************************************************************/
+        -->
+         <apex:outputPanel id="Dynamicdata" layout="block" styleClass="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad" >   
+         
+        
+        <apex:repeat value="{!objectsLabelList}" var="Sobject">
+        
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="border-top: 2px solid #c0be72;padding: 10px 0;">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="padding: 10px 0;font-size: 14px;">
+                            <B>{!$Label.ViewJiraComponent_Label15} {!Sobject}</B> 
+                        </div>
+         
+          
+            <apex:repeat value="{!SectionOrder[Sobject]}" var="section">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="border-top: 2px solid #c0be72;padding: 10px 0;">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="font-size: 14px;">
+                        <B>{!section}</B> 
+                    </div>
+                    
+                    
+                    <apex:repeat value="{!sectionToDynamicFieldWrapperListMap2[Sobject][section]}" var="dynamiclist">
+                        
+                        <apex:outputPanel layout="block" rendered="{!AND(dynamiclist.mappedfield.Jira_Project__c==jiraProjectskeymap[projectName], OR(contains(dynamiclist.mappedField.IssueTypeData__c,jiraIssue.IssueType__c),dynamiclist.mappedField.IssueTypeData__c=='All'),if(OR(dynamiclist.mappedfield.DataType__c=='component',dynamiclist.mappedfield.DataType__c=='version',dynamiclist.mappedfield.DataType__c=='multiversion',dynamiclist.mappedfield.DataType__c=='multiselect'),dynamiclist.selectValues.size>0,true))}">
+                            
+                            
+                            <div class="{!if(OR(dynamiclist.mappedfield.section__r.column__c=='1',dynamiclist.mappedField.DataType__c=='issuelinks'),'col-lg-12 col-md-12 col-xs-12 col-sm-12','col-lg-6 col-md-6 col-xs-6 col-sm-6')} nopad rowpad testwidth">
+                                
+                                
+                                <apex:outputPanel id="withoutcaseapi" rendered="{!if(OR(dynamiclist.mappedfield.DataType__c=='component',dynamiclist.mappedfield.DataType__c=='version',dynamiclist.mappedfield.DataType__c=='multiversion',dynamiclist.mappedfield.DataType__c=='multiselect'),dynamiclist.selectValues.size>0,true)}">
+                                    
+                                    <div class="{!if(OR(dynamiclist.mappedfield.section__r.column__c=='1',dynamiclist.mappedField.DataType__c=='issuelinks'),'col-lg-2 col-md-2 col-xs-2 col-sm-2','col-lg-4 col-md-4 col-xs-4 col-sm-4')} alignright nopad "> 
+                                        <apex:outputPanel rendered="{!dynamiclist.mappedField.DataType__c!='issuelinks'}">
+                                            <label class="headingstyle">{!dynamiclist.mappedfield.name}</label>
+                                        </apex:outputPanel>
+                                    </div>
+                                    
+                                    <div class="{!if(OR(dynamiclist.mappedfield.section__r.column__c=='1',dynamiclist.mappedField.DataType__c=='issuelinks'),'col-lg-8 col-md-8 col-xs-8 col-sm-8','col-lg-6 col-md-6 col-xs-6 col-sm-6')} nopad" > 
+                                        
+                                        
+                                        <!---For Name not resolutiondate,Link,labels,textfield,float,string------>
+                                        <!-- <apex:outputText styleClass="inputcss" value="{!dynamiclist.fieldValue}" rendered="{!AND(dynamiclist.mappedField.Jira_Field_api_Name__c!='link',OR(dynamiclist.mappedField.DataType__c=='textfield',dynamiclist.mappedField.DataType__c=='float',dynamiclist.mappedField.DataType__c=='labels',dynamiclist.mappedField.DataType__c=='string',dynamiclist.mappedField.DataType__c=='gh-epic-label',dynamiclist.mappedField.DataType__c=='gh-epic-link'))}" /> -->
+                                        <!--<apex:outputText styleClass="inputcss" value="{!dynamiclist.fieldValue}" rendered="{!AND(dynamiclist.mappedField.Jira_Field_api_Name__c!='link',OR(dynamiclist.mappedField.DataType__c=='textfield',dynamiclist.mappedField.DataType__c=='float',dynamiclist.mappedField.DataType__c=='labels',dynamiclist.mappedField.DataType__c=='string'))}" />-->
+                                        <apex:outputText styleClass="inputcss" value="{!dynamiclist.fieldValue}" rendered="{!AND(dynamiclist.mappedField.Jira_Field_api_Name__c!='link',OR(dynamiclist.mappedField.DataType__c=='textfield',dynamiclist.mappedField.DataType__c=='float',dynamiclist.mappedField.DataType__c=='labels',dynamiclist.mappedField.DataType__c=='string',dynamiclist.mappedField.DataType__c=='gh-epic-label'))}" /> 
+                                        <apex:outputPanel rendered="{!dynamiclist.mappedField.DataType__c=='gh-epic-link'}" > 
+                                            <a target="_blank" href="{!setting.End_Point__c}/browse/{!dynamiclist.fieldValue}">{!epicKey}</a>
+                                        </apex:outputPanel>
+                                        <!---For Name is Link and type is view only------>
+                                        <apex:outputPanel rendered="{!AND(dynamiclist.mappedField.Jira_Field_api_Name__c=='link',dynamiclist.mappedField.viewmode__c)}">
+                                            <apex:outputLink value="{!jiraIssue.Jira_Link__c}" styleClass="inputcss" target="_blank" title="Click to open jira " >{!jiraIssue.Jira_Link__c}</apex:outputLink>
+                                        </apex:outputPanel>
+                                        <!------>
+                                        
+                                        <!---For Text Area---->
+                                        <apex:outputText value="{!dynamiclist.fieldValue}" styleClass="inputcss" rendered="{!dynamiclist.mappedField.DataType__c=='textarea' && !dynamiclist.mappedfield.Enable_Record_Mapping__c==false}"  />
+                                        <!------>
+                                        <!---For Text Area containing ids---->
+                                        <apex:outputText id="ids" value="{!dynamiclist.fieldValue}" styleClass="inputcss" rendered="{!dynamiclist.mappedField.DataType__c=='textarea' && !dynamiclist.mappedfield.Enable_Record_Mapping__c==true}"  />
+                                        <!------>
+
+                                        <!--- For select,userpicker,single version,user ---->
+                                        <apex:outputText value="{!dynamiclist.fieldValue}" styleClass="inputcss" rendered="{!OR(dynamiclist.mappedfield.DataType__c=='radiobuttons',dynamiclist.mappedfield.DataType__c=='select',dynamiclist.mappedfield.DataType__c=='userpicker',dynamiclist.mappedfield.DataType__c=='user',And(dynamiclist.mappedfield.DataType__c=='version' && dynamiclist.mappedfield.IsArray__c==false))}" />
+                                        <!--------------->
+                                        
+                                        
+                                        <!--- For isarray ,multiversion,multiselect,version,component ---->
+                                        <apex:outputText styleClass="inputcss"   value="{!dynamiclist.multiselectvalues}"    rendered="{!AND(dynamiclist.mappedfield.IsArray__c,OR(dynamiclist.mappedfield.DataType__c=='multiselect',dynamiclist.mappedfield.DataType__c=='version',dynamiclist.mappedfield.DataType__c=='component',dynamiclist.mappedfield.DataType__c=='multiversion'))}"   />
+                                        <!------------------>
+                                        
+                                         <!-------------modified on 28-06-2019 ----->
+                                        <apex:outputText styleClass="inputcss"   value="{!dynamiclist.fieldValue}"   rendered="{!OR(dynamiclist.mappedfield.DataType__c=='multiuserpicker')}"  >
+                                        </apex:outputText>
+                                         <!------------------>
+                                        <apex:outputText styleClass="inputcss"   value="{!dynamiclist.multiselectvalues}"   rendered="{!OR(dynamiclist.mappedfield.DataType__c=='multicheckboxes')}"  >
+                                        </apex:outputText>
+                                        <apex:outputPanel rendered="{!dynamiclist.mappedfield.DataType__c=='cascadingselect'}">
+                                            <apex:outputText value="{!dynamiclist.clubMasterMap[dynamiclist.masterFieldValue]}"   >
+                                            </apex:outputText>&nbsp;-&nbsp; 
+                                            <apex:outputText value="{!dynamiclist.clubChildMap[dynamiclist.childFieldValue]}"     >
+                                            </apex:outputText>
+                                        </apex:outputPanel> 
+                                        <apex:outputText styleClass="inputcss" value="{!dynamiclist.datevalue}" rendered="{!AND(dynamiclist.mappedField.DataType__c=='datepicker')}" />
+                                         <apex:outputText styleClass="inputcss" value="{!dynamiclist.datetimevalue}" rendered="{!AND(dynamiclist.mappedField.DataType__c=='datetime')}" />
+                                       
+                                        
+                                       <!-- <apex:outputPanel rendered="{!AND(dynamiclist.mappedField.Jira_Field_api_Name__c=='parent')}">
+                                            <apex:outputLink value="{!dynamiclist.fieldValue}" styleClass="inputcss" target="_blank" title="Click to open jira " >{!dynamiclist.fieldValue}</apex:outputLink>
+                                        </apex:outputPanel> -->
+                                       
+                                        <apex:outputLink value="/{!SubtaskParentID}">
+                                               
+                                            <apex:outputtext value="{!dynamiclist.fieldValue}" styleClass="inputcss" rendered="{!(dynamiclist.mappedfield.DataType__c=='issuelink')}" />
+                                           </apex:outputLink>
+                                        <apex:outputPanel rendered="{!AND(dynamiclist.mappedField.DataType__c=='issuelinks')}" id="issuelinkspanel">
+                                            <table class="issuelinktable" style="{!if(SizeOfMapLI > 0 , 'display:table;' , 'display:none;')}">
+                                                <tr>
+                                                    <th>
+                                                        {!$Label.LinkType_Label}
+                                                    </th>
+                                                    <th>
+                                                        <table class="innerTable">
+                                                            <tr>
+                                                                <th>
+                                                                    {!$Label.IssueKey_Label}                                                                                
+                                                                </th>
+                                                                <th>
+                                                                    {!$Label.Summary_Label}                                                                               
+                                                                </th>
+                                                                <th >
+                                                                    {!$Label.Status_Label}
+                                                                </th>
+                                                                <th >
+                                                                    {!$Label.Action_Label}
+                                                                </th>
+                                                            </tr>
+                                                            
+                                                        </table>
+                                                    </th>
+                                                </tr>
+                                                <apex:repeat value="{!IssuelinksMap}" var="linktype">
+                                                    <tr>
+                                                        <td>
+                                                            <b>{!linktype}</b> 
+                                                        </td>
+                                                        <td>
+                                                            <table class="innerTable">
+                                                                <apex:repeat value="{!IssuelinksMap[linktype]}" var="linktypes">
+                                                                    <apex:repeat value="{!linktypes}" var="issuekeys">
+                                                                        <tr>
+                                                                            <td>
+                                                                                <a href="{!setting.End_Point__c}/browse/{!issuekeys.Key}">
+                                                                                    {!issuekeys.Key}
+                                                                                </a>                                                                                
+                                                                            </td>
+                                                                            <td>
+                                                                                {!issuekeys.summary}
+                                                                                
+                                                                            </td>
+                                                                            <td>
+                                                                                ({!issuekeys.Status})
+                                                                                
+                                                                            </td>
+                                                                            <td class="deleteissuedata">
+                                                                                <div class="deleteissuelink" onclick="javascript:deletelinkfunction('{!issuekeys.Id}','{!linktype}');">
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </apex:repeat>
+                                                                </apex:repeat>
+                                                            </table>
+                                                        </td>
+                                                    </tr>  
+                                                </apex:repeat>
+                                            </table>
+                                            <div style="{!if(SizeOfMapLI <= 0 , 'display:Block;' , 'display:none;')}">
+                                               {!$Label.ViewJiraComponent_Label9}</div>
+                                        </apex:outputPanel>
+                                    </div>
+                                </apex:outputPanel>
+                                
+                                
+                                <!--------------------------------------------------------------------------------------------->
+                                
+                            </div>
+                        </apex:outputPanel>
+                        
+                        
+                    </apex:repeat>
+                  
+                </div>
+            </apex:repeat>
+                 </div>
+                 </apex:repeat>
+                 
+            </apex:outputPanel>
+            
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                <!--  Salesforce Section  -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="border-top: 2px solid #c0be72;padding: 10px 0;">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 detailsection" style="font-size: 14px;">
+                        <label> {!$Label.ViewJiraComponent_Label10}  </label>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6 nopad  testwidth">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 nopad alignright">
+                            <label class="headingstyle">{!$Label.ViewJiraComponent_Label11}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nopad">
+                            <apex:outputText value="{!jiraIssue.LastModifiedBy.name}"/>
+                            <!--give the space in between " and { -->
+                            <apex:outputText value=" {!jiraIssue.LastModifiedDate}" />
+                            
+                            
+                            
+                            <!-- styleClass="inputcss"/> LastModifiedById, CreatedDate, CreatedById}" -->
+                        </div>  
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6 nopad  testwidth">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 nopad alignright">
+                            <label class="headingstyle">{!$Label.ViewJiraComponent_Label12}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nopad">
+                            <apex:outputText value="{!jiraIssue.CreatedBy.name}"/>
+                            <!--give the space in between " and { -->
+                            <apex:outputText value=" {!jiraIssue.CreatedDate}" />
+                            
+                            
+                        </div>  
+                    </div>
+                </div>
+                <!--  Jira Section  -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="border-top: 2px solid #c0be72;padding: 10px 0;">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 detailsection" style="font-size: 14px;">
+                        <label> {!$Label.ViewJiraComponent_Label13}  </label>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6 nopad  testwidth">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 nopad alignright">
+                            <label class="headingstyle">{!$Label.ViewJiraComponent_Label12}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nopad">
+                            <apex:outputText value="{!jiraIssue.Creator__c}"/>                          
+                        </div>  
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6 nopad  testwidth">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 nopad alignright">
+                            <label class="headingstyle">{!$Label.ViewJiraComponent_Label14}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nopad">
+                            <apex:outputText value="{!jiraIssue.Created__c}"/>
+                        </div>  
+                    </div>
+                </div>
+            </div>            
+        </div>
+        
+    </apex:outputPanel>
+</apex:component>

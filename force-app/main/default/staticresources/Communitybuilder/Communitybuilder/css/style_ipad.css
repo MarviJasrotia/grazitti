@@ -1,0 +1,191 @@
+ @media only screen and (min-width: 768px) and (max-width: 1024px){
+            .pointerCursor {
+                padding: 0 14px;
+                font-size: 16px;
+            }
+            
+            .ApttusLogo {
+                width: 130px;
+            }
+            .menu-position {
+                height: 58px;
+            }
+            .bg-nav-main {
+                padding: 20px 0 10px;
+            }
+            ul.desktop_navigation{
+                display: none !important;
+            }
+            ul.ipad_view{
+                display: block !important;
+            }
+            .navbar-toggle {
+                display: inline;
+            }
+            .navbar-toggle .icon-bar{
+                 border: 2px solid #818181;
+                 width: 33px;
+            }
+            .navbar-collapse.collapse {
+                 display: none !important;
+            }
+            .username-style {
+                font-size: 14px;
+                cursor:pointer;
+            }
+            img.user_image{
+                width:21px;
+            }
+            img.comment_image{
+                width:21px;
+            }
+            .margin-btw-span-header {
+                margin-left: 10%;
+            }
+            .bg-nav-meta {
+                line-height: 15px;
+                padding: 4px 0;
+            }
+            .nav-main {
+                position: relative;
+                width: 133%;
+                bottom: 0px;
+                top:14px;
+            }
+            .pointerCursor {
+                padding: 0 25px;
+            }
+            .lixsCss {
+                border-bottom: 1px solid #ccc;
+                padding: 15px 0;
+            }
+            .lixsCss:hover {
+                background-color: #6bb445;
+                
+            }
+            .lixsCss:hover .pointerCursor, .lixsCss:hover >a ,.lixsCss:hover div.collapse_icon{
+                color:#fff;
+            }
+            .lixsCss:last-child {
+                border-bottom: none;
+            }
+            .lixsCss > a:hover,.lixsCss > a,.lixsCss >div> a:hover, .lixsCss >div> a  {
+                text-decoration:  none;
+            }
+            .list-horizontal > ul > li {
+                display: block;
+                float:none;
+            }
+            .list-horizontal > ul {
+                position: relative;
+                z-index: 99;
+                background-color: #fff;
+                border:1px solid #eee;
+            }
+            a.Apttuslogolink {
+                display:block;
+                margin-left: 10%;
+            }
+            ul.sub_list{
+                border-bottom : 1px solid #ccc;
+            }
+            ul.sub_list > li > a{
+                color: #606163;
+                font-size: 16px;
+                text-decoration: none;
+            }
+            ul.sub_list > li{
+                padding: 15px 45px;
+                list-style-type: none;
+            }
+            .nomargin{
+                margin:0px;
+            }
+            .navbar-collapse.in {
+                overflow-y: unset;
+            }
+            li.lixsCss.collapsed div.collapse_icon span.expand_in{
+                display:inline;
+            }
+            li.lixsCss.collapsed div.collapse_icon span.expand_out{
+                display:none;
+            }
+            li.lixsCss div.collapse_icon span.expand_in{
+                display:none;
+            }
+            li.lixsCss div.collapse_icon span.expand_out{
+                display:inline;
+            }
+            .glyphicon {
+                text-align: center;
+                margin: 0 6px;
+            }
+            a:focus{
+                outline:none;
+            }
+            .navbar-toggle {
+                border: medium none;
+            }
+            
+        }
+        .nav-main > ul > li > a:after{
+            content:initial;
+        }       
+
+/*Footer css*/
+
+@media only screen and (min-width: 768px) and (max-width: 1024px){
+            .footer_nav_bg {
+                            padding: 50px 0 20px;
+             }
+             .footer_adjust {
+                margin-left: 15%;
+            }
+           
+        }
+
+/*Modal*/
+@media only screen and (min-width : 768px) and (max-width : 1024px){
+         apttus-login .custom-modal-content {
+            background: none;
+            border: 20px solid #6bb445;
+            padding: 0px;
+         }
+         .login-description-div {
+            margin-top: -7px;
+        }
+         .modal-dialog {
+            width: 80%;
+        }
+        .apttus-login .custum-modal-body {
+            padding: 20px;
+        }
+        .apttus-login .modal-header a img {
+            right: -12px;
+            top: -14px;
+            width: 36px;
+        }
+        .login-signin {
+            font-size: 80px;
+        }
+        .login-description {
+            font-size: 20px;
+        }
+        .login-description-div {
+            margin-top: -24px;
+        }
+        .apttus-login .not-memeber-login {
+            font-size: 38px;
+        }
+        .not-member-description {
+            font-size: 16px;
+        }
+        .apttus-login .forgot-anchor {
+            font-size: 14px;
+        }
+        .btn-custom {
+            border-radius: 0 !important;
+            font-weight: normal !important;
+            font-size: 14px !important;
+        }
+     }

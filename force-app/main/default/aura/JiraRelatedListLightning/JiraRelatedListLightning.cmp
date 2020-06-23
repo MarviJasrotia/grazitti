@@ -1,0 +1,43 @@
+<aura:component access="global" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" controller="JiraIssueRelatedListController">
+    <!--call the onload function-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="lang" type="string" default=""/>
+    <aura:attribute name="fieldsList" type="List" default="[]"/>
+    <aura:handler event="c:RefreshJiraRelatedListEvent" action="{!c.doInit}"/>
+     
+    <!--automatically fetch & stores the Recordid while opening the record-->
+    <aura:attribute name="recordId" type="ID"/>
+    
+    <!--attributes to store the data -->
+    <aura:attribute name="refreshjiralist" type="boolean" default="false"/>
+    <aura:attribute name="mycolumns" type="List" default="[]"/>
+    <aura:attribute name="mydata" type="List" default="[]"/>
+    <aura:attribute name="keyField" type="String" default="id"/>
+    <aura:attribute name="loading" type="Boolean" default="true" />
+    <aura:attribute name="NoRecords" type="String" default=""/>
+
+    <lightning:workspaceAPI aura:id="workspace" />
+    <div class="LoaderHolder">
+        <aura:if isTrue="{!v.loading}">
+                <lightning:spinner alternativeText="Loading" />
+        </aura:if>
+        <div Style="width:100%;text-align: right;">
+           Refresh <lightning:buttonIcon value="Refresh" iconName="utility:refresh" variant="bare" onclick="{! c.doInit }" alternativeText="Refresh" title="Refresh" />
+        </div>
+        <aura:if isTrue="{!v.mydata.length>0}">
+            <lightning:datatable data="{!v.mydata}"
+                                 columns="{!v.mycolumns}"
+                                 keyField="Id"
+                                 hideCheckboxColumn="true"
+                                 onrowaction="{! c.handleRowAction }"/>
+            
+            <aura:set attribute="else">
+               
+                {!$Label.c.ErrorMsg_Label2}
+            </aura:set>
+        </aura:if>
+    </div>
+    
+    
+</aura:component>

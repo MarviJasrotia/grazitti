@@ -1,0 +1,294 @@
+<!-- Parent Page Adminsetting.vfp -->
+<!-- Parent Controller AdminSettingController EXTENSIOnN RuleSetFlowComponentController-->
+<apex:component >
+    
+    <apex:attribute name="newruleSet" description="" type="Rule_Set__c" required="true" />
+    <apex:attribute name="newAllFields" description="" type="SelectOption[]" required="true" />
+    <apex:attribute name="nw_WrapperList" description="" type="WrapperClass[]" required="true" />
+    <apex:attribute name="newObjName" description="" type="String" required="true" />
+    <apex:attribute name="SObjectListNew" description="list of All the Sobject fields" type="SelectOption[]" required="false" />
+    <apex:attribute name="AllFilter" description="" type="SelectOption[]" required="false" />
+    <apex:attribute name="projectList" description="" type="SelectOption[]" required="false" />
+    <apex:attribute name="newruleSetChild" description="The save method from the parent controller." type="Child_Rule_Set__c" required="true"/>
+    <apex:attribute name="addnewField" description="The save method from the parent controller." type="ApexPages.Action" required="true"/>
+    <apex:attribute name="nw_RemoveField" description="" type="String" required="true" />
+    <apex:attribute name="nw_deleteField" description="The save method from the parent controller." type="ApexPages.Action" required="true"/>
+    <apex:attribute name="newSave" description="The save method from the parent controller." type="ApexPages.Action" required="true"/>
+    <apex:attribute name="cancelSettings" description="The cancel method from the parent controller." type="ApexPages.Action" required="true"/>
+    <apex:attribute name="allField" description="The cancel method from the parent controller." type="ApexPages.Action" required="true"/>
+    
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/newstyle.css')}"/>
+    
+    
+    <apex:actionfunction name="addnewFieldAction" action="{!addnewField}" rerender="saveError,new_rule,table,nw_filterLogic" oncomplete="nw_filterLogic(); stopProcessing();"/>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad" Style="border-bottom:1px solid black" >
+        <span Style="font-size: 20px;font-family:Open Sans;color: #333333;font-weight:bold">{!$Label.NewRuleSetComponent_Label1}</span>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 nopad">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 nopad">
+                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                           <label class="col-lg-5 col-md-5  col-sm-5 col-xs-5 " style="text-align:right">{!$Label.Sno_Label}</label>
+                            <div class="col-lg-3  col-md-3  col-sm-3 col-xs-3 nopad  nopad" style="">
+                                <apex:inputText styleClass="form-control" value="{!newruleSet.SNO__c}" />
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 nopad">
+                        <div class=" form-group  col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                            <label class=" col-lg-3 col-md-3 col-sm-3 col-xs-3  nopadnopad" >{!$Label.Active_Label}</label>
+                           <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nopad">
+                               <apex:inputField style="margin-top: 4px !important; position:relative; top: 0px;" value="{!newruleSet.IsActive__c}" />
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad"> 
+                    <div class="form-group  col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 " style="width: 20%; text-align:right" >{!$Label.Project_Label1}</label>
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 nopad" style="">
+                            
+                            <apex:outputPanel id="projects">                                                                                                  
+                                <apex:selectList value="{!newruleSet.Project__c}" size="1"  styleClass="projectselect fieldUrl" onchange="getUrl(this.value)">
+                                    <apex:selectOptions value="{!projectList}"></apex:selectOptions>
+                                </apex:selectList>
+                                
+                            </apex:outputPanel>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 nopad">
+                <div class=" form-group  col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                    <label class=" col-lg-2 col-md-2 col-sm-2 col-xs-4  nopad" for="description">{!$Label.Description_Label}</label>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-8  nopad" style="">
+                        <apex:inputTextarea rows="4" styleClass="form-control" value="{!newruleSet.Description__c}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+         <apex:outputPanel styleclass="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+        <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="padding:20px 0px; background: #fef5e2;margin: 20px 0;" >
+            <div  class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="padding: 6px 0 0 20px;">
+                <label style="font-size: 18px;">{!$Label.SelectObject_Label}</label><br/> 
+            </div>
+        
+            <div  class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="padding: 6px 0 0 20px;">
+                <apex:selectList value="{!newruleSet.RuleSetObject__c}"  size="1" style="margin-right:10px;" styleClass="picklistsize1" multiselect="false" onselect="allField">
+                    <apex:actionSupport event="onchange" reRender="new_rule" status="status" action="{!allField}"/> 
+                    <apex:selectOption itemValue="" itemLabel="{!$Label.NoneLabel}"/>
+                    <apex:selectOptions value="{!SObjectListNew}"></apex:selectOptions>
+                </apex:selectList>
+                
+            </div>
+        </div>
+    </apex:outputPanel>
+        <!-------------------->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad" style="margin-top:10px;margin-left: -10px;">
+            <apex:outputPanel id="new_rule">
+                <script>
+                function nw_filterLogic(){
+                    var size  = $('#nw_RuleSetSize').val();                                                             
+                    if(size > 0){
+                        var filterLogic = $('[id$=nw_filterLogic]').attr('value');
+                        if(!(filterLogic.indexOf(size) > -1))
+                        {     
+                            if(filterLogic != null && filterLogic != ''){
+                                filterLogic = filterLogic +' AND '+size;
+                            } else{ 
+                                filterLogic = size;
+                            }
+                            $('[id$=nw_filterLogic]').attr('value',filterLogic);
+                        }                                                                     
+                    }                                                             
+                }
+                function nw_filterLogicDel() {
+                    var size  = $('#nw_RuleSetSize').val();
+                    if(size > 0) {
+                        var filterLogic = $('[id$=nw_filterLogic]').attr('value');
+                        var numericStr = '';                                                                 
+                        for(var i=0 ; i<filterLogic.length; i++)
+                        {
+                            if(!isNaN(filterLogic.charAt(i)))
+                            {
+                                numericStr = numericStr + filterLogic.charAt(i);
+                                console.log('numericStr -->'+numericStr );
+                            }
+                        }
+                        if(numericStr != null && numericStr.length >0)
+                        {
+                            var actualFilterLogic = '';
+                            for(var j=1; j<=size; j++){console.log('j-->'+j);actualFilterLogic = actualFilterLogic + j; }
+                            console.log('actualFilterLogic--->'+actualFilterLogic);
+                            for(var j=1; j<=size; j++)
+                            {
+                                if(!(actualFilterLogic.indexOf(filterLogic.charAt(j)) >-1)){
+                                    filterLogic.replace(j, ""); 
+                                    
+                                }
+                            }
+                            if(filterLogic.lastIndexOf("AND") > -1 ){
+                                
+                                var lastIndex = filterLogic.lastIndexOf("AND");
+                                filterLogic = filterLogic.substring(0,lastIndex-1);
+                                $('[id$=nw_filterLogic]').attr('value',filterLogic );
+                            }
+                            else{
+                                var lastIndex = filterLogic.lastIndexOf("OR");
+                                filterLogic = filterLogic.substring(0,lastIndex-1);
+                                $('[id$=nw_filterLogic]').attr('value',filterLogic );
+                            }
+                        }
+                    }
+                }
+                </script>
+                <apex:outputPanel id="RulesetMain" rendered="{!AND(!ISNULL(newAllFields),newAllFields.size>0)}">                                                        
+                    <div class="vPlayBodyChild">
+                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad NoMarginDiv">
+                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 nopad" for="Active" style="width: 11%;">{!$Label.NewRuleSetComponent_Label2}</label>
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 nopad" style="">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad" style="padding-left: 10px;">
+                                    <apex:outputPanel id="table">
+                                        <script>
+                                        
+                                        function showProcessing(){
+                                            console.log('process...');
+                                            jQuery.blockUI({
+                                                css: {
+                                                    padding: '5px'
+                                                },
+                                                message: '{!JSENCODE($Label.PleaseWait_Label)}<img src="/img/loading.gif" />'
+                                                
+                                            });
+                                            
+                                            
+                                        }
+                                        </script>
+                                        
+                                        <script>                                                           
+                                        function getUrl(data)
+                                        {
+                                            $('[id$=setUrl]').attr('value',data);
+                                            
+                                        }
+                                        
+                                        function isUpdatableValLoop(data) {
+                                            showProcessing();
+                                            var sno = $(data).prev().text().trim().replace('.','');
+                                            isUpdatableValLp(data.value+' '+sno);
+                                            
+                                        }
+                                        function addnewFieldfunction(){
+                                            jQuery('.requiredInputText').each(function() {
+                                                var valueOftext = jQuery(this).val();
+                                                if(valueOftext == ''){
+                                                    jQuery(this).parent().find('div.requiredInput input').val('GENERIC_TEXT_FOR_REQUIRED_FIELD');
+                                                }else{
+                                                    jQuery(this).parent().find('div.requiredInput input').val(valueOftext);
+                                                }
+                                            });
+                                            addnewFieldAction();
+                                        }
+                                        </script>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad " style="color: #6d6d6d; font-weight: normal;">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                                <input type="hidden" style="display:none;" id="nw_RuleSetSize" value="{!nw_WrapperList.size}"/>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  " Style="padding: 10px 0;background: #eeeeee none repeat scroll 0 0;">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 noapd ">
+                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4   ruleDetail" ><span Style="padding:10px 20px:width:100%">{!$Label.Field_Label}</span></div >
+                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3  ruleDetail" ><span Style="padding:10px 20px:width:100%">{!$Label.Operator_Label}</span></div>
+                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3  ruleDetail" ><span Style="padding:10px 20px:width:100%">{!$Label.Value_Label}</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                                <apex:repeat id="nw_table" value="{!nw_WrapperList}" var="ch">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad ruleSetRow">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad ">
+                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4  " Style="padding:10px 20px;border:1px solid #e3e3e3; min-height: 55px;max-height: 55px;">
+                                                                    <span style="display: none;">{!ch.sno}.</span>
+                                                                    <apex:selectList id="pickFieldValue"   styleClass="Objects gRuleField fieldName" style="width:100%" onchange="isUpdatableValLoop(this)" value="{!ch.fieldName}" size="1">
+                                                                        <apex:selectOptions value="{!newAllFields}" />
+                                                                    </apex:selectList>
+                                                                    <span id="objId" style="display: none;">{!newObjName}</span>
+                                                                </div>
+                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 " Style="padding:10px 20px;border:1px solid #e3e3e3;min-height: 55px;max-height: 55px;">
+                                                                    <apex:selectList id="fieldFilter" styleClass="Objects fieldFilter"  style="width:100%" value="{!ch.Filter}" size="1">
+                                                                        <apex:selectOptions value="{!AllFilter}" />
+                                                                    </apex:selectList>
+                                                                </div>
+                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3  " Style="padding:10px 20px;border:1px solid #e3e3e3;min-height: 55px;max-height: 55px;" >
+                                                                    <apex:outputpanel id="newLoopspecificObjField" style="display:inline-block; height: 100%;width:100%;">
+                                                                        <apex:inputHidden id="inLoopFieldValue" value="{!ch.FieldValue}" />
+                                                                        <apex:inputText style="width:100% " styleClass="valueTextBox" disabled="true" rendered="{!OR(AND(IF(Len(ch.FieldName) > 0, false, true),ch.isUpdateable),ch.FieldName == 'None',newObjName == 'None')}" />
+                                                                        <apex:inputField id="input" styleClass=" changeFieldVal1 ruleSetField ruleSetFieldValue" style="width:100% float:left; border-radius: 4px; " value="{!ch.Wrapobj[ch.fieldName]}" rendered="{!IF(AND(Len(ch.FieldName) > 0,ch.FieldName != 'None',ch.isUpdateable,IF(ch.fieldName!='None',IF(newObjName != 'None', IF(!$ObjectType[newObjName].Fields[ch.fieldName].DependentPickList,true,false),false),false)), true, false)}" />
+                                                                        <apex:inputText value="{!ch.fieldValue}" required="false" style="width:100% float:left;  border-radius: 4px;  " rendered="{!And(!ch.isUpdateable,Len(ch.FieldName) > 0,ch.FieldName != 'None',IF(ch.fieldName!='None',IF(newObjName != 'None', IF(!$ObjectType[newObjName].Fields[ch.fieldName].DependentPickList,true,false),false),false))}" />
+                                                                        <apex:selectList styleClass=" changeFieldVal1 ruleSetField ruleSetFieldValue"  style="width:100%;float:left; border-radius: 4px; " value="{!ch.fieldValue}" size="1" rendered="{!IF(AND(Len(ch.FieldName) > 0,ch.FieldName != 'None',ch.isUpdateable,IF(ch.fieldName!='None',IF(newObjName != 'None', IF($ObjectType[newObjName].Fields[ch.fieldName].DependentPickList,true,false),false),false)), true, false)}">
+                                                                            <apex:selectOptions value="{!ch.dependentPickList}" />
+                                                                        </apex:selectList>
+                                                                    </apex:outputpanel>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 " style="padding:10px 20px ;float:left;display: inline-flex;border:1px solid #e3e3e3;min-height: 55px;max-height: 55px;">
+                                                                   <div style="display: inline-flex;margin: auto;">
+                                                                       <apex:commandLink styleClass="deldiv" reRender="new_rule,saveError,fields"  onclick="showProcessing()"  action="{!nw_deleteField}" onComplete="nw_filterLogicDel(); stopProcessing();"  style="display:inline-block; float:right;">
+                                                                           <apex:param name="" value="{!ch.sno}" assignTo="{!nw_RemoveField}" />
+                                                                       </apex:commandLink>
+                                                                       <apex:outputPanel rendered="{!AND(nw_wrapperList.size<5, ch.sno == nw_wrapperList.size)}" style="float:left;">
+                                                                           <a class=" adddiv" href="javascript:void(0)" onclick="showProcessing(),addnewFieldfunction()"> 
+                                                                               
+                                                                           </a>
+                                                                       </apex:outputPanel> 
+                                                                    </div>    
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </apex:repeat>
+                                            </div>
+                                        </div>
+                                    </apex:outputPanel>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 removePad NoMarginDiv FilterLogicDiv nopad">
+                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 " for="" style="width: 11%;padding: 0 0 0 30px;">{!$Label.FilterLogic_Label}</label>
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 nopad" style="">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 removePad nopad">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 filterAndButtons nopad">
+                                        <apex:inputText id="nw_filterLogic" value="{!newruleSet.FilterLogic__c}" style="width:90% ;padding: 6px; text-transform:uppercase; height: 32px;" styleClass="filterLogicInput ruleSetUrl col-lg-3 col-md-4 col-sm-4 col-xs-5 " />
+                                        <div class="filtertool">
+                                            <img style="width: 20px;padding: 14px 0 0 3px;"  src="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/images/info-icon.png')}" />
+                                            <div class="filtertooltip">{!$Label.EditRuleSetCompoenent_Label15} </div>
+                                            <div class="filtertoolpoint"></div>
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" Style="text-align: center;">
+                            <div>
+                                <apex:inputHidden id="setFieldVal" value="{!newruleSetChild.Field_Value__c}" />
+                                <apex:commandButton reRender="RefreshList,saveError,newRuleSetpanel" action="{!newSave}"  value="{!$Label.Save_Label}" onclick="showProcessing()" oncomplete="stopProcessing();" styleClass="btn" style="background: #0577b5 !important;  font-family:'Myriad Pro'; font-size: 15px; margin-top:0px; font-weight:bold; color: #fff !important; border:1px solid #0577b5 !important; border-radius: 4px !important; margin-right: 20px; padding:6px 16px !important" />
+                                <apex:commandButton reRender="RuleSet" action="{!cancelSettings}"  value="{!$Label.EditRuleSetCompoenent_Label17}"  styleClass="btn" style="background: #0577b5 !important;  font-family:'Myriad Pro'; font-size: 15px; margin-top:0px; font-weight:bold; color: #fff !important; border:1px solid #0577b5 !important; border-radius: 4px !important; margin-right: 20px; padding:6px 16px !important"   />
+                            
+                            </div>
+                        </div>
+                    </div>    
+                </apex:outputPanel>
+                
+            </apex:outputPanel>
+        </div>
+        
+    </div>
+   
+    
+</apex:component>

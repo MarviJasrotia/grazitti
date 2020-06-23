@@ -1,0 +1,36 @@
+.Tableheader {
+        background: #e6eaea; 
+        color: #015ba7;
+        cursor: pointer;
+        border: 0;
+        border-right: 1px solid #e0e3e5;
+        padding-top: 2px;
+        padding-bottom: 3px;
+        
+        vertical-align: top;
+    }
+    body button, body .x-btn, body .btn, body .btnCancel, body .menuButton .menuButtonButton {
+        color: #333;
+        margin: 1px;
+        padding: 2px 3px;
+        border: 1px solid #b5b5b5;
+        border-bottom-color: #7f7f7f;
+        background: #e8e8e9 url('/img/alohaSkin/btn_sprite.png') repeat-x right top;
+        font-weight: bold;
+        font-size: .9em;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+    }
+    .linecolor {
+        border-top: 2px solid #B7A752;
+        border-radius: 2px;
+    }
+    .tablerows {
+        border-bottom:1px solid #ededed;
+    }
+    
+    .bordered{
+        border-color: #ededed;
+        border-top-color: #fff;
+    }

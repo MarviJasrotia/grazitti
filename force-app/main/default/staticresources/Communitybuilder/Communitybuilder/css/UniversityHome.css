@@ -1,0 +1,14 @@
+@charset "utf-8";
+/* CSS Document */
+
+.training-apttus{ background: url("../Images/Banner.jpg") no-repeat scroll 50% 100% / cover #262626; padding:120px 0px;width:100%;}
+.apttus-Title{ font-size: 128px;color: #FFF;font-family: AkzidenzGroteskBE-MdCn;}
+.apttus-Title-sub-div{margin-top:-40px;}
+.apttus-Title-sub{ font-size: 30px;color: #FFF}
+
+.training{background: url("../Images/Training-banner.jpg") no-repeat scroll 50% 100% / cover #262626; padding-bottom:150px;width:100%;}
+.training-text{margin-top:100px;text-align:center;}
+.help-style{color: #fff;font-size: 36px;font-family: AkzidenzGroteskBE-MdCn;}
+.margin-btw-panel{margin-top:100px;color:#fff;}
+.span-main{text-transform:uppercase;font-size:16px;font-family:berthold_akzidenz_grotesk_bMd;}
+

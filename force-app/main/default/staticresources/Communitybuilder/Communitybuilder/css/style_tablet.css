@@ -1,0 +1,40 @@
+ @media only screen and (min-width: 1025px) and (max-width: 1199px){
+            .pointerCursor {
+                padding: 0 22px;
+            }
+            .ApttusLogo {
+                width: 180px;
+            }
+            .nav-main > ul > li > a {
+                padding: 0 22px;
+            }
+            .bg-nav-main {
+                position: relative;
+                z-index: 99;
+            }
+        }
+        @media (min-width: 1025px) and (max-width: 1199px){
+            .pointerCursor {
+                padding: 0 17px;
+            }
+        }
+        @media only screen and (min-width : 1025px) and (max-width : 1199px){
+         apttus-login .custom-modal-content  {
+            background: none;
+            border: 20px solid #6bb445; 
+         }
+         .modal-dialog {
+            width: 80%;
+        }
+        .apttus-login .custum-modal-body {
+            padding: 40px;
+        }
+        .apttus-login .modal-header a img {
+            right: -20px;
+            top: -18px;
+            width: 42px;
+        }
+        .login-description-div {
+            margin-top: -24px;
+        }
+     }

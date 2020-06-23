@@ -1,0 +1,337 @@
+			#editSectiondiv{
+            display: none;
+            }
+            .clearBoth{
+            clear:both;
+            }
+            .container_div {
+            
+            border-radius: 4px;
+            }
+            .tableClass{color: #6d6d6d; font-weight: normal;margin-left:15px;}
+            .tableHead{padding:10px 0;margin-bottom:5px;background: #eeeeee none repeat scroll 0 0;}
+            .padSmall{padding: 0 5px 0 10px;}
+            .ruleSetRow{border-bottom:1px solid #eee; padding-top:2px;padding-bottom:2px;}
+            .headerImageDiv{padding-left:30px;}
+            .buttonsAnchor{font-family:'Myriad Pro'; font-size: 12px;color: #121212;width:47px;float:left;}
+            .filterAndButtons{padding: 15px;}
+            .valueTextBox{height: 32px; display: inline-block; max-width: 180px; float:left;  border-radius: 4px; border: 1px solid #c0c0c0 !important;}
+            .ruleSetFieldValue{max-width:180px;}
+            .ruleDetailsPadding{padding-left:15px;}
+            .MainDiv{width:99%;margin-left:1%;}
+            .changeFieldVal1, .editchangeFieldVal1 {padding:5px; !important;}
+            .RuleSetXs{
+            margin-bottom-8px;
+            font-size: 14px;
+            margin-bottom: 8px;
+            padding-bottom: 3px;
+            padding-left: 4px;
+            padding-top: 7px;
+            }
+            .vPLayHeader {
+            font-size: 15px;
+            font-family: "Myriad Pro";
+            background: #464e50;
+            color: #fff;
+            font-weight: bold;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            cursor: pointer;
+            border: 1px solid #b9b9b9;
+            }
+            .info {
+            font-size: 18px;
+            font-weight: bold;
+            }
+            .vPlayBody {
+            font-family: 'Myriad Pro';
+            min-height: 490px;
+            padding: 0;
+            }
+            .vPlayBodyHead {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            }
+            .field-label {
+            width: 30%;
+            float: left;
+            }
+            .field-value {
+            width: 70%;
+            float: left;
+            }
+            .field-detial {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            //height:30px;
+            }
+            #sortable1 {
+            position: relative;
+            max-height: 200px;
+            overflow: auto;
+            width: 240px;
+            }
+            table{}
+            thead >tr >th {
+            padding: 14px !important;
+            }
+            .message .messageText{
+            font-size: 15px;
+            }
+            .form-control {
+            color: #6d6d6d;
+            }
+            .nopad {
+            padding-left: 0px;
+            padding-right: 0px;
+            }
+            .vPlayBodyHead {
+            padding-left: 30px;
+            padding-right: 30px;
+            }
+            vPlayBodyHead {} body button,
+            body .x-btn,
+            body .btn,
+            body .btnDisabled,
+            body .btnCancel,
+            body .menuButton .menuButtonButton {
+            background: none !important;
+            }
+            .ruleSet {
+            background: #0676b8;
+            padding-top: 9px;
+            padding-bottom: 3px;
+            padding-left:4px;
+            color: #fff;
+            font-size: 14px;
+            font-family: 'Myriad Pro';
+            margin-bottom: 8px;
+            }
+            .form-group {
+            margin-top: 12px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            }
+            .btn_left {
+            padding: 6px 12px !important;
+            color: #fff;
+            border-radius: 4px 0 0 4px;
+            }
+            .btn_right {
+            padding: 6px 12px !important;
+            color: #fff;
+            border-radius: 0 4px 4px 0;
+            }
+            .change_btn_bg {
+            background: #eeeeee;
+            }
+            .addFieldButton {
+            // float: right;
+            background: #0577b5 !important;
+            //padding: 7px 17px !important;
+            color: #fff;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 4px !important;
+            font-family: 'Myriad Pro';
+            }
+            .saveCancel {
+            font-size: 15px;
+            border-radius: 4px !important;
+            color: #121212 !important;
+            border: 1px solid bfc0c2 !important;
+            background: #fff;
+            font-family: 'Myriad Pro';
+            display: inline-block;
+            padding: 6px 16px !important;
+            }
+            .container_div {
+            font-family: 'Myriad Pro'  !important;    
+            }
+            div.bootstrapHeader body, div.bootstrapHeader td{
+            font-family: 'Myriad Pro'  !important;   
+            }
+            div.bootstrapHeader td{ color: #6d6d6d !important;}
+            div.bootstrapHeader input, div.bootstrapHeader button, div.bootstrapHeader select, div.bootstrapHeader textarea{
+            font-family: 'Myriad Pro'  !important;
+            color: #6d6d6d ;
+            }
+            .Objects {
+            background-image: -moz-linear-gradient( 90deg, rgb(241,241,241) 0%, rgb(255,255,255) 100%);
+            background-image: -webkit-linear-gradient( 90deg, rgb(241, 241, 241) 0%, rgb(255, 255, 255) 100%);
+            background-image: -ms-linear-gradient( 90deg, rgb(241, 241, 241) 0%, rgb(255, 255, 255) 100%);
+            box-shadow: 0px 0px 1.92px 0.08px rgba(113, 113, 113, 0.48);
+            border: 1px solid #c0c0c0;
+            border-radius: 4px;
+            background-color: #fff;
+            box-shadow: 0px 0px 1.92px 0.08px rgba(113, 113, 113, 0.48);
+            height: 32px !important;
+            }
+            .div.bootstrapHeader label{ color: #000 !important;}
+            label { color: #000 !important;}
+            .ruleSetUrl {
+            border: 1px solid #c0c0c0 !important;
+            border-radius: 4px !important;
+            background-color: #fff;
+            box-shadow: 0px 0px 1.92px 0.08px rgba(113, 113, 113, 0.48) !important;
+            height: 32px !important;
+            }
+            .deleteRuleSet {
+            position: relative;
+            top: 8px;
+            float: right;
+            }
+            .arrow-rightDirective {
+            width: 0;
+            height: 0;
+            top: 0px;
+            left:10px;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            position: absolute;
+            border-left: 6px solid #fff;
+            }
+            .arrow-downDirective {
+            width: 0;
+            height: 0;
+            top: 7px;
+            left: 0px;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            position: absolute;
+            border-top: 6px solid #fff;
+            }
+            .blockMsg {
+            margin: 0px;
+            }
+            .control-label {
+            width: 12%;
+            }
+            .logo_img {
+            width: 16%;
+            }
+            .logo_imgXs{
+            width:160px;
+            }
+            .ruleSet_btn,
+            .help_btn {} .ruleSet_Inner,
+            .help_Inner {
+            font-size: 13px;
+            font-family: 'Myriad Pro';
+            color: #0577b5;
+            }
+            .header_caption {
+            font-family: 'Myriad Pro';
+            font-weight: bold;
+            color: #000;
+            font-size: 14px;
+            padding: 10px 0;
+            }
+            .ruleSet_img,
+            .help_img {
+            width: 33px;
+            }
+            .sidebar{
+            display: inline-block; padding: 4px 6px; font-weight: normal; border-radius: 5px; font-size: 14px; font-family: 'Myriad Pro'; color: #0577b5; vertical-align: middle;
+            }
+            .fieldUrl{height: 32px !important; border-radius:4px !important; display: inline-block; width: 222px; float:left; padding: 6px 9px; margin-right: 5px !important;}
+            .fieldFilter{height: 32px !important; display: inline-block; float:left; margin-right: 10px !important; width: 100%;}
+            .waitingHolder{
+            z-index: 1011;
+            position: fixed;
+            padding: 5px;
+            margin: 0px;
+            width: 30%;
+            top: 40%;
+            left: 35%;
+            text-align: center;
+            color: rgb(0, 0, 0);
+            border: 3px solid rgb(170, 170, 170);
+            cursor: wait;
+            font-size: 15px !important;
+            font-family: 'Myriad Pro';
+            background-color: rgb(255, 255, 255);
+            }
+            .picklistArrowRight,
+            .picklistArrowLeft {
+            min-height: 21px !important;
+            }
+            .errorMsg {
+            display: none;
+            }
+            .filter_Logic {
+            padding-left: 16px;
+            padding-top: 24px;
+            }
+            .ruleDetail {
+            font-size: 14px;
+            font-weight: bold;
+            color: #6d6d6d;
+            float: left;
+            //text-align: center;
+            }
+            .fieldName{
+            height: 32px !important; max-width: 100%; display: inline-block; float:left; margin-right: 10px !important;
+            }
+            .filterLogicMsg {
+            background: white none repeat scroll 0 0;
+            border-radius: 4px;
+            color: black;
+            display: block;
+            left: 200px;
+            border: 1px solid #DDDDDD;
+            padding: 5px;
+            position: absolute;
+            text-align: center;
+            top: -22px;
+            width: 117px;
+            }
+            .requiredInput{height: 100% !important;}
+            .picklistArrowLeft, .picklistArrowRight, .rightArrowIcon, .leftArrowIcon, .doubleArrowUp, .upArrowIcon, .downArrowIcon, .doubleArrowDwn
+            {height: 15px !important;}
+            .dateInput>.ruleSetField{height: auto !important;}
+            .ruleSetField  input[type="radio"], input[type="checkbox"]{ 
+            height: auto !important;
+            position: relative;
+            
+            }
+            .editSectionDiv{display : none;}
+            .rule_Details {
+            padding: 10px 0 10px 30px;
+            }
+            .table > thead > tr > th{ border-bottom: none !important; padding-left: 7px !important;}                                 
+        
+            <!--------------------------------- Media query ----------------------------------------->
+            @media screen and (max-width: 1440px) {
+            .fieldUrl{ width:100%;}
+            }
+            @media only screen and (max-width: 768px){
+            .removePad{padding:0px;}
+            .vPlayBodyHead{padding:0;}
+            .control-label{width:50%;}
+            .rule_Details{width:100%;padding:10px 0;background-color:#eee;text-transform:uppercase;padding-left:12px;}
+            .urlRow{margin:5px 0;}
+            .headerImageDiv{padding-left:5px;}
+            .tableClass{margin-left:0px;}
+            .NoMarginDiv{margin-bottom:0px;margin-top:0px;}
+            .filter_Logic,.filter_Logic1{padding-top:5px;}
+            .FilterLogicDiv{background-color:#eee;}
+            .filterAndButtons{border-top:0px;padding-top:0px;}
+            .valueTextBox{max-width:100%;}
+            .ruleDetailsPadding{padding-left:10px !important; }
+            .ruleRow{color:#000;}
+            .MainDiv{margin-left:0.5%;margin-bottom:50%;}
+            .padSmall{padding: 0 5px 0 5px;}
+            .filterLogicInput{margin-top:10px;}
+            .RuleSetXs {
+            padding-bottom: 5px;
+            padding-top: 9px;
+            }
+            .urlRow{margin:0;}
+            .ruleSetRow{padding-top:6px;padding-bottom:5px;}
+            .urlLabel{padding-top:7px;}
+            .xsSmallValue{padding-right:0px;width:115%;}
+            .ruleSetFieldValue{max-width:100%;}
+            }
+        
+       

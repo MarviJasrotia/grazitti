@@ -1,0 +1,211 @@
+<apex:component controller="ValidationCaseFields"  allowDML="true"  >
+    
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/bootstrap.js')}"/>
+    <!--<apex:attribute name="SObjectListNew" description="list of All the Sobject fields" type="SelectOption[]" required="false" /> -->
+    
+    
+    <style>
+        .remove{
+        
+        margin-left: 15px;
+        margin-top: 2px;
+        background: url(/img/alohaSkin/combobox_arrows_sprite.gif) no-repeat;
+        width: 24px; height: 20px;
+        background-position-y: -60px;
+        }
+        .add{
+        margin-left: 15px;
+        margin-top: 2px;
+        background: url(/img/alohaSkin/combobox_arrows_sprite.gif) no-repeat;
+        width: 24px;
+        height: 20px;
+        }
+        
+        .remove:hover{
+        background-position-y: -80px;
+        }
+        .add:hover{
+        background-position-y: -20px;
+        }
+        
+        .divholder{
+        background: white;border:1px #a9a9a9 solid ;width: 250px;height: 250px;overflow-y: overlay;overflow-x: hidden; 
+        }
+    </style>
+    
+    <script>
+    function admintab(){
+     
+        
+        document.getElementById('nextvalid').click();
+        
+        switchtab('Admin');
+    }
+    
+    </script>
+    
+    <apex:actionFunction action="{!save}" name="savefieldvalid" reRender="fieldvalidbox,ObjectsValidated" status="status"  oncomplete="stopProcessing();" />
+    
+    <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12" style="text-align: center;padding: 10px 0;border-bottom: 1px solid #dbdbdb;">
+        <a class="btn" style="background: #0577b5 !important;  font-family:'Myriad Pro'; font-size: 15px; margin-top:0px; font-weight:bold; color: #fff !important; border:1px solid #0577b5 !important; border-radius: 4px !important; margin-right: 20px; padding:6px 16px !important"  onclick="savefieldvalid()" >{!$Label.Save_Label}</a>
+        <a class="btn" style="background: #0577b5 !important;  font-family:'Myriad Pro'; font-size: 15px; margin-top:0px; font-weight:bold; color: #fff !important; border:1px solid #0577b5 !important; border-radius: 4px !important; margin-right: 20px; padding:6px 16px !important" onclick="admintab()" >{!$Label.Cancel_Label}</a>
+    </div>
+   
+    
+    <apex:outputPanel styleclass="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+        <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="padding:20px 0px; background: #fef5e2;margin: 20px 0;" >
+            <div  class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="padding: 6px 0 0 20px;">
+                <label style="font-size: 18px;">{!$Label.SelectObject_Label}</label><br/> 
+            </div>
+        
+            <div  class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="padding: 6px 0 0 20px;">
+                <apex:selectList value="{!selectedObject}"  size="1" style="margin-right:10px;" styleClass="picklistsize1" multiselect="false">
+                    <apex:actionSupport event="onchange" rerender="fieldvalidbox" status="status" action="{!FetchFields}"/> 
+                    <apex:selectOption itemValue="" itemLabel="{!$Label.NoneLabel}"/>
+                    <apex:selectOptions value="{!SObjectListNew}"></apex:selectOptions>
+                </apex:selectList>
+                <apex:outputPanel id="ObjectsValidated" >
+                    <apex:outputPanel rendered="{!mapsize}" >
+                    <div style="font-size: 12px;padding-top: 10px;" >
+                        <img class="" style="width:15px"  src="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/images/info-icon.png')}" />
+                        {!$Label.FieldValidation_Label5} 
+                        <div>
+                            <apex:repeat value="{!MappedObjectsForValidation}" var="obj">
+                                <span style="border: 1px solid #bbbab8;padding:2px;float:left;margin: 5px;">{!obj} </span>
+                            </apex:repeat>
+                        </div>
+                        
+                    </div>
+                     </apex:outputPanel>
+                </Apex:outputPanel>
+            </div>
+        </div>
+    </apex:outputPanel>
+    
+    <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12" style="float: left; padding-left: 20%; padding-top: 25px;">
+       
+        <apex:outputPanel id="fieldvalidbox">
+            <apex:outputPanel rendered="{!and(selectedObject!='None',selectedObject!='')}">
+            
+            <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+             <span style="font-size:14px;font-weight:bold;">{!$Label.FieldValidation_Label6}</span>
+            </div>
+            
+            
+            <div>
+                
+                
+                <div style="float:left" >
+                    <p Style="font-size: 14px;font-weight: bold;text-align: center;">
+                       {!$Label.FieldValidation_Label7}
+                    </p>
+                    
+                    <div class="divholder" >
+                        
+                        
+                        <div>
+                            
+                            <apex:variable value="{!0}" var="lc"/>
+                            <script>
+                            casefield='';
+                            function addlist(name, idno){
+                                
+                                
+                                if(casefield.indexOf(name)!=-1){
+                                    casefield=casefield.replace(name+';','');
+                                    console.log('ww '+casefield);
+                                    var ids='toselect_'+idno;
+                                    document.getElementById(ids).style.backgroundColor='';
+                                }else{
+                                    casefield+=name+';';
+                                    console.log(casefield);
+                                    var ids='toselect_'+idno;
+                                    document.getElementById(ids).style.backgroundColor='#c8c8c8';
+                                }
+                            }
+                            
+                            function moveto(){
+                                movetocase(casefield);
+                            }
+                            </script>
+                            <apex:actionFunction name="movetocase" action="{!movetoselected}" reRender="tobox,frombox">
+                                <apex:param name="movetodata" value=""/>
+                            </apex:actionFunction>
+                            <apex:outputPanel id="frombox">
+                                
+                                <apex:repeat value="{!caseFields}" var="cf">
+                                    
+                                    <div id="toselect_{!lc}"  style="    cursor: default; padding:5px  0 0 10px  ;width:100%; " onclick="addlist('{!JSINHTMLENCODE(cf)}','{!lc}')">{!HTMLENCODE(caseFields[cf])}</div>
+                                    <apex:variable var="lc" value="{!lc + 1}"/> 
+                                    
+                                </apex:repeat>   
+                                
+                            </apex:outputPanel>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div style="float:left; padding: 80px 20px;text-align:center">
+                    <p style="margin:0">
+                       {!$Label.FieldValidation_Label8}
+                    </p>
+                    <div  class="add" onclick="moveto()" />
+                    <div class="remove" onclick="movefrom()" />
+                    <p>
+                        {!$Label.FieldValidation_Label9}
+                    </p>
+                </div>
+                
+                <div style="float:left">
+                    <p Style="font-size: 14px;font-weight: bold;text-align: center;">
+                        {!$Label.FieldValidation_Label10}
+                    </p>
+                    <div class="divholder" >
+                        
+                        
+                        <div> 
+                            <apex:variable value="{!1}" var="rlc"/>
+                            <script>
+                            
+                            removecasefield='';
+                            function removelist(name, idno){
+                                
+                                
+                                if(removecasefield.indexOf(name)!=-1){
+                                    removecasefield=removecasefield.replace(name+';','');
+                                    console.log('qq '+removecasefield);
+                                    var ids='fromselect_'+idno;
+                                    document.getElementById(ids).style.backgroundColor='';
+                                }else{
+                                    removecasefield+=name+';';
+                                    console.log(removecasefield);
+                                    var ids='fromselect_'+idno;
+                                    document.getElementById(ids).style.backgroundColor='#c8c8c8';
+                                }
+                            }
+                            function movefrom(){
+                                movefromcase(removecasefield);
+                            }
+                            
+                            </script>
+                            
+                            <apex:actionFunction name="movefromcase" action="{!movefromselected}"  reRender="tobox,frombox">
+                                <apex:param name="movefromdata" value=""/>
+                            </apex:actionFunction>
+                            <apex:outputPanel id="tobox">
+                                <apex:repeat value="{!selectcaseFields}" var="cf">
+                                    
+                                    <div id="fromselect_{!rlc}"  style="    cursor: default; padding:5px  0 0 10px  ;width:100%; " onclick="removelist('{!JSINHTMLENCODE(cf)}','{!rlc}')">{!HTMLENCODE(cf)}</div>
+                                    <apex:variable var="rlc" value="{!rlc + 1}"/> 
+                                </apex:repeat>   
+                            </apex:outputPanel>
+                            <a href="#AdminSettings" data-toggle="tab" id='nextvalid'></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </apex:outputPanel>
+        </apex:outputPanel>
+    </div>
+    
+</apex:component>

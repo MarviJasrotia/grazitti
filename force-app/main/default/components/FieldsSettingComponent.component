@@ -1,0 +1,1451 @@
+<!-- Parent Page Adminsetting.vfp -->
+<!-- Parent Controller AdminSettingController-->
+<apex:component controller="FieldsSettingController" allowDML="true"  >
+    
+    <!-- <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/JQ.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/bootstrap/JQ.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/unblockUI.js')}"/>
+
+<apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/JQ.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/bootstrap/bootstrap.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/bootstrap/FieldsSettingComponentscript.js')}"/>-->
+    
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery-ui.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/unblockUI.js')}"/>
+    
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery.validate.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/bootstrap.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/FieldsSettingComponentscript.js')}"/>
+    
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/font.css')}"/>
+    
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/newstyle.css')}"/>
+    
+    <style> 
+        .liactive>a{
+        border-color: #eee #eee #ddd !important;
+        background: #0676B8  !important;
+        color: #fff !important;
+        }
+        .autoDisable {
+        pointer-events: none;
+        }
+        .actisdsve>a{
+        border-top-right-radius: 20px !important;
+        }
+        .colorfill{
+        background-color: #0676b8;
+        color: white !important;
+        }
+        .projdivholder{
+        display: none;
+        z-index:99;
+        background-color: #e4e4e4;
+        position: absolute;
+        
+        border: 1px solid #e4e4e4;
+        max-height: 150px;
+        max-width: 350px;
+        padding: 10px;
+        overflow: auto;
+        box-shadow: 3px 3px #ccc9c9;
+        }
+        .projdivholder::-webkit-scrollbar {
+        width: 0px;  /* remove scrollbar space */
+        background: transparent;  /* optional: just make scrollbar invisible */
+        }
+        .prodiv{
+        float: left;
+        padding: 2px 10px;
+        font-size: 14px;
+        color: black;
+        cursor:pointer;
+        margin: 2px;
+        border: 1px solid #0676b8;
+        }
+        .plus{
+        margin: 5px 0 0 7px;
+        height: 18px;
+        width: 18px;
+        float: left;
+        background-position-y: 0;
+        //background-image: url(/resource/namespace__SFDCJiraConnector/SFDCJiraConnector/images/add-new-btn-sprite.png);
+        <!-- NameSpace removed  Grz_Sf__SFDCJiraConnector to SFDCJiraConnector-->
+        background-image: url(/resource/SFDCJiraConnector/SFDCJiraConnector/images/add-new-btn-sprite.png);
+        background-repeat: no-repeat;
+        background-size: 18px;
+        }
+        .prodiv:hover{background-color: #005282;color:white}
+        .refreshimg{
+        //background-image: url(/resource/namespace__SFDCJiraConnector/SFDCJiraConnector/images/Refresh.png);
+        <!-- NameSpace removed  Grz_Sf__SFDCJiraConnector to SFDCJiraConnector-->
+        background-image: url(/resource/SFDCJiraConnector/SFDCJiraConnector/images/Refresh.png);
+        background-repeat: no-repeat;
+        cursor: pointer;
+        width: 23px;
+        height: 23px;
+        border-radius: 25px;
+        float: right;
+        background-size: contain;
+        margin: 0 5px;
+        }
+        
+        .refreshtool{
+        display: inline-block;
+        }
+        .refreshtooltip{
+        visibility: hidden;
+        position: absolute;
+        top: -75px;
+        right: 0;
+        padding: 0;
+        font-size: 12px;
+        line-height: 20px;
+        box-shadow: #3a3a42 5px 2px 12px 0;
+        text-align: center;
+        font-family: Open Sans;
+        background-color: #000000;
+        border-radius: 10px;
+        color: white;
+        }
+        .refreshpoint{
+        border: 9px solid;
+        visibility: hidden;
+        border-color: transparent #000000 transparent transparent;
+        width: 0px;
+        position: absolute;
+        top: -24px;
+        right: 33px;
+        }
+        .refreshtool:hover .refreshtooltip , .refreshtool:hover .refreshpoint{
+        visibility:visible;
+        z-index:1;
+        }
+        .refreshtool:hover .refreshpoint{
+        visibility:visible;
+        z-index:1;
+        }
+        .chattertooltipobj{
+        top: 2px;
+        padding: 2px 5px;
+        font-size: 12px;
+        line-height: 20px;
+        font-family: Open Sans;
+        box-shadow: #3a3a42 5px 2px 12px 0;
+        background-color: #000000;
+        border-radius: 10px;
+        color: white;
+        width: 200px;
+        }
+        
+        .hideadv{
+        display:none;
+        }
+        
+        .mappedObjClass:hover .delClass {
+        color:#0676B8 !important;
+        }
+        #alertDelDiv{
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        display:none;
+        text-align: center;
+        padding: 20px;
+        background-color: #ffffff !important;
+        border: none !important;
+        box-shadow: 0px 0px 1px #000 !important;
+        cursor: pointer;
+        }
+        .defaultsection{
+        position: absolute;
+        top: 0;
+        left:30%;   
+        z-index: 9999; 
+        display:none;
+        text-align: center;
+        padding: 20px;
+        
+        }
+        .blur{
+        /* -webkit-filter: blur(2px); /* Chrome, Safari, Opera */
+        filter: blur(2px); */ 
+        }
+        
+        
+        .Configureimgg{
+        width: 100%;
+        background-position: center 0px;
+        height: 24px;
+        background-repeat: no-repeat;
+        <!-- NameSpace removed  Grz_Sf__SFDCJiraConnector to SFDCJiraConnector-->
+        background-image:url('/resource/SFDCJiraConnector/SFDCJiraConnector/images/Configuration_Gear.png'); 
+        }
+        .Configureimgg:hover{
+        background-position-y: -24px;
+        }
+        
+        .marginleft{ 
+        margin-left: 5px;
+        
+        
+        }
+        #licpopUpDiv{
+        min-height: 190px;
+        position: absolute;
+        top: 50%;
+        width: 70%;
+        left: 15%;
+        z-index: 9999;
+        background-color: #fbf5f5;
+        text-align: center;
+        border: 1px solid #0676B8;
+        padding: 20px;
+        box-shadow: 1px 1px 30px #0676B8;
+        cursor: pointer;
+        }
+        .backgrounddesign{
+        display:none;
+        width: 100%;
+        position: absolute;
+        background: black;
+        opacity: .3;
+        height: 100%;
+        top: 0;
+        z-index: 1;
+        }
+        .DefaultPanelContainer{
+        display:inline-block;
+        
+        margin:15% auto;
+        background-color: #ffffff !important;
+        border: none !important;
+        box-shadow: 0px 0px 1px #000 !important;
+        }
+        .DefaultPanelContainerTable tr th{
+        padding: 5px 10px;
+        white-space: normal;
+        text-align: center;
+        font-size: 12px;
+        }
+        .inputcolcss{
+        width:60%;
+        margin: 4px 0px;
+        }
+        .inputcss{
+        height: 18px;
+        max-width: 220px;
+        min-width: 220px;
+        max-height: 60px;
+        margin:4px 0px;
+        }
+    </style>
+    <script>
+    function ProjectIdToName(data){
+        
+        var Projectkey='{!ProjectIdkey}'; 
+        var Projectkey=JSON.parse(Projectkey);
+        var Projectname='';
+        var choosendProject=data.split(',');
+        for(var p=0;p<choosendProject.length;p++){
+            if(Projectkey[choosendProject[p]]!=null)
+                Projectname=Projectname+Projectkey[choosendProject[p]].Name+',';    
+        }
+        
+        if(Projectname.slice(-1)==','){
+            Projectname=Projectname.slice(0, -1);
+        }
+        return Projectname;
+    }
+    $( document ).ready(function() {
+        
+        var showObj = document.getElementById('proLabel');
+        var e = document.getElementById('{!$Component.testttt}');
+        var strUser = e.options[e.selectedIndex].text;
+        showObj.innerText = strUser;
+        //$('#projli li:first-child').addClass('active');
+        //$('#projfield div:first-child').addClass('in');
+        //$('#projfield div:first-child').addClass('active');
+    });
+    $(document).on('click', function(evt) {
+        if(!evt.target.classList.contains('projdivholder') &&  !evt.target.classList.contains('plus') && !evt.target.classList.contains('prodiv')){
+            $('.projdivholder').css('display','none'); 
+        }
+    });
+    var saveindex;
+    function save(index,idset){
+        saveindex=index;
+        var pro=index.split('_');
+        pro=pro[2];
+        var row='#row'+idset;
+        var input='#row'+idset +' input';
+        var inputselect='#row'+idset +' select';
+        
+        var success=true;
+        var inputset=$(input);
+        var selectset=$(inputselect);
+        var section=idset.split('_');
+        
+        if(section[0] == 'req' && inputset[0].value == ''){
+            $(inputset[0]).css("box-shadow","rgb(0, 0, 0) 0 0px 5px 0");
+            success=false;    
+        }
+        if(section[0]!= 'req' ){
+            for(var i=0;i<inputset.length;i++){
+                if((pro=='All' && (i==0 || i==2))||(pro!='All' && i==0)){
+                    if(  inputset[i].value==''){
+                        $(inputset[i]).css("box-shadow","rgb(0, 0, 0) 0 0px 5px 0");
+                        success=false;       
+                    }
+                }
+            }
+            
+            for(var i=0;i<selectset.length;i++){
+                
+                if((pro=='All' && (i==0 || i==1))||(pro!='All' && i==0)){ 
+                    if(selectset[i].value==''){
+                        $(selectset[i]).css("box-shadow","rgb(0, 0, 0) 0 0px 5px 0");   
+                        success=false;       
+                    }
+                }
+            }
+        }
+        
+        if(success){
+            //showProcessing
+            savefield(index);
+        }else{
+            alert("{!$Label.FieldsSettingComponent_Label1}");
+        }
+    }
+    function CommonClick(proj){
+        
+        var index= document.getElementById('CommonSave').value;
+        var success=true;
+        var op = document.getElementById('rowop_0');
+        if(op != null){
+            if(document.getElementById("rowop_0").querySelectorAll("input")[0] != 'undefined'){
+                var op1= document.getElementById("rowop_0").querySelectorAll("input")[0].value;
+                op1 = op1.trim();
+            }
+            
+            if(document.getElementById("rowop_0").querySelectorAll("select")[0] != 'undefined'){
+                var op2 = document.getElementById("rowop_0").querySelectorAll("select")[0].value;
+                op2 = op2.trim();
+            }
+            
+            
+            if(op1.length != 0 && op2.length != 0 ){
+                index = index + 'op_0_'+proj;
+            }else if(op1.length == 0 && op2.length == 0){
+                success=true;
+            }else{
+                success=false;
+            }
+            if(!success){
+                alert("{!$Label.FieldsSettingComponent_Label1}");
+            }
+            
+        }
+        
+        if (index==undefined || index.trim()==''){
+            return;
+        }
+        
+        var data=index.split(',');
+        
+        for(var j=0;j<data.length;j++){
+            
+            var idset=data[j].substring(0,data[j].lastIndexOf('_'));
+            
+            var row='#row'+idset;
+            var input='#row'+idset +' input';
+            var inputselect='#row'+idset +' select';
+            
+            
+            var inputset=$(input);
+            var selectset=$(inputselect);
+            var section=idset.split('_');
+            
+            
+            if(section[0] == 'req' && inputset[0].value == ''){
+                $(inputset[0]).css("box-shadow","rgb(0, 0, 0) 0 0px 5px 0");
+                success=false;    
+            }
+            if(!success){
+                alert("{!$Label.FieldsSettingComponent_Label1}");
+                break;
+            }
+        }
+        if(success){
+            savefield(index);
+            getFieldData();
+        }
+    }
+    function ReflectReadOnly(current,section){
+        var index= current.accessKey;
+        index = index.split('_');
+        index =section+'_'+index[1];
+        var checkinput='#check'+index +' input';
+        var checkdiv='#check'+index;
+        if(current.value!=''){
+            $(checkdiv).css('pointer-events','auto');
+            $(checkdiv).css('background-image','url({!URLFOR($Resource.SFDCJiraConnector,"/SFDCJiraConnector/images/checkbox-blue-border.png")})');
+            $(checkdiv).parent().css('background-image','url({!URLFOR($Resource.SFDCJiraConnector,"/SFDCJiraConnector/images/checkbox-blue-border.png")})');
+            $(checkdiv).parent().css('border','1px solid rgb(107, 172, 199)');
+        }else{
+            $(checkdiv).css('pointer-events','none');
+            $(checkinput).prop('checked',false);
+            $(checkdiv).css('background-image','url("")');
+            $(checkdiv).parent().css('background-image','url({!URLFOR($Resource.SFDCJiraConnector,"/SFDCJiraConnector/images/checkbox-gray.png")})');
+            $(checkdiv).parent().css('border','none');
+            
+            
+        }
+    }
+    function edit(index,proindex,sfFieldVal){
+        var pro='pro_'+index;
+        var plus='#plus_'+index;
+        $(plus).css('pointer-events','auto');
+        document.getElementById('CommonSave').value+=proindex+',';
+        var row='#row'+index+' input '+', #row'+index+' select';
+        $(row).removeAttr('disabled');
+        $(row).css('background-color','white');
+        $(row).css('border','1px solid #aee0f5');
+        $(row).css('box-shadow','0px 0px 5px 0px rgba(126, 209, 243, 1)');
+        $('#sav'+index).addClass("show");
+        $('#sav'+index).removeClass("hide");
+        $('#edit'+index).addClass("hide"); 
+        // $(row).css('background-color','black');
+        var checkinput='#check'+index+' input';
+        
+        var reqcheckinput='#reqcheck'+index+' input';
+        var reqcheck='#reqcheck'+index
+        var check='#check'+index
+        var reportcheckinput='#checkReporting'+index+' input';
+        var reportcheck='#checkReporting'+index
+        
+        if(sfFieldVal.length != 0){
+            $(check).parent().css('background-image','url({!URLFOR($Resource.SFDCJiraConnector,"/SFDCJiraConnector/images/checkbox-blue-border.png")})');
+            $(reqcheck).parent().css('background-image','url({!URLFOR($Resource.SFDCJiraConnector,"/SFDCJiraConnector/images/checkbox-blue-border.png")})');
+            
+            $(check).parent().css('border','1px solid rgb(107, 172, 199)');
+            $(reqcheck).parent().css('border','1px solid rgb(107, 172, 199)');
+        }else{
+            $(check).css('pointer-events','none');
+        }
+        $(reportcheck).parent().css('background-image','url({!URLFOR($Resource.SFDCJiraConnector,"/SFDCJiraConnector/images/checkbox-blue-border.png")})');
+        $(reportcheck).parent().css('border','1px solid rgb(107, 172, 199)');
+        
+        if( $(checkinput).prop('checked')){
+            $(check).css('background-image','url({!URLFOR($Resource.SFDCJiraConnector,"/SFDCJiraConnector/images/green-check.png")})');
+        }else{
+            $(check).css('background-image','url("")');
+        }
+        if( $(reqcheckinput).prop('checked')){
+            $(reqcheck).css('background-image','url({!URLFOR($Resource.SFDCJiraConnector,"/SFDCJiraConnector/images/green-check.png")})');
+        }else{
+            $(reqcheck).css('background-image','url("")');
+        }
+        if( $(reportcheckinput).prop('checked')){
+            $(reportcheck).css('background-image','url({!URLFOR($Resource.SFDCJiraConnector,"/SFDCJiraConnector/images/green-check.png")})');
+        }else{
+            $(reportcheck).css('background-image','url("")');
+        }
+        
+        
+        
+    } 
+    function del(del){
+        removeFunction(del);
+    } 
+    function check(checkid){
+        var checkinput='#check'+checkid +' input';
+        var checkdiv='#check'+checkid;
+        if( $(checkinput).prop('checked')){
+            $(checkdiv).css('background-image','url({!URLFOR($Resource.SFDCJiraConnector,"/SFDCJiraConnector/images/green-check.png")})');
+            $(checkinput).css('cursor','pointer');
+            
+        }else{
+            $(checkdiv).css('background-image','url("")');
+            
+        }
+        
+    }
+    function reqcheck(checkid){
+        var checkinput='#reqcheck'+checkid +' input';
+        var checkdiv='#reqcheck'+checkid;
+        if( $(checkinput).prop('checked')){
+            $(checkdiv).css('background-image','url({!URLFOR($Resource.SFDCJiraConnector,"/SFDCJiraConnector/images/green-check.png")})');
+            $(checkinput).css('cursor','pointer');
+            
+        }else{
+            $(checkdiv).css('background-image','url("")');
+            
+        }
+        
+    }
+    function showproject( divid, row ,num){
+        document.getElementById('propick_'+divid+row+num).style.display='block';
+    }
+    function selectedproject(project){
+        
+        refpro(project);
+    }
+    function addproject(val ,projectid,inputid,inputidhidden,proname){
+        
+        var data= document.getElementById(inputidhidden).value;
+        if(data.includes(projectid)){
+            data=data.replace(projectid,'');
+            val.classList.remove('colorfill');
+        }else{
+            data=data+','+projectid;
+            val.classList.add('colorfill');
+            
+        }
+        if(data.includes(',,')){
+            data= data.replace(',,',',');
+        }
+        if(data.slice(-1)==','){
+            data=data.slice(0, -1);
+        }
+        
+        if(data.slice(0,1)==','){
+            data=data.slice(1);
+        }
+        
+        document.getElementById(inputid).value=ProjectIdToName(data);
+        document.getElementById(inputid).title=ProjectIdToName(data);
+        document.getElementById(inputidhidden).value=data;
+    }
+    function showprojectlist(divid){
+        
+        divid='#'+divid+' div.projdivholder';
+        $(divid).css('display','Block');
+    }
+    function hidebox(data){
+        $(data).css('display','none');
+    }
+    
+    function refreshclick(action){
+        
+        //$(action).css("background-image","url(/resource/namespace__SFDCJiraConnector/SFDCJiraConnector/images/Refresh.gif");
+        //NameSpace removed  Grz_Sf__SFDCJiraConnector to SFDCJiraConnector
+        $(action).css("background-image","url(/resource/SFDCJiraConnector/SFDCJiraConnector/images/Refresh.gif");
+        
+        refreshsettings();
+    }
+    function delProFieldMapping(Obj){
+        document.getElementById('alertDelDiv').style.display='Block';
+        var object = document.getElementById('objName');
+        object.innerText = Obj;
+        document.getElementById('backgrounddesign').style.display='Block';
+        
+    }
+    function getProjectLabel(selObj,id){
+        
+        var showObj = document.getElementById('proLabel');
+        var e = document.getElementById(id);
+        var strUser = e.options[e.selectedIndex].text;
+        showObj.innerText = strUser;
+    }
+    function delMappingForObject(delVar){
+        if(delVar == 'Yes'){
+            document.getElementById('alertDelDiv').style.display='None';
+            deleteMapping(document.getElementById('objName').innerText);
+            document.getElementById('backgrounddesign').style.display='None';
+            
+        }
+        if(delVar == 'No'){
+            document.getElementById('alertDelDiv').style.display='None';
+            document.getElementById('backgrounddesign').style.display='None';
+            
+        }
+        /*    $("#casenumberboxDiv").css("filter","none");
+        $("#defaultDiv").css("filter","none");
+        $("#projectMainDiv").css("filter","none");
+        $("#FieldMapDiv").css("filter","none");
+        $("#saveDiv").css("filter","none");
+        $("#leftPanelDiv").css("filter","none");  
+        $("#objLableDiv").css("filter","none");*/  
+    }
+    function showFieldMapping(objMapping,object){
+        
+        updateVar(objMapping);
+    }
+    
+    function updatecheckboxproperty(val){
+        if(sfField != null && sfField != ''){
+            $('#check'+abc+' input').css('pointer-events','auto');
+            $('#check'+abc+' input').css('cursor','pointer');
+            $('#check'+abc+' input').parent().css('background-image','url({!URLFOR($Resource.SFDCJiraConnector,"/SFDCJiraConnector/images/checkbox-blue-border.png")})');
+            $('#check'+abc+' input').parent().css('border','1px solid rgb(107, 172, 199)');
+        } 
+    }
+    function configure(section,jiraFieldApi,SelectedObject){
+        document.getElementById('backgrounddesign').style.display='Block';
+        DefaultSectionData(jiraFieldApi,SelectedObject);
+        
+    }
+    function cancelDefaultMapping(hideDiv){
+        document.getElementById(hideDiv).style.display='None';
+        document.getElementById('backgrounddesign').style.display='None';
+        
+        
+    }
+    function Afterconfigure(DivToShow){
+        document.getElementById(DivToShow).style.display='Block';
+        document.getElementById(DivToShow).focus(); 
+        
+    }
+    function SaveDefaultValue(){
+        updateDefaultVal(); 
+        document.getElementById('backgrounddesign').style.display='None';
+        
+    }
+    function deleteObjList(del,objectname,hiddenDiv){
+        
+        console.log(document.getElementById(hiddenDiv));
+        var inputHid = document.getElementById(hiddenDiv).value;
+        
+        if(del == true){
+            inputHid = inputHid + objectname +',';
+        }
+        if(del == false){
+            inputHid = inputHid.replace(objectname+',' , '');
+            inputHid = inputHid.trim();
+        }
+        console.log('--->'+inputHid);
+        document.getElementById(hiddenDiv).value = inputHid;
+    }
+    function deleteSfObjMapping(InputId){
+        document.getElementById('licpopUpDiv').style.display='None';
+        var value= document.getElementById(InputId).value;
+        if(value!=null && value!='' && value!=undefined){
+            deleteMappingFMA();
+        }
+    }
+    function fieldtab(){ 
+        
+        if(document.getElementById('next')!=null && document.getElementById('next')!=undefined){
+            document.getElementById('next').click();
+        }
+        stopProcessing();
+        switchtab('Fields');
+    }
+    </script>
+    <apex:outputPanel id="savecompletePanel">
+        <script>
+        function savecomplete(){
+            
+            if( '{!showAlert}' == 'true'){
+                return;   
+            }
+            var index=saveindex;
+            
+            var index=index.substring(0,index.lastIndexOf('_'));
+            var row='#row'+index+' input '+', #row'+index+' select';
+            $('#sav'+index).removeClass("show");
+            $('#sav'+index).addClass("hide");
+            $('#edit'+index).addClass("show");
+            $('#edit'+index).removeClass("hide");
+            $(row).attr('disabled','true');
+            getFieldData();
+            // showProcessing();
+        }
+        </script>
+    </apex:outputPanel> 
+    
+    <apex:outputPanel id="JobCheck">
+        <script>
+        function checkforasyncdone(){
+            var s = '{!JSENCODE(selectpro)}';
+            if('{!AllJobCompleted}'=='true'){
+                savecomplete();
+            }else{
+                setTimeout( AsyncDone(), 5000);
+                
+            }
+            
+            /**/
+            
+        }
+        </script>
+        
+    </apex:outputPanel>
+    <script>
+    function UpdateUserOption(DataType,UserInputId,MultiUserInputId,SelectId){
+    
+        var UserInput = document.getElementById(UserInputId);
+        var MultiUserInput = document.getElementById(MultiUserInputId);
+        
+        var Selectdata = document.getElementById(SelectId);
+        if(DataType!='multiuserpicker' && UserInput!=null && Selectdata!=null && Selectdata.value!='' ){
+            UserInput.value = Selectdata.value;
+            Selectdata.style.display='none';
+        }else if(MultiUserInput!=null && Selectdata!=null && Selectdata.value!='' && DataType=='multiuserpicker'){
+            if(MultiUserInput.value!='' && MultiUserInput.value!=null){
+                if(MultiUserInput.value.indexOf(',')==-1){
+                    MultiUserInput.value=Selectdata.value+',\n';
+                }else{ 
+                    var Mvalue=MultiUserInput.value.replace(/\n/g,'');
+                    var subdata=[];
+                    subdata=Mvalue.split(','); 
+                    subdata.length=subdata.length-1;
+                    var subdataset = new Set(subdata);
+                    subdataset.add(Selectdata.value);
+                    var subdataArray = Array.from(subdataset);
+                    MultiUserInput.value=subdataArray.join(',\n')+',\n';
+                }
+            }
+            Selectdata.style.display='none';
+        }  
+    }
+    function stopfacet(){
+        if(document.getElementById(facetId)!=null){
+            document.getElementById(facetId).classList.remove('Facetcss');
+            document.getElementById(facetId+'.start').style.display='none';
+            document.getElementById(facetId+'.stop').style.display='none';
+            facetId='';
+        }
+    }
+    function Startfacet(facet){
+        if(document.getElementById(facet)!=null){
+            document.getElementById(facet).classList.add('Facetcss');
+            document.getElementById(facet+'.start').style.display='block';
+            document.getElementById(facet+'.stop').style.display='block';
+            facetId='';
+            facetId=facet;
+        }
+    } 
+    function CallUserList(inputid,facet){
+        var data = document.getElementById(inputid);
+        oldval=data.value;
+        Startfacet(facet);
+        setTimeout(function(){
+            var data = document.getElementById(inputid);
+            if(data.value!='' && data.value!=null && data.value==oldval ){
+                CallUserListMethod('FetchUser__'+data.value);
+            }
+        },1000,oldval)
+        stopfacet(); 
+        
+    }
+    function MultiCallUserList(inputid,facet){
+        var data = document.getElementById(inputid);
+        oldval=data.value;
+        Startfacet(facet);
+        setTimeout(function(){
+            var data = document.getElementById(inputid);
+            if(data.value!='' && data.value!=null && data.value==oldval ){
+                var subdata=[];
+                subdata=data.value.split(',\n'); 
+                CallUserListMethod('FetchUser__'+subdata[subdata.length-1]);
+            }
+        },1000,oldval)
+        stopfacet(); 
+    }
+    function Validatedata(datatype,ele){
+       
+        var data=ele.value;
+        if(isNaN(data) && datatype=='float'){
+            data=data.replace(/[^0-9]/g, '');
+            ele.value=data;
+        }
+    }
+    </script>
+    
+    <apex:actionFunction name="CallUserListMethod" action="{!GetUserList}" rerender="userlistBlock" oncomplete="stopfacet()" >
+        <apex:param name="usersearchtext" value="" assignTo="{!usersearchtext}" />
+    </apex:actionFunction>
+    <apex:actionFunction name="EmptyUserListMethod" action="{!GetUserList}" rerender="userlistBlock,MultiUserTypeInputPanel" oncomplete="stopfacet()" >
+        <apex:param name="usersearchtext" value="" assignTo="{!usersearchtext}" />
+    </apex:actionFunction>
+    <apex:actionFunction action="{!fetchfieldsInitial}" reRender="Fieldcomp" name="getFieldData"  oncomplete="fieldtab()" status="status" />
+    
+    
+    
+    <apex:actionFunction action="{!DefaultSave}" reRender="DefaultPanel" status="status"  name="updateDefaultVal" />
+    
+    <apex:actionFunction action="{!DefaultSectionDataApex}" reRender="DefaultPanel" status="status"  name="DefaultSectionData"  oncomplete="Afterconfigure('{!$Component.DefaultPanel}')">
+        <apex:param name="jiraFieldApiForDefault" value="" />
+        <apex:param name="SelectedObjectForDefault" value="" />
+        
+    </apex:actionFunction>
+    
+    
+    <apex:actionFunction action="{!updateValue}" reRender="selectObjectDiv,objSection,FieldMap,casenumberbox" status="status"  name="updateVar"  oncomplete="getProjectLabel('','{!$Component.testttt}')">
+        <apex:param name="updateObj" value="" />
+    </apex:actionFunction>
+    <apex:actionFunction action="{!deleteMappingForSelectedObj}" reRender="selectObjectDiv,projectMainDivobjSection,FieldMap,projectDiv" status="status"  name="deleteMapping" oncomplete="" >
+        <apex:param name="delObj" value="" />
+    </apex:actionFunction>
+    <apex:actionFunction action="{!deleteobjectsMapping}" reRender="selectObjectDiv,objSection,FieldMap,casenumberbox,projectDiv" status="status"  name="deleteMappingFMA" oncomplete="" >
+    </apex:actionFunction>
+    <apex:actionFunction action="{!AsyncJobDone}" reRender="JobCheck" status="status"  name="AsyncDone" oncomplete="checkforasyncdone()" >
+        <apex:param name="jobname" value="updateJiraFieldData" assignTo="{!jobname}" />
+    </apex:actionFunction>
+    
+    <apex:actionFunction reRender="selectObjectDiv,objSection,FieldMap,casenumberbox,saveDiv,projectDiv" name="refpro" >
+        <apex:param name="proname" value="" assignTo="{!selectpro}" />
+    </apex:actionFunction>
+    <apex:actionFunction action="{!saveFields}" reRender="FieldMap,casenumberbox,savecompletePanel,alertPanel,selectObjectDiv,objSection,projectDiv" status="status"  name="savefield" oncomplete="checkforasyncdone();" >
+        <apex:param name="index" value="" />
+    </apex:actionFunction>
+    <apex:actionFunction action="{!addJiraSfField}" reRender="FieldMap" name="addjirafields" >
+        <apex:param name="projectkey" value=""  />
+    </apex:actionFunction>
+    
+    <apex:actionFunction action="{!refreshFieldSettings}" reRender="FieldMap,refresh" name="refreshsettings" status="status" immediate="true" />
+    
+    <apex:outputPanel id="alertPanel">
+        <script>
+        
+        if('{!showAlert}' == 'true'){
+            alert('{!displayError}');
+        }
+        </script>
+        
+    </apex:outputPanel>
+    <!------ Salesforce Object Selection Section Start------>
+    <apex:outputPanel id="selectObjectDiv" styleclass="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad"  >
+        <apex:messages />
+        <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 objDiv" style="padding:20px 0px; margin: 20px 0;" >
+            <div id="objLableDiv" class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="padding: 6px 0 0 20px;">
+                <label style="font-size: 18px;">{!$Label.SelectObject_Label}</label><br/> 
+            </div>
+            <div  id="selectDiv" class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding: 6px 0 0 20px;">
+                <apex:selectList id="testttt" value="{!selectedObject}" size="1" style="margin-right:10px;" styleClass="picklistsize1" multiselect="false">
+                    <apex:actionSupport event="onchange" rerender="projectDiv,saveDiv,objSection,FieldMap" status="status" action="{!fetchfields}" oncomplete="getProjectLabel('{!selectedObject}','{!$Component.testttt}')"/>
+                    <apex:selectOption itemValue="" itemLabel="{!$Label.NoneLabel}"/> 
+                    <apex:selectOptions id="test" value="{!SObjectList}"></apex:selectOptions>
+                </apex:selectList>
+                <apex:outputPanel id="objSection" rendered="{!SizeOfList != 0 }">
+                    <div style="padding: 12px;" class="col-12-lg">
+                        <div style="font-size: 12px;position:relative:" class="col-12-lg">
+                            <img class="" style="width:15px"  src="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/images/info-icon.png')}" />
+                            {!$Label.FieldsSettingComponent_Label3}
+                            <div>                                
+                                <apex:repeat value="{!mappedSalesforceObjects}" var="obj">
+                                    <div class="mappedObjClass" style="border: 1px solid #bbbab8;padding:5px;float:left;margin: 5px;"><span style="cursor:pointer;" onclick="showFieldMapping('{!obj}','{!mappedSalesforceObjects[obj]}')">{!mappedSalesforceObjects[obj]}</span> <span class="delClass" onclick="delProFieldMapping('{!obj}')" style="cursor:pointer;color:#c1c1c1;">X</span></div>
+                                </apex:repeat>
+                            </div>
+                            
+                            <div id="alertDelDiv" class="col-lg-12" style="">
+                                {!$Label.FieldsSettingComponent_Label4} <span id="objName" style="font-weight:bold;text-transform: Uppercase;"></span>{!$Label.FieldsSettingComponent_Label5}
+                                <div class="col-lg-12 nopad" style="    padding: 15px 0 !important;">
+                                    <a onclick ="delMappingForObject('Yes');"  style="background: #0577b5 !important;
+                                                                                      font-family: 'Myriad Pro';
+                                                                                      font-size: 15px;
+                                                                                      cursor: pointer;
+                                                                                      margin-top: 0px;
+                                                                                      color: #fff !important;
+                                                                                      text-decoration: none;
+                                                                                      border: 1px solid #0577b5 !important;
+                                                                                      border-radius: 4px !important;
+                                                                                      margin-right: 20px;
+                                                                                      padding: 5px 15px;">{!$Label.Yes_Label}</a>
+                                    <a onclick ="delMappingForObject('No')"  style="background: #0577b5 !important;
+                                                                                    font-family: 'Myriad Pro';
+                                                                                    font-size: 15px;
+                                                                                    cursor: pointer;
+                                                                                    margin-top: 0px;
+                                                                                    color: #fff !important;
+                                                                                    text-decoration: none;
+                                                                                    border: 1px solid #0577b5 !important;
+                                                                                    border-radius: 4px !important;
+                                                                                    margin-right: 20px;
+                                                                                    padding: 5px 15px;">{!$Label.No_Label}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </apex:outputPanel>
+            </div>            
+        </div>
+    </apex:outputPanel>
+    <!------ Salesforce Object Selection Section End------>
+    
+    <!------ Jira Project and Field Configuration Section Start------>
+    
+    <apex:outputPanel rendered="{!!ObjectLimitExceed}">
+        <!------ Field specific Configuration Section Start------>
+        
+        
+        <apex:outputPanel layout="block" styleclass="" id="DefaultPanel"
+                          style="    width: 100%;
+                                 height: 100%;
+                                 left: 0px;
+                                 text-align: center;
+                                 background: transparent;
+                                 border: none;
+                                 box-shadow: none;
+                                 display: none;
+                                 z-index: 111;
+                                 position: absolute;">
+            
+            <apex:outputPanel layout="block" id="DefaultPanelContainer" styleClass="DefaultPanelContainer">
+                <table style="border:1px solid #c1c1c1;min-height: 100px;" class="DefaultPanelContainerTable">
+                    <tr style="border:1px solid #c1c1c1;background-color: #e4eef2;">
+                        <th> 
+                            {!$Label.FieldsSettingComponent_Label7}
+                        </th>
+                        <th> 
+                            {!$Label.FieldsSettingComponent_Label8}
+                        </th>
+                        <th title="{!$Label.FieldsSettingComponent_Label9}" >
+                            {!$Label.FieldsSettingComponent_Label10}
+                        </th>
+                        <th title="{!$Label.FieldsSettingComponent_Label11}" >
+                            {!$Label.FieldsSettingComponent_Label12}
+                        </th>
+                        <th title="{!$Label.FieldsSettingComponent_Label13}">
+                            {!$Label.FieldsSettingComponent_Label14}
+                        </th>
+                        <th title="{!$Label.FieldsSettingComponent_Label15}">
+                            {!$Label.FieldsSettingComponent_Label16}
+                        </th>
+                        
+                        <th title="{!$Label.FieldsSettingComponent_Label17} {!selectedObject} {!$Label.FieldsSettingComponent_Label43}" >
+                            {!$Label.FieldsSettingComponent_Label18}
+                        </th>
+                    </tr>
+                    
+                    <apex:repeat value="{!DefaultWrapper.JiraFields}" var="dynamiclist">
+                        <tr>
+                            <td style="padding:10px;">
+                                {!dynamiclist.mappedfield.name}
+                            </td>
+                            <td style="padding:10px;">
+                                {!dynamiclist.mappedfield.Jira_Field_Name__c} 
+                            </td>
+                            <td style="padding:10px;">
+                                <apex:inputField value="{!dynamiclist.mappedfield.ViewMode__c}"   />
+                            </td>
+                            <td style="padding:10px;">
+                                <apex:inputField value="{!dynamiclist.mappedfield.Enable_Record_Mapping__c }"   />
+                            </td>
+                            <td style="padding:10px;">
+                                <apex:inputField style="width: 35px;
+                                                        text-align: center;"
+                                                 value="{!dynamiclist.mappedfield.Order__c}"   />
+                            </td>
+                            <td style="padding:10px;position:relative;">
+                                <apex:inputField value="{!dynamiclist.mappedfield.Section__c}"   />
+                                <div style="right: 35px;
+                                            font-size: 10px;
+                                            position: absolute;
+                                            padding: 0 0 10px;
+                                            {!if(SectionId=='','display:none;','')}" >
+                                    <a href="/{!SectionId}/e?" target="_blank" style="text-decoration:none;">{!$Label.FieldsSettingComponent_Label19}</a>
+                                </div>
+                            </td>
+                            <td style="padding:10px;">
+                                <!--textfield,float,labels,string,gh-epic-label-->
+                                <apex:inputText onkeyup="Validatedata('{!dynamiclist.mappedField.DataType__c}',this)" value="{!dynamiclist.fieldValue}"
+                                                rendered="{!AND(OR(
+                                                          dynamiclist.mappedField.DataType__c=='textfield',
+                                                          dynamiclist.mappedField.DataType__c=='float',
+                                                          dynamiclist.mappedField.DataType__c=='labels',
+                                                          dynamiclist.mappedField.DataType__c=='string',
+                                                          dynamiclist.mappedField.DataType__c=='gh-epic-label')
+                                                          ,dynamiclist.mappedField.JIRA_Field_Api_Name__c!='description')}"   />                             
+                                
+                                <!--multiuserpicker 
+<apex:inputText id="MultiUserTypeInput" rendered="{!AND(dynamiclist.mappedfield.IsArray__c,dynamiclist.mappedfield.DataType__c=='multiuserpicker')}"
+styleClass="{!if(dynamiclist.mappedfield.section__r.Column__c=='1','inputcolcss','inputcss')}"
+disabled="{!dynamiclist.mappedfield.ReadOnly__c}"
+onkeyup="CallUserList('{!$Component.MultiUserTypeInput}')">
+
+</apex:inputText>-->
+                                <!---UserList support for user,userpicker,multiuserpicker---> 
+                                <apex:outputPanel id="userlistBlock" style="top: 24px; left:5px;box-shadow: #e8dfdf 2px -1px 1px 0px;">
+                                    <!--User,Userpicker -->
+                                    <apex:inputText id="UserTypeInput"
+                                                    rendered="{!OR(dynamiclist.mappedfield.DataType__c=='userpicker',
+                                                              dynamiclist.mappedfield.DataType__c=='user')}"
+                                                    label="{!dynamiclist.fieldValue}"
+                                                    value="{!dynamiclist.fieldValue}"
+                                                    onkeyup="CallUserList('{!$Component.UserTypeInput}','{!$Component.actStatusId}')">
+                                    </apex:inputText> 
+                                    
+                                    <apex:inputTextarea id="MultiUserTypeInput"
+                                                        rendered="{!dynamiclist.mappedfield.DataType__c=='multiuserpicker'}"
+                                                        label="{!dynamiclist.fieldValue}"
+                                                        value="{!dynamiclist.fieldValue}"
+                                                        onkeyup="MultiCallUserList('{!$Component.MultiUserTypeInput}','{!$Component.actStatusId}')">
+                                    </apex:inputTextarea> 
+                                    <apex:actionStatus id="actStatusId" >
+                                        <apex:facet name="start" >
+                                            <img src="/img/loading.gif" />                    
+                                        </apex:facet>
+                                    </apex:actionStatus>
+                                    <apex:outputPanel rendered="{!AND(userlistbyname.size>0 ,
+                                                                OR(dynamiclist.mappedfield.DataType__c=='userpicker',
+                                                                dynamiclist.mappedfield.DataType__c=='user',
+                                                                dynamiclist.mappedfield.DataType__c=='multiuserpicker'))
+                                                                }">
+                                        
+                                        <apex:selectList Id="UserTypeSelect"
+                                                         onchange="UpdateUserOption('{!dynamiclist.mappedfield.DataType__c}',
+                                                                   '{!$Component.UserTypeInput}',
+                                                                   '{!$Component.MultiUserTypeInput}',
+                                                                   '{!$Component.UserTypeSelect}')"
+                                                         value="{!username}"
+                                                         multiselect="false" size="1"
+                                                         rendered="{!OR(dynamiclist.mappedfield.DataType__c=='userpicker',
+                                                                   dynamiclist.mappedfield.DataType__c=='user',
+                                                                   dynamiclist.mappedfield.DataType__c=='multiuserpicker')
+                                                                   }"
+                                                         >
+                                            <apex:selectOptions value="{!userlistbyname}">
+                                            </apex:selectOptions>
+                                            
+                                        </apex:selectList>   
+                                        
+                                        
+                                    </apex:outputPanel>      
+                                </apex:outputPanel> 
+                                <!--textarea,description-->
+                                <apex:inputTextarea rendered="{!OR(dynamiclist.mappedfield.DataType__c=='textarea',dynamiclist.mappedField.JIRA_Field_Api_Name__c=='description')}"
+                                                    styleClass="" value="{!dynamiclist.fieldValue}"  /> 
+                                
+                                <!--multicheckboxes,multiselect,version,component,multiversion,IsArray__c-->
+                                <apex:selectList label="{!dynamiclist.mappedfield.name}" size="4"
+                                                 value="{!dynamiclist.multiselectvalues}"
+                                                 rendered="{!AND(dynamiclist.mappedfield.IsArray__c,
+                                                           OR(dynamiclist.mappedfield.DataType__c=='multicheckboxes',
+                                                           dynamiclist.mappedfield.DataType__c=='multiselect',
+                                                           dynamiclist.mappedfield.DataType__c=='version',
+                                                           dynamiclist.mappedfield.DataType__c=='component',
+                                                           dynamiclist.mappedfield.DataType__c=='multiversion'))}" multiselect="true">
+                                    
+                                    <apex:selectOptions value="{!dynamiclist.selectValues}"></apex:selectOptions>
+                                </apex:selectList>
+                                
+                                
+                                <apex:selectList label="{!dynamiclist.mappedfield.name}" size="1"
+                                                 value="{!dynamiclist.fieldValue}"
+                                                 rendered="{!OR(AND(dynamiclist.mappedfield.IsArray__c,
+                                                           OR(dynamiclist.mappedfield.DataType__c=='radiobuttons',
+                                                           dynamiclist.mappedfield.DataType__c=='select')),
+                                                           AND(dynamiclist.mappedfield.DataType__c=='version',
+                                                           !dynamiclist.mappedfield.IsArray__c))}" multiselect="false">
+                                    
+                                    <apex:selectOptions value="{!dynamiclist.selectValues}"></apex:selectOptions>
+                                </apex:selectList>
+                                
+                                <!--cascadingselect-->
+                                <apex:outputPanel rendered="{!dynamiclist.mappedfield.DataType__c=='cascadingselect'}">
+                                    <center> 
+                                        <apex:selectList value="{!dynamiclist.masterFieldValue}" size="1" multiselect="false" >
+                                            <apex:selectOptions value="{!dynamiclist.mastermapoption}"></apex:selectOptions>
+                                            <apex:actionSupport event="onchange" reRender="childlist" />
+                                        </apex:selectList> &nbsp;&nbsp;
+                                        <apex:selectList id="childlist"   value="{!dynamiclist.childFieldValue}" size="1" multiselect="false" >
+                                            <apex:selectOptions value="{!dynamiclist.masterchildmapoption[dynamiclist.masterFieldValue]}"></apex:selectOptions>
+                                        </apex:selectList>
+                                    </center>
+                                </apex:outputPanel>
+                                
+                                <!--datepicker-->
+                                <apex:input type="date" value="{!dynamiclist.dat}" rendered="{!dynamiclist.mappedField.DataType__c=='datepicker'}"/>
+                                <!--datetime-->
+                                <apex:input type="datetime-local" value="{!dynamiclist.dattime}" rendered="{!dynamiclist.mappedField.DataType__c=='datetime'}"/>
+                                
+                            </td>
+                            
+                        </tr>
+                    </apex:repeat>
+                    
+                </table>
+                <apex:outputPanel >
+                    <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="text-align:center;padding: 12px;">
+                        
+                        <a onclick="SaveDefaultValue()"  style="background: #0577b5 !important;
+                                                                font-family: 'Myriad Pro';
+                                                                font-size: 15px;
+                                                                cursor: pointer;
+                                                                margin-top: 0px;
+                                                                color: #fff !important;
+                                                                text-decoration: none;
+                                                                border: 1px solid #0577b5 !important;
+                                                                border-radius: 4px !important;
+                                                                margin-right: 20px;
+                                                                padding: 5px 10px;">{!$Label.Save_Label}</a>
+                        <a onclick="cancelDefaultMapping('{!$Component.DefaultPanel}')"  style="background: #0577b5 !important;
+                                                                                                font-family: 'Myriad Pro';
+                                                                                                font-size: 15px;
+                                                                                                cursor: pointer;
+                                                                                                margin-top: 0px;
+                                                                                                color: #fff !important;
+                                                                                                text-decoration: none;
+                                                                                                border: 1px solid #0577b5 !important;
+                                                                                                border-radius: 4px !important;
+                                                                                                margin-right: 20px;
+                                                                                                padding: 5px 10px;"
+                           >{!$Label.Cancel_Label}</a>
+                    </div>
+                </apex:outputPanel>
+                
+            </apex:outputPanel>
+        </apex:outputPanel>
+        <!------ Field specific Configuration Section End------>
+        
+        
+        <!------ Project Section Start------>
+        <div id="projectMainDiv">
+            <apex:outputPanel id="projectDiv">
+                <apex:outputPanel rendered="{!AND(selectedObject != 'None',selectedObject!='')}">
+                    <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                        <div  class="col-lg-9 col-md-9 col-sm-9 col-xs-9 nopad">
+                            <div  class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding: 6px 0 0 20px;">
+                                <label style="font-size: 18px;">{!$Label.FieldsSettingComponent_Label22}</label><br/> 
+                            </div>
+                            
+                            <div  class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="padding: 0px 10px 30px 19px;">
+                                <apex:selectList value="{!selectproject}" size="1" style="margin-right:10px;" styleClass="picklistsize1" multiselect="false">
+                                    <apex:selectOption itemValue="" itemLabel="{!$Label.NoneLabel}"/>
+                                    <apex:selectOptions value="{!jiraprojectlist}"></apex:selectOptions>
+                                    <apex:actionSupport action="{!fetchfields}" reRender="FieldMap,saveDiv,Allfieldsbox" status="status" event="onchange"/>
+                                </apex:selectList>
+                            </div>
+                        </div>
+                        
+                        <div  class="col-lg-3 col-md-3 col-sm-3 col-xs-3 " style="position:relative; text-align: Right;font-size: 16px;padding: 5px 10px;">
+                            
+                            <apex:outputPanel id="refresh" styleclass="refreshtool" title="{!$Label.FieldsSettingComponent_Label24}"> 
+                                <span>{!$Label.FieldsSettingComponent_Label23}</span>
+                                <div  onclick="refreshclick(this)" class='refreshimg' ></div>
+                            </apex:outputPanel>
+                        </div>
+                    </div>
+                </apex:outputPanel>
+            </apex:outputPanel>
+        </div>
+        <!------ Project Section End------>
+        
+        <!------ Field Mapping Section Start------>
+        <div style="position:relative;">
+            
+            <div  class=" col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding:0px" id="FieldMapDiv">
+                <apex:outputPanel rendered="{!projectSuccess}" id="FieldMap">
+                    <apex:messages />
+                    <script>
+                    $(document).ready(function(){
+                        $("#reqtable tbody tr input, #reqtable tbody tr select").attr('disabled','true');
+                        $(".fordisable input, .fordisable select").attr('disabled','true');
+                        
+                    });
+                    </script>
+                    
+                    <apex:outputPanel id="Allfieldsbox" rendered="{!AND(selectpro!=null,selectpro!='')}">
+                        
+                        
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            
+                        </div>
+                        
+                        <!------ Required Field Mapping Section Start------>
+                        <apex:outputPanel id="reqfield" rendered="{!ProjectFieldmaps[selectpro].ReqJiraFieldList.size>0 && selectedObject != 'None'}" >
+                            <div  class="reqfieldhead col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                <span>
+                                    {!$Label.FieldsSettingComponent_Label25} {!selectedObjectName} {!$Label.FieldsSettingComponent_Label26}
+                                    <span style="font-size: 12px;">(
+                                        <span Style="color:red">*</span>
+                                        {!$Label.FieldsSettingComponent_Label27})</span>
+                                </span>
+                            </div> 
+                            <div class="blocks col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                <apex:outputPanel id="reqfieldsBlock" >
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                        <div style="overflow-y: auto;max-height:1024px;overflow-x:hidden; " >
+                                            <apex:variable var="rsr" value="{!0}"/>
+                                            <table border='1'  BORDERCOLOR='#cccccc' width='100%' class="fieldtable"  id='reqtable'>
+                                                <thead >
+                                                    <tr> 
+                                                        <th>{!$Label.FieldsSettingComponent_Label7}</th>
+                                                        <th>{!$Label.FieldsSettingComponent_Label28}</th>
+                                                        <th>{!selectedObjectName} {!$Label.Field_Label}</th>
+                                                        <th style="{!if(selectpro!='All','display:none;','')}">{!$Label.FieldsSettingComponent_Label30}</th>
+                                                        <th>{!$Label.FieldsSettingComponent_Label31}</th>
+                                                        <th title="{!$Label.FieldsSettingComponent_Label32}">{!$Label.FieldsSettingComponent_Label33}</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <apex:repeat value="{!ProjectFieldmaps[selectpro].ReqJiraFieldList}" var="sfjiraVar">
+                                                        
+                                                        <tr id='rowreq_{!rsr}'>
+                                                            <td >
+                                                                <apex:inputField style="{!if(sfjiraVar.id==null,'background: #ececec;','')}" type="text" html-placeholder="{!$Label.FieldsSettingComponent_Label34}" value="{!sfjiraVar.name}"  styleClass="picklistsize1"  onkeypress="return inputLimiter(event,'Letters'); "/>
+                                                            </td>
+                                                            <td>
+                                                                <apex:outputPanel id="jiraFieldsreq">
+                                                                    <apex:outputPanel >
+                                                                        <apex:selectList title="{!sfjiraVar.Jira_Field_Name__c}" style="{!if(sfjiraVar.id==null,'background: #ececec;','')}" value="{!sfjiraVar.JIRA_Field_Api_Name__c}" size="1" styleClass="picklistsize1 autoDisable" multiselect="false" disabled="true">
+                                                                            
+                                                                            <apex:selectOptions value="{!ProjectFieldmaps[selectpro].ReqJfOptions}"></apex:selectOptions>
+                                                                        </apex:selectList>
+                                                                    </apex:outputPanel>
+                                                                </apex:outputPanel> 
+                                                            </td>
+                                                            <td>
+                                                                <apex:outputPanel rendered="{!NOT(sfjiraVar.Jira_Field_Name__c==Null) && NOT(sfjiraVar.Jira_Field_Name__c=='') && sfjiraVar.Jira_Field_Name__c!='None'}">
+                                                                    
+                                                                    <apex:selectList style="{!if(sfjiraVar.id==null,'background: #ececec;','')}" value="{!sfjiraVar.Case_Field_Name__c}"
+                                                                                     title="{!sfjiraVar.Case_Field_Name__c}" size="1"  styleClass="picklistsize1" multiselect="false"
+                                                                                     accesskey="Reqcasefield_{!rsr}">
+                                                                        <apex:selectOptions value="{!reqSFJiraDataType[jiraDataTypeMap[sfjiraVar.JIRA_Field_Api_Name__c]]}"></apex:selectOptions>
+                                                                        <apex:actionSupport event="onchange" status="status" reRender="" oncomplete="ReflectReadOnly(this,'req')"/>
+                                                                        
+                                                                    </apex:selectList>
+                                                                </apex:outputPanel>
+                                                            </td>
+                                                            
+                                                            <td>
+                                                                <!---{!sfjiraVar.Case_Field_Name__c}-->
+                                                                <apex:outputPanel id="readonly">
+                                                                    <div class="checkcontainer"> 
+                                                                        
+                                                                        <div style="{!if(sfjiraVar.Case_Field_Name__c!=null && sfjiraVar.Case_Field_Name__c!='','','pointer-events: none;')} text-align: center;"
+                                                                             class="{!if(sfjiraVar.ReadOnly__c && sfjiraVar.Case_Field_Name__c!=null && sfjiraVar.Case_Field_Name__c!='','checkboxcheck','checkboxcustom')}"
+                                                                             onclick="check('req_{!rsr}')" id="checkreq_{!rsr}"   >
+                                                                            <apex:inputCheckbox style="width:100%;cursor:pointer;" value="{!sfjiraVar.ReadOnly__c}"
+                                                                                                styleClass="checkboxop"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </apex:outputPanel>
+                                                            </td>
+                                                            <td>
+                                                                <apex:outputPanel id="ReportingEnabled">
+                                                                    <div class="checkcontainer" style="{!if(OR(sfjiraVar.id == null,sfjiraVar.JIRA_Field_Api_Name__c=='issuelinks') , 'display:none;' , '')}"> 
+                                                                        <div style="text-align: center;"  id="checkReportingreq_{!rsr}" class="{!if(sfjiraVar.IsReportingEnabled__c ,'checkboxcheck','checkboxcustom')}"  onclick="check('Reportingreq_{!rsr}')" >
+                                                                            <apex:inputCheckbox style="width:100%;cursor:pointer;" value="{!sfjiraVar.IsReportingEnabled__c}"  styleClass="checkboxop" disabled="{!sfjiraVar.id == null}"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </apex:outputPanel>
+                                                            </td>
+                                                            <td>
+                                                                <div class="action">
+                                                                    
+                                                                    <div id="savreq_{!rsr}" class="hide"> 
+                                                                        <div class="saveimg" onclick="save('req_{!rsr}_{!selectpro}','req_{!rsr}')" oncomplete="savecomplete('req_{!rsr}')"> </div>
+                                                                        
+                                                                    </div>
+                                                                    <div id="editreq_{!rsr}" >
+                                                                        <div class="editimg" id="editbox" onclick="edit('req_{!rsr}','req_{!rsr}_{!selectpro}','{!sfjiraVar.Case_Field_Name__c}')" ></div>
+                                                                    </div>
+                                                                    <div id="Configurereq_{!rsr}" class="marginleft {!if(sfjiraVar.id!=null,'','hide')}">
+                                                                        <div class="Configureimgg" id="Configurebox" onclick="configure('req_{!rsr}','{!sfjiraVar.JIRA_Field_Api_Name__c}','{!selectedObject}')" ></div>
+                                                                    </div>
+                                                                    
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <apex:variable var="rsr" value="{!rsr + 1}"/>
+                                                    </apex:repeat>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </apex:outputPanel>
+                            </div>
+                        </apex:outputPanel>
+                        <!------ Required Field Mapping Section End------>
+                        
+                        <!-------------------------------------------------------------------------------------------------------------------------------------->
+                        <!------ Optional Field Mapping Section Start------>
+                        <!------ Blank Optional Field Mapping Message Start------>
+                        <apex:outputPanel rendered="{!ProjectFieldmaps[selectpro].OpJiraFieldList.size=0 && selectedObject != 'None'}">
+                            <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                <div class="addnewfields" onclick='addjirafields("{!JSINHTMLENCODE(selectpro)}")'>
+                                    <div class="addimg"></div>
+                                    <span>{!$Label.FieldsSettingComponent_Label35} {!selectedObjectName} {!$Label.FieldsSettingComponent_Label26}</span>
+                                </div> 
+                            </div>
+                        </apex:outputPanel>
+                        <!------ Blank Optional Field Mapping Message End------>
+                        
+                        
+                        <apex:outputPanel id="opfield" rendered="{!ProjectFieldmaps[selectpro].OpJiraFieldList.size>0 && selectedObject != 'None'}">
+                            
+                            <div  class="reqfieldhead col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                <span>{!$Label.FieldsSettingComponent_Label36} {!selectedObjectName} {!$Label.FieldsSettingComponent_Label26}</span>
+                            </div> 
+                            <div class="blocks col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">   
+                                <div style="overflow-y: auto;max-height:1024px;overflow-x:hidden;">
+                                    <apex:variable var="sr" value="{!0}"/>
+                                    <apex:variable var="islast" value="{!ProjectFieldmaps[selectpro].OpJiraFieldList.size}"/>
+                                    <table border='1'  BORDERCOLOR='#cccccc' width='100%' class="fieldtable"  id='optable'>
+                                        <thead >
+                                            <tr> 
+                                                <th>{!$Label.FieldsSettingComponent_Label7}</th>
+                                                <th>{!$Label.FieldsSettingComponent_Label28}</th>
+                                                <th>{!selectedObjectName} {!$Label.Field_Label}</th>
+                                                <th style="{!if(selectpro!='All','display:none;','')}">{!$Label.FieldsSettingComponent_Label30}</th>
+                                                <th>{!$Label.FieldsSettingComponent_Label31}</th>
+                                                <th>{!$Label.FieldsSettingComponent_Label37}</th>
+                                                <th title="{!$Label.FieldsSettingComponent_Label32}">{!$Label.FieldsSettingComponent_Label33}</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <apex:repeat value="{!ProjectFieldmaps[selectpro].OpJiraFieldList}" var="sfjiraVar" >
+                                                <tr id='rowop_{!sr}'  class="{!if(sfjiraVar.id!=null,'fordisable','fornew')}">
+                                                    <td>
+                                                        <apex:inputField type="text" html-placeholder="{!$Label.FieldsSettingComponent_Label34}" value="{!sfjiraVar.name}" styleClass="picklistsize1"  onkeypress="return inputLimiter(event,'Letters'); "/>
+                                                    </td>
+                                                    <td>
+                                                        <apex:outputPanel id="jiraFieldsop1">
+                                                            <apex:outputPanel >
+                                                                <apex:selectList title="{!sfjiraVar.Jira_Field_Name__c}" value="{!sfjiraVar.JIRA_Field_Api_Name__c}" size="1" styleClass="picklistsize1" style="margin-right:10px;" multiselect="false">
+                                                                    <apex:actionSupport event="onchange" rerender="salesForceFields" status="status" />
+                                                                    <apex:selectOption itemValue="" itemLabel="{!$Label.NoneLabel}"/>
+                                                                    <apex:selectOptions value="{!ProjectFieldmaps[selectpro].OpJfOptions}"></apex:selectOptions>
+                                                                </apex:selectList>
+                                                            </apex:outputPanel>
+                                                        </apex:outputPanel>   
+                                                    </td>
+                                                    <td>
+                                                        <apex:outputPanel id="salesForceFields">
+                                                            
+                                                            <apex:selectList title="{!sfjiraVar.Case_Field_Name__c}" value="{!sfjiraVar.Case_Field_Name__c}"
+                                                                             size="1" style="margin-right:10px;" styleClass="picklistsize1" multiselect="false"
+                                                                             accesskey="Opcasefield_{!sr}">
+                                                                <apex:actionSupport event="onchange" rerender=""
+                                                                                    oncomplete="ReflectReadOnly(this,'op')" status="status"/>
+                                                                <apex:selectOptions value="{!reqSFJiraDataType[jiraDataTypeMap[sfjiraVar.JIRA_Field_Api_Name__c]]}"></apex:selectOptions>
+                                                            </apex:selectList>
+                                                            
+                                                        </apex:outputPanel>
+                                                    </td>
+                                                    <td>
+                                                        <apex:outputPanel id="ReadOnlyOp">
+                                                            <div class="checkcontainer"> 
+                                                                <div style='text-align: center;' id="checkop_{!sr}" class="{!if(sfjiraVar.ReadOnly__c,'checkboxcheck','checkboxcustom')}"  onclick="check('op_{!sr}')" >
+                                                                    <apex:inputCheckbox value="{!sfjiraVar.ReadOnly__c}" style="width:100%;cursor:pointer;" styleClass="checkboxop"/>
+                                                                </div>
+                                                            </div>
+                                                        </apex:outputPanel>
+                                                        
+                                                        
+                                                    </td>
+                                                    <td>
+                                                        <div class="checkcontainer"> 
+                                                            <div style='text-align: center;' id="reqcheckop_{!sr}" class="{!if(sfjiraVar.RequiredInSF__c,'checkboxcheck','checkboxcustom')}"  onclick="reqcheck('op_{!sr}')" >
+                                                                <apex:inputCheckbox value="{!sfjiraVar.RequiredInSF__c}"  style="width:100%; cursor:pointer;" styleClass="checkboxop" />
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="checkcontainer" style="{!if(OR(sr == 0,sfjiraVar.JIRA_Field_Api_Name__c=='issuelinks') , 'display:none;' , '')}"> 
+                                                            <div style='text-align: center;' id="checkReportingop_{!sr}" class="{!if(sfjiraVar.IsReportingEnabled__c,'checkboxcheck','checkboxcustom')}"  onclick="check('Reportingop_{!sr}')" >
+                                                                <apex:inputCheckbox style="width:100%;cursor:pointer;" value="{!sfjiraVar.IsReportingEnabled__c}"  styleClass="checkboxop" disabled="{!sr == 0}"/>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class=" ">
+                                                            <div Class="action">
+                                                                <div id="savop_{!sr}" class="{!if(sfjiraVar.id!=null,'hide','')} "> 
+                                                                    <div class="saveimg" onclick="save('op_{!sr}_{!selectpro}','op_{!sr}')" oncomplete="savecomplete('op_{!sr}')"> </div>
+                                                                </div>
+                                                                
+                                                                <div id="editop_{!sr}" class=" {!if(sfjiraVar.id!=null,'','hide')}" >
+                                                                    <div class="editimg"  id="editbox" onclick="edit('op_{!+sr}','op_{!sr}_{!selectpro}','{!sfjiraVar.Case_Field_Name__c}')" ></div>
+                                                                </div>
+                                                                <div id="delop_{!sr}"  class="marginleft {!if(sfjiraVar.id!=null,'','hide')}">
+                                                                    <div class="delimg"  onclick="del('op_{!+sr}_{!selectpro}')" ></div>
+                                                                </div>
+                                                                <div id="Configureop_{!sr}" class="marginleft  {!if(sfjiraVar.id!=null,'','hide')}" >
+                                                                    <div class="Configureimgg" id="Configurebox" onclick="configure('op_{!sr}','{!sfjiraVar.JIRA_Field_Api_Name__c}','{!selectedObject}')" ></div>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                        
+                                                    </td>
+                                                </tr>
+                                                
+                                                <apex:variable var="sr" value="{!sr + 1}"/> 
+                                            </apex:repeat>
+                                            
+                                            <tr class="{!if (AND(ProjectFieldmaps[selectpro].OpJiraFieldList.size == 1 ,ProjectFieldmaps[selectpro].OpJiraFieldList[0].id==null),'','hide')}">
+                                                <td  colspan='8'>
+                                                    <p Style="text-align: center;padding: 20px 0px;color: #c6c6c6;"> 
+                                                        {!$Label.FieldsSettingComponent_Label38}
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </tbody>   
+                                    </table>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </apex:outputPanel>
+                        <!------ Optional Field Mapping Section End------>
+                        <!--------------------------------------------------------------------------------------------------------------------------------------->
+                        
+                        <input id="CommonSave"   Style="display:none;"/>
+                    </apex:outputPanel>
+                    
+                </apex:outputPanel>
+            </div>
+        </div>
+        <!------ Field Mapping Section End------>
+        
+        <apex:actionFunction name="removeFunction" action="{!removeJiraSfField}" rerender="FieldMap" status="status" immediate="true">
+            <apex:param name="indexop" value="" />
+        </apex:actionFunction>
+        
+        
+        <apex:outputPanel id="saveDiv">
+            <apex:outputPanel rendered="{!selectedObject!= 'None'}" >
+                <div id="mainSave" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad" style="text-align:center;margin-bottom:30px;">
+                    <a class="btn"  onclick="CommonClick('{!JSINHTMLENCODE(selectpro)}')" style="background: #0577b5 !important;  font-family:'Myriad Pro'; font-size: 15px; margin-top:0px; font-weight:bold; color: #fff !important; border:1px solid #0577b5 !important; border-radius: 4px !important; margin-right: 20px; padding:6px 16px !important">{!$Label.Save_Label}</a>
+                </div>
+            </apex:outputPanel>
+        </apex:outputPanel>
+    </apex:outputPanel>
+    
+    <apex:outputPanel rendered="{!ObjectLimitExceed}" >
+        <apex:inputHidden id="inputhid" value="{!objectToBeDeleted}"/>
+        
+        <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="licpopUpDiv"> 
+            <span style=" font-size: 16px;">{!$Label.FieldsSettingComponent_Label39} {!delObjCount} {!$Label.FieldsSettingComponent_Label40}</span>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">    
+                <div style="display: inline-block;">
+                    <ul style="list-style-type:none;">
+                        <apex:repeat value="{!mappedSalesforceObjects}" var="obj">
+                            <li class="mappedObjClass" style="padding:5px;float:left;margin: 5px; font-size: 15px;">
+                                <apex:inputCheckbox value="{!deletevar}" onclick="deleteObjList(this.checked,'{!obj}','{!$Component.inputhid}');">
+                                    
+                                </apex:inputCheckbox>
+                                <span>{!mappedSalesforceObjects[obj]}</span>
+                            </li>
+                        </apex:repeat>
+                    </ul>
+                </div>                        
+            </div>
+            <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button  onclick="deleteSfObjMapping('{!$Component.inputhid}');" style="margin-top: 15px;
+                                                                                        padding: 6px;
+                                                                                        text-transform: uppercase;
+                                                                                        background-color: #099ad6 !important;
+                                                                                        border-radius: 4px;
+                                                                                        border-color: #ffffff;
+                                                                                        color: white;
+                                                                                        border-color: #ffffff;">{!$Label.Delete_Label}</button>
+            </div>
+            
+        </div>
+        
+    </apex:outputPanel>
+    <div id="backgrounddesign" class="backgrounddesign"/>
+    
+    
+</apex:component>

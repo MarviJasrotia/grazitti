@@ -1,0 +1,832 @@
+<!--For case-->
+<apex:page standardcontroller="Case" extensions="SyncCommentAttachmentsToJira" language="{!lang}">
+    <apex:includeScript value="/support/console/42.0/integration.js"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/js/jquery-ui.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/unblockUI.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery.validate.js')}"/>
+    <apex:includeScript value="/soap/ajax/36.0/connection.js"/>
+    <apex:includeScript value="/soap/ajax/36.0/apex.js"/>
+    <apex:includeScript value="/support/console/42.0/integration.js"/>
+    
+    <apex:form >
+        
+        <apex:outputPanel id="panelId">
+            <style>
+                .defaultheading {
+                background-color: #fef5e2;
+                
+                margin: 20px 0px;
+                position:relative;
+                }
+                .pbBody .bPageBlock .pbHeader, .pbBody .bPageBlock .pbTitle, .pbBody .bPageBlock .pbLinks, .pbBody .bPageBlock .pbLinks a{
+                width: 100%;
+                }
+                
+                .bPageBlock .detailList .dataCol {
+                width: auto;
+                }
+                .info{  
+                position: absolute;
+                top: 0;
+                right: -5px;
+                }
+                
+                label {
+                align-self: center;
+                margin-bottom: 10px;
+                }
+                
+                .jiraSync, .comsync, .attSync{
+                margin: 0px;
+                margin-bottom: 10px;
+                margin-right: 5px;
+                margin-left: 4px;
+                }
+            </style> 
+            <script>
+            sforce.connection.sessionId = "{!$Api.Session_ID}";
+            
+            var output ='true';
+            var checklic = sforce.apex.execute("Grz_Sf.LicenseKey", "CheckLicenseValidity", {}); 
+            
+            if(checklic == 'false'){
+                var checkliclimit = sforce.apex.execute("Grz_Sf.LicenseKey", "LimitLicenseKey", {}); 
+                if(checkliclimit== 'false'){
+                    output='false';
+                }
+            }
+            if(output == 'false'){                 
+                alert("{!$Label.SendCommentsAttachmentCaseToJira_Alert}"); 
+                var getsubtabs = function getsubtabs(result) {
+                    var pids=result.ids[0];
+                    var sids=result.ids[result.ids.length-1];
+                    if(pids==sids){
+                        sforce.console.getEnclosingPrimaryTabId(showTabIdagain);
+                    }else{
+                        sforce.console.closeTab(sids);
+                        sforce.refreshPrimaryTabById(pids,true);
+                    }
+                }
+                var showTabIdagain = function showTabIdagain(result) {
+                    var ids=result.id;
+                    sforce.console.openPrimaryTab(ids,'/{!Case.id}', true);
+                } 
+                var showTabId = function showTabId(result) {
+                    var ids=result.id;
+                    sforce.console.getSubtabIds(ids,getsubtabs);
+                } 
+                if (sforce.console.isInConsole()){
+                    sforce.console.getEnclosingPrimaryTabId(showTabId);
+                }else{
+                    window.location.href = "/{!Case.Id}";
+                }
+                
+            }
+            
+            function closeAndRefreshParent(){
+                var openSuccess = function openSuccess(result) {                    
+                } 
+                var Createsubtabs = function Createsubtabs(result) {
+                    var pids=result.ids[0];
+                    var sids=result.ids[result.ids.length-1];
+                    
+                    if(pids==sids){
+                        sforce.console.getEnclosingPrimaryTabId(CreateTabIdagain);
+                        
+                    }else{
+                        sforce.console.getEnclosingPrimaryTabId(CreateJiraTab1);
+                        sforce.console.getEnclosingTabId(closeSubtab);
+                    }                
+                }
+                var CreateJiraTab1 = function CreateJiraTab(result) {
+                    var ids=result.id;
+                    sforce.console.openSubtab(ids,'/{!Case.id}', true,'Case Detail', null, openSuccess, 'salesforceSubtab');
+                }
+                var CreateTabIdagain = function CreateTabIdagain(result) {
+                    var ids=result.id;
+                    sforce.console.openPrimaryTab(ids,'{!Case.id}, true);
+                                                  } 
+                                                  var CreateJiraTab = function CreateJiraTab(result) {
+                        var ids=result.id;
+                        sforce.console.getSubtabIds(ids,Createsubtabs);
+                    }
+                    
+                    if (sforce.console.isInConsole()){
+                        sforce.console.getEnclosingPrimaryTabId(CreateJiraTab);
+                    }else{
+                        window.location.href = "/{!Case.Id}";
+                    }
+                    
+                    var openSuccess = function openSuccess(result) {
+                    }
+                    var closeSubtab = function closeSubtab(result) {
+                        var tabId = result.id;
+                        sforce.console.closeTab(tabId);
+                    }
+                    var Createsubtabs = function Createsubtabs(result) {
+                        var pids=result.ids[0];
+                        var sids=result.ids[result.ids.length-1];
+                        if(pids==sids){
+                            sforce.console.getEnclosingPrimaryTabId(CreateTabIdagain);
+                            
+                        }else{
+                            sforce.console.getEnclosingPrimaryTabId(CreateJiraTab1);
+                            sforce.console.getEnclosingTabId(closeSubtab);
+                        }
+                    }
+                    var CreateTabIdagain = function CreateTabIdagain(result) {
+                        var ids=result.id;
+                        sforce.console.openPrimaryTab(ids,'/{!Case.id}', true);
+                    } 
+                    var CreateJiraTab = function CreateJiraTab(result) {
+                        var ids=result.id;
+                        sforce.console.getSubtabIds(ids,Createsubtabs);            
+                    }
+                    var CreateJiraTab1 = function CreateJiraTab(result) {
+                        var ids=result.id;
+                        sforce.console.openSubtab(ids,'/{!Case.id}', true,'Case Detail', null, openSuccess, 'salesforceSubtab'); 
+                    }
+                    if (sforce.console.isInConsole()){
+                        sforce.console.getEnclosingPrimaryTabId(CreateJiraTab);
+                    }else{
+                        window.location.href = "/{!Case.Id}";
+                    }
+                }
+                </script>
+            <script>
+            window.onload=func1;
+            function func1(){
+                var btnattr = document.getElementsByClassName("syncBtn");
+                for (var i=0; i<btnattr.length; i++) {
+                    btnattr[i].setAttribute("disabled","true");
+                    btnattr[i].classList.add("btnDisabled");   
+                }
+            }
+            function validateJIRAId(){
+                if( {!IF(displayError, "true", "false")} ){                         
+                    console.log('Error Found:'); 
+                }else{
+                    setTimeout(closeAndRefreshParent, 6000);
+                }         
+            }
+            function selectJira(action){
+                
+                var id = action.getAttribute("Id");
+                var check = document.getElementById(id).checked;
+                
+                var cls = action.getAttribute("Class");
+                if(check==true){
+                    var allcheckboxes = document.getElementsByClassName(cls);
+                    for (var i = 0; i < allcheckboxes.length; i++) {
+                        if (allcheckboxes[i].type == 'checkbox' && !allcheckboxes[i].disabled) {
+                            allcheckboxes[i].checked = true;
+                        }
+                    }
+                }else{
+                    var allcheckboxes = document.getElementsByClassName(cls);
+                    
+                    for (var i = 0; i < allcheckboxes.length; i++) {
+                        if (allcheckboxes[i].type == 'checkbox') {
+                            allcheckboxes[i].checked = false;
+                        }
+                    }
+                }
+                
+                var checkboxes = document.getElementsByClassName("jiraSync");                
+                var attSync = document.getElementsByClassName("attSync");
+                var commSync = document.getElementsByClassName("comsync");
+                
+                var checkboxesChecked = [];
+                var attachboxesChecked = [];
+                var commentboxesChecked = [];
+                var checkboxesUnChecked = [];
+                var attachboxesUnChecked = [];
+                var commentboxesUnChecked = [];
+                // loop over them all
+                for (var i=0; i<checkboxes.length; i++) {
+                    // And stick the checked ones onto an array...
+                    if (checkboxes[i].checked) {
+                        checkboxesChecked.push(checkboxes[i]);
+                    }else{
+                        checkboxesUnChecked.push(checkboxes[i]);
+                    }
+                }
+                for (var i=0; i<commSync.length; i++) {
+                    // And stick the checked ones onto an array...
+                    if (commSync[i].checked) {
+                        commentboxesChecked.push(commSync[i]);
+                    }else{
+                        commentboxesUnChecked.push(commSync[i]);
+                    }
+                }
+                for (var i=0; i<attSync.length; i++) {
+                    // And stick the checked ones onto an array...
+                    if (attSync[i].checked) {
+                        attachboxesChecked.push(attSync[i]);
+                    }else{
+                        attachboxesUnChecked.push(attSync[i]);
+                    }
+                }
+                if(checkboxesChecked.length > 0 && (attachboxesChecked.length > 0 || commentboxesChecked.length > 0)){
+                    var removeattr = document.getElementsByClassName("syncBtn");
+                    for (var i=0; i<removeattr.length; i++) {
+                        removeattr[i].removeAttribute('disabled');
+                        removeattr[i].classList.remove("btnDisabled");   
+                    }
+                    
+                }else if(checkboxesChecked.length==0 && (attachboxesChecked.length==0 || commentboxesChecked.length == 0)){
+                    var addattr = document.getElementsByClassName("syncBtn");
+                    for (var i=0; i<addattr.length; i++) {
+                        addattr[i].setAttribute("disabled","true");
+                        addattr[i].classList.add("btnDisabled");   
+                    }
+                }else if(checkboxesChecked.length>0 && (attachboxesChecked.length==0 || commentboxesChecked.length == 0)){
+                    var addattr = document.getElementsByClassName("syncBtn");
+                    for (var i=0; i<addattr.length; i++) {
+                        addattr[i].setAttribute("disabled","true");
+                        addattr[i].classList.add("btnDisabled");   
+                    }
+                }else if(checkboxesChecked.length==0 && (attachboxesChecked.length>0 || commentboxesChecked.length > 0)){
+                    var addattr = document.getElementsByClassName("syncBtn");
+                    for (var i=0; i<addattr.length; i++) {
+                        addattr[i].setAttribute("disabled","true");
+                        addattr[i].classList.add("btnDisabled");   
+                    }
+                }
+                
+                if(checkboxesChecked.length>0){
+                    for(var  i=0;i<checkboxesChecked.length;i++){
+                        var jid = checkboxesChecked[i].parentElement.id;
+                        if(commentboxesUnChecked.length>0){
+                            for(var  j=0;j<commentboxesUnChecked.length;j++){
+                                var cid=commentboxesUnChecked[j].parentElement.id;
+                                var ids=cid+'_'+jid;
+                                if(document.getElementById(ids)!=null){
+                                    document.getElementById(ids).style.background='none';
+                                    document.getElementById(ids).style.padding='none';
+                                    document.getElementById(ids).style.color='black';
+                                    
+                                }else{
+                                    var sid=cid+'_send';
+                                    var sendid ='send_'+cid+jid;
+                                    if(document.getElementById(sendid)!=null ){
+                                        document.getElementById(sendid).remove();
+                                    }
+                                }
+                            }
+                        }
+                        if(attachboxesUnChecked.length>0){
+                            for(var  k=0;k<attachboxesUnChecked.length;k++){
+                                var cid=attachboxesUnChecked[k].parentElement.id;
+                                var ids=cid+'_'+jid;
+                                if(document.getElementById(ids)!=null){
+                                    document.getElementById(ids).style.background='none';
+                                    document.getElementById(ids).style.padding='none';
+                                    document.getElementById(ids).style.color='black';
+                                    
+                                }else{
+                                    var sid=cid+'_send';
+                                    var sendid ='send_'+cid+jid;
+                                    if(document.getElementById(sendid)!=null ){
+                                        document.getElementById(sendid).remove();
+                                    }
+                                }
+                            }
+                        }
+                        if(attachboxesChecked.length>0){
+                            for(var  k=0;k<attachboxesChecked.length;k++){
+                                var cid=attachboxesChecked[k].parentElement.id;
+                                var ids=cid+'_'+jid;
+                                if(document.getElementById(ids)!=null){
+                                    document.getElementById(ids).style.background='red';
+                                    document.getElementById(ids).style.padding='2px 5px';
+                                    document.getElementById(ids).style.color='white';
+                                    
+                                }else{
+                                    var sid=cid+'_send';
+                                    var sendid ='send_'+cid+jid;
+                                    if(document.getElementById(sid)!=null && document.getElementById(sendid)==null && !sendid.includes(':jiraaction') ){
+                                        $('#'+sid).append("<span id='"+sendid+"' style='margin: 1px 1px;display: inline-block; padding:2px 5px; color:white;background-color:green'>"+jid+"</span>");
+                                    }
+                                    
+                                }
+                            }
+                            
+                        }
+                        if(commentboxesChecked.length>0){
+                            for(var  j=0;j<commentboxesChecked.length;j++){
+                                var cid=commentboxesChecked[j].parentElement.id;
+                                var ids=cid+'_'+jid;
+                                if(document.getElementById(ids)!=null){
+                                    document.getElementById(ids).style.background='red';
+                                    document.getElementById(ids).style.padding='2px 5px';
+                                    document.getElementById(ids).style.color='white';
+                                    
+                                }else{
+                                    var sid=cid+'_send';
+                                    var sendid ='send_'+cid+jid;
+                                    if(document.getElementById(sid)!=null && document.getElementById(sendid)==null && !sendid.includes(':jiraaction')){
+                                        $('#'+sid).append("<span id='"+sendid+"' style='margin: 1px 1px;display: inline-block; padding:2px 5px; color:white;background-color:green'>"+jid+"</span>");
+                                    }
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+                if(checkboxesUnChecked.length>0){
+                    for(var  i=0;i<checkboxesUnChecked.length;i++){
+                        var jid = checkboxesUnChecked[i].parentElement.id;
+                        if(attachboxesUnChecked.length>0){
+                            for(var  k=0;k<attachboxesUnChecked.length;k++){
+                                var cid=attachboxesUnChecked[k].parentElement.id;
+                                var ids=cid+'_'+jid;
+                                if(document.getElementById(ids)!=null){
+                                    document.getElementById(ids).style.background='none';
+                                    document.getElementById(ids).style.padding='none';
+                                    document.getElementById(ids).style.color='black';
+                                    
+                                }else{
+                                    var sid=cid+'_send';
+                                    var sendid ='send_'+cid+jid;
+                                    if(document.getElementById(sendid)!=null ){
+                                        document.getElementById(sendid).remove();
+                                    }
+                                }
+                            }
+                        }
+                        if(commentboxesUnChecked.length>0){
+                            for(var  j=0;j<commentboxesUnChecked.length;j++){
+                                var cid=commentboxesUnChecked[j].parentElement.id;
+                                var ids=cid+'_'+jid;
+                                if(document.getElementById(ids)!=null){
+                                    document.getElementById(ids).style.background='none';
+                                    document.getElementById(ids).style.padding='none';
+                                    document.getElementById(ids).style.color='black';
+                                    
+                                }else{
+                                    var sid=cid+'_send';
+                                    var sendid ='send_'+cid+jid;
+                                    if(document.getElementById(sendid)!=null ){
+                                        document.getElementById(sendid).remove();
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if(attachboxesChecked.length>0){
+                            for(var  k=0;k<attachboxesChecked.length;k++){
+                                var cid=attachboxesChecked[k].parentElement.id;
+                                var ids=cid+'_'+jid;
+                                if(document.getElementById(ids)!=null){
+                                    document.getElementById(ids).style.background='none';
+                                    document.getElementById(ids).style.padding='none';
+                                    document.getElementById(ids).style.color='black';
+                                    
+                                }else{
+                                    var sid=cid+'_send';
+                                    var sendid ='send_'+cid+jid;
+                                    if(document.getElementById(sendid)!=null ){
+                                        document.getElementById(sendid).remove();
+                                    }
+                                }
+                            }
+                            
+                        }
+                        if(commentboxesChecked.length>0){
+                            for(var  j=0;j<commentboxesChecked.length;j++){
+                                var cid=commentboxesChecked[j].parentElement.id;
+                                var ids=cid+'_'+jid;
+                                if(document.getElementById(ids)!=null){
+                                    document.getElementById(ids).style.background='none';
+                                    document.getElementById(ids).style.padding='none';
+                                    document.getElementById(ids).style.color='black';
+                                    
+                                }else{
+                                    var sid=cid+'_send';
+                                    var sendid ='send_'+cid+jid;
+                                    if(document.getElementById(sendid)!=null ){
+                                        document.getElementById(sendid).remove();
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                }
+                
+                
+            }
+            function checkJira(action){
+                
+                var cls = action.getAttribute("Class");
+                var checkboxes = document.getElementsByClassName(cls); 
+                
+                var id = checkboxes[0].getAttribute("id");
+                
+                var check = document.getElementById(id).checked;
+                
+                if(check==true){
+                    checkboxes[0].checked = false;
+                }    
+                var checkboxes = document.getElementsByClassName("jiraSync"); 
+                var attSync = document.getElementsByClassName("attSync");
+                var commSync = document.getElementsByClassName("comsync");
+                
+                var checkboxesChecked = [];
+                var attachboxesChecked = [];
+                var commentboxesChecked = [];
+                var checkboxesUnChecked = [];
+                var attachboxesUnChecked = [];
+                var commentboxesUnChecked = [];
+                // loop over them all
+                for (var i=0; i<checkboxes.length; i++) {
+                    // And stick the checked ones onto an array...
+                    if (checkboxes[i].checked) {
+                        checkboxesChecked.push(checkboxes[i]);
+                    }else{
+                        checkboxesUnChecked.push(checkboxes[i]);
+                    }
+                }
+                for (var i=0; i<commSync.length; i++) {
+                    // And stick the checked ones onto an array...
+                    
+                    if (commSync[i].checked) {
+                        commentboxesChecked.push(commSync[i]);
+                    }else{
+                        commentboxesUnChecked.push(commSync[i]);
+                    }
+                }
+                for (var i=0; i<attSync.length; i++) {
+                    // And stick the checked ones onto an array...
+                    if (attSync[i].checked) {
+                        attachboxesChecked.push(attSync[i]);
+                    }else{
+                        attachboxesUnChecked.push(attSync[i]);
+                    }
+                }
+                if(checkboxesChecked.length > 0 && (attachboxesChecked.length > 0 || commentboxesChecked.length > 0)){
+                    var removeattr = document.getElementsByClassName("syncBtn");
+                    for (var i=0; i<removeattr.length; i++) {
+                        removeattr[i].removeAttribute('disabled');
+                        removeattr[i].classList.remove("btnDisabled");   
+                    }
+                    
+                }else if(checkboxesChecked.length==0 && (attachboxesChecked.length==0 || commentboxesChecked.length == 0)){
+                    var addattr = document.getElementsByClassName("syncBtn");
+                    for (var i=0; i<addattr.length; i++) {
+                        addattr[i].setAttribute("disabled","true");
+                        addattr[i].classList.add("btnDisabled");   
+                    }
+                }else if(checkboxesChecked.length>0 && (attachboxesChecked.length==0 || commentboxesChecked.length == 0)){
+                    var addattr = document.getElementsByClassName("syncBtn");
+                    for (var i=0; i<addattr.length; i++) {
+                        addattr[i].setAttribute("disabled","true");
+                        addattr[i].classList.add("btnDisabled");   
+                    }
+                }else if(checkboxesChecked.length==0 && (attachboxesChecked.length>0 || commentboxesChecked.length > 0)){
+                    var addattr = document.getElementsByClassName("syncBtn");
+                    for (var i=0; i<addattr.length; i++) {
+                        addattr[i].setAttribute("disabled","true");
+                        addattr[i].classList.add("btnDisabled");   
+                    }
+                }
+                
+                if(checkboxesChecked.length>0){
+                    for(var  i=0;i<checkboxesChecked.length;i++){
+                        var jid = checkboxesChecked[i].parentElement.id;
+                        if(commentboxesUnChecked.length>0){
+                            for(var  j=0;j<commentboxesUnChecked.length;j++){
+                                var cid=commentboxesUnChecked[j].parentElement.id;
+                                var ids=cid+'_'+jid;
+                                if(document.getElementById(ids)!=null){
+                                    document.getElementById(ids).style.background='none';
+                                    document.getElementById(ids).style.padding='none';
+                                    document.getElementById(ids).style.color='black';
+                                    
+                                }else{
+                                    var sid=cid+'_send';
+                                    var sendid ='send_'+cid+jid;
+                                    if(document.getElementById(sendid)!=null ){
+                                        document.getElementById(sendid).remove();
+                                    }
+                                    
+                                }
+                            }
+                        }
+                        if(attachboxesUnChecked.length>0){
+                            for(var  k=0;k<attachboxesUnChecked.length;k++){
+                                var cid=attachboxesUnChecked[k].parentElement.id;
+                                var ids=cid+'_'+jid;
+                                if(document.getElementById(ids)!=null){
+                                    document.getElementById(ids).style.background='none';
+                                    document.getElementById(ids).style.padding='none';
+                                    document.getElementById(ids).style.color='black';
+                                    
+                                }else{
+                                    var sid=cid+'_send';
+                                    var sendid ='send_'+cid+jid;
+                                    if(document.getElementById(sendid)!=null ){
+                                        document.getElementById(sendid).remove();
+                                    }
+                                    
+                                }
+                            }
+                            
+                        }
+                        if(attachboxesChecked.length>0){
+                            for(var  k=0;k<attachboxesChecked.length;k++){
+                                var cid=attachboxesChecked[k].parentElement.id;
+                                var ids=cid+'_'+jid;
+                                if(document.getElementById(ids)!=null){
+                                    document.getElementById(ids).style.background='red';
+                                    document.getElementById(ids).style.padding='2px 5px';
+                                    document.getElementById(ids).style.color='white';
+                                    
+                                }else{
+                                    var sid=cid+'_send';
+                                    var sendid ='send_'+cid+jid;
+                                    if(document.getElementById(sid)!=null && document.getElementById(sendid)==null && !sendid.includes(':jiraaction') ){
+                                        $('#'+sid).append("<span id='"+sendid+"' style='margin: 1px 1px;display: inline-block;padding:2px 5px; color:white;background-color:green'>"+jid+"</span>");
+                                    }
+                                    
+                                }
+                            }
+                        }
+                        if(commentboxesChecked.length>0){
+                            for(var  j=0;j<commentboxesChecked.length;j++){
+                                var cid=commentboxesChecked[j].parentElement.id;
+                                var ids=cid+'_'+jid;
+                                if(document.getElementById(ids)!=null){
+                                    document.getElementById(ids).style.background='red';
+                                    document.getElementById(ids).style.padding='2px 5px';
+                                    document.getElementById(ids).style.color='white';
+                                    
+                                }else{
+                                    var sid=cid+'_send';
+                                    var sendid ='send_'+cid+jid;
+                                    if(document.getElementById(sid)!=null && document.getElementById(sendid)==null && !sendid.includes(':jiraaction')){
+                                        $('#'+sid).append("<span id='"+sendid+"' style='margin: 1px 1px;display: inline-block; padding:2px 5px; color:white;background-color:green'>"+jid+"</span>");
+                                    }
+                                    
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                }
+                
+                if(checkboxesUnChecked.length>0){
+                    for(var  i=0;i<checkboxesUnChecked.length;i++){
+                        var jid = checkboxesUnChecked[i].parentElement.id;
+                        if(attachboxesUnChecked.length>0){
+                            for(var  k=0;k<attachboxesUnChecked.length;k++){
+                                var cid=attachboxesUnChecked[k].parentElement.id;
+                                var ids=cid+'_'+jid;
+                                if(document.getElementById(ids)!=null){
+                                    document.getElementById(ids).style.background='none';
+                                    document.getElementById(ids).style.padding='none';
+                                    document.getElementById(ids).style.color='black';
+                                    
+                                }else{
+                                    var sid=cid+'_send';
+                                    var sendid ='send_'+cid+jid;
+                                    if(document.getElementById(sendid)!=null ){
+                                        document.getElementById(sendid).remove();
+                                    }
+                                    
+                                }
+                            }
+                            
+                        }
+                        if(commentboxesUnChecked.length>0){
+                            for(var  j=0;j<commentboxesUnChecked.length;j++){
+                                var cid=commentboxesUnChecked[j].parentElement.id;
+                                var ids=cid+'_'+jid;
+                                if(document.getElementById(ids)!=null){
+                                    document.getElementById(ids).style.background='none';
+                                    document.getElementById(ids).style.padding='none';
+                                    document.getElementById(ids).style.color='black';
+                                    
+                                }else{
+                                    var sid=cid+'_send';
+                                    var sendid ='send_'+cid+jid;
+                                    if(document.getElementById(sendid)!=null ){
+                                        document.getElementById(sendid).remove();
+                                    }
+                                    
+                                }
+                            }
+                        }
+                        
+                        if(attachboxesChecked.length>0){
+                            for(var  k=0;k<attachboxesChecked.length;k++){
+                                var cid=attachboxesChecked[k].parentElement.id;
+                                var ids=cid+'_'+jid;
+                                if(document.getElementById(ids)!=null){
+                                    document.getElementById(ids).style.background='none';
+                                    document.getElementById(ids).style.padding='none';
+                                    document.getElementById(ids).style.color='black';
+                                    
+                                }else{
+                                    var sid=cid+'_send';
+                                    var sendid ='send_'+cid+jid;
+                                    if(document.getElementById(sendid)!=null ){
+                                        document.getElementById(sendid).remove();
+                                    }
+                                    
+                                }
+                            }
+                            
+                        }
+                        if(commentboxesChecked.length>0){
+                            for(var  j=0;j<commentboxesChecked.length;j++){
+                                var cid=commentboxesChecked[j].parentElement.id;
+                                var ids=cid+'_'+jid;
+                                if(document.getElementById(ids)!=null){
+                                    document.getElementById(ids).style.background='none';
+                                    document.getElementById(ids).style.padding='none';
+                                    document.getElementById(ids).style.color='black';
+                                    
+                                    
+                                }else{
+                                    var sid=cid+'_send';
+                                    var sendid ='send_'+cid+jid;
+                                    if(document.getElementById(sendid)!=null ){
+                                        document.getElementById(sendid).remove();
+                                    }
+                                    
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                }
+            }
+            
+            function showalert(){
+                
+                alert("{!$Label.SendCommentsAttachmentCaseToJira_Alert1}");
+                
+            }
+            </script> 
+        </apex:outputPanel> 
+        
+        <apex:pageBlock >
+            <apex:pagemessages id="messages"/>
+            <apex:pageBlockButtons >
+                <apex:actionStatus id="actStatusId" >
+                    <apex:facet name="start" >
+                        <img src="/img/loading.gif" />                    
+                    </apex:facet>
+                </apex:actionStatus>
+                
+                <apex:commandButton value="{!$Label.SendtoJIRA_Label}"  onclick="showalert();" reRender="messages,panelId" action="{!SendReqToJIRA}" styleclass="btn syncBtn" oncomplete="validateJIRAId();" status="actStatusId"/>
+                <apex:commandButton value="{!$Label.Cancel_Label}" action="{!Cancel}"/>
+          <!--      <div style="text-align: right;width: 100%;">
+                    <div style="">
+                        <div  style="display: inline-block;font-size:12px;">
+                            Language</div>  
+                        <div  style="display: inline-block;">
+                            <apex:selectList label="Language" value="{!lang}" size="1" style="margin-right: 10px;
+                                                                                              padding: 0;
+                                                                                              width: 150px;
+                                                                                              font-size: 14px;" styleClass="" multiselect="false">
+                                <apex:actionSupport event="onchange"  status="status" action="{!LangaugeReset}"/>
+                                <apex:selectOptions id="test" value="{!Languages}"></apex:selectOptions>
+                            </apex:selectList> 
+                        </div>
+                    </div>
+                    
+                    
+                    
+                </div>
+              -->  
+            </apex:pageBlockButtons>
+            
+            <!-- Jira Section-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 defaultheading">
+                <span class="info"> <img src="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/images/info-icon.png')}"/> </span>
+                <div style=" font-size: 14px;padding: 20px;font-weight: bold;">
+                    <p style="padding:0;color:#1797c0">
+                        {!$Label.SendCommentsAttachmentCaseToJira_msg1}  
+                    </p>
+                    <p style="padding:0;color:#1797c0">
+                        {!$Label.SendCommentsAttachmentCaseToJira_msg2}  
+                    </p>
+                </div>
+            </div>
+            
+            
+            
+            
+            <!--------------------------->
+            <apex:pageBlockSection >
+                <apex:pageBlockSectionItem dataStyle="width:230px"  >
+                    
+                    <apex:pageblock title="{!$Label.SendCommentsAttachmentCaseToJira_title}"  >
+                        <apex:pageBlockTable value="{!JiraWrapperList}" var="jiraIssue"  > 
+                            
+                            <apex:column >
+                                <apex:facet name="header">
+                                    <apex:outputPanel layout="block" id="jiraaction">
+                                        
+                                        <apex:inputCheckbox value="{!jiraIssue.isSelected}" id="action" styleClass="jiraSync" onchange="selectJira(this);"/><apex:outputLabel value="{!$Label.Action_Label}"/>
+                                        
+                                    </apex:outputPanel>
+                                </apex:facet>
+                                <div id="{!jiraIssue.recordBody}">
+                                    <apex:inputCheckbox id="jiraid" value="{!jiraIssue.isSelected}" onchange="checkJira(this);" styleClass="jiraSync"/>
+                                </div>
+                            </apex:column>
+                            <apex:column headerValue="{!$Label.SendCommentsAttachmentCaseToJira_jiraIssueNumber}" >
+                                <div id='{!jiraIssue.recordBody+"_jkey"}' style="float: left;padding: 3px;">
+                                    <apex:outputText value="{!jiraIssue.recordBody}"/>
+                                </div>
+                                
+                                
+                            </apex:column>
+                            
+                        </apex:pageBlockTable>
+                    </apex:pageblock>
+                    
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:pageBlockSection columns="1">
+                        <apex:pageblock title="{!$Label.SendCommentsAttachmentCaseToJira_title1}">
+                            <apex:pageBlockTable value="{!commentWrapperList}" var="comments" > 
+                                
+                                <apex:column width="8%">
+                                    <apex:facet name="header">
+                                        <apex:outputPanel layout="none">
+                                            <apex:inputCheckbox value="{!comments.isSelected}" id="comaction" styleClass="comsync" onchange="selectJira(this);"/><apex:outputLabel value="{!$Label.Action_Label}"/>
+                                        </apex:outputPanel>
+                                    </apex:facet>
+                                    <div id="{!comments.recordId}">
+                                        <apex:inputCheckbox id="commentid" value="{!comments.isSelected}" styleClass="comsync" onchange="checkJira(this);"/>
+                                    </div>
+                                </apex:column>
+                                <apex:column headerValue="{!$Label.SendCommentsAttachmentCaseToJira_headervalue}" width="40%">
+                                    
+                                    <apex:outputText value="{!comments.recordBody}"/>
+                                    
+                                </apex:column>
+                                <apex:column headerValue="{!$Label.SendCommentsAttachmentCaseToJira_headervalue1}"  width="20%">
+                                    <span id="{!comments.recordId}_send"></span>
+                                </apex:column>   
+                                
+                                <apex:column headerValue="{!$Label.SendCommentsAttachmentCaseToJira_headervalue2}" width="20%">
+                                    <apex:outputpanel id="textToHTML"/>
+                                    <script>
+                                    var textToHTML= document.getElementById('{!$Component.textToHTML}');
+                                    $(textToHTML).html($('<div/>').html('{!JSENCODE(comments.jiraKeys)}').html());</script>
+                                </apex:column>   
+                                <apex:column headerValue="{!$Label.CreatedDate_Label}" value="{!comments.recordDate}" width="12%"/>
+                                
+                            </apex:pageBlockTable>
+                        </apex:pageblock>
+                        
+                        <!-- Attachments -->
+                        <apex:pageblock title="{!$Label.Attachments_Label}">
+                            <apex:pageBlockTable value="{!attachementWrapperList}" var="attach"> 
+                                <apex:column width="10%" title="{!if(attach.recordSizeExceed,$Label.ErrorMsg_Label,'')}">
+                                    <apex:facet name="header">
+                                        <apex:outputPanel layout="none">
+                                            <apex:inputCheckbox value="{!attach.isSelected}" id="attaction" styleClass="attSync" disabled="false" onchange="selectJira(this);"/><apex:outputLabel value="{!$Label.Action_Label}"/>
+                                        </apex:outputPanel>
+                                    </apex:facet>
+                                    <div id="{!attach.recordId}">
+                                        <apex:inputCheckbox id="attachid" value="{!attach.isSelected}" disabled="{!attach.recordSizeExceed}" styleClass="attSync" onchange="checkJira(this);"/>
+                                    </div>
+                                </apex:column>
+                                <apex:column width="20%" title="{!if(attach.recordSizeExceed,$Label.ErrorMsg_Label,'')}" headerValue="{!$Label.SendCommentsAttachmentCaseToJira_Name}" value="{!attach.recordBody}"/>
+                                <apex:column headerValue="Send To"  width="20%" title="{!if(attach.recordSizeExceed,$Label.ErrorMsg_Label,'')}" >
+                                    <span id="{!attach.recordId}_send"></span>
+                                    
+                                </apex:column> 
+                                <apex:column title="{!if(attach.recordSizeExceed,$Label.ErrorMsg_Label,'')}" headerValue="{!$Label.SendCommentsAttachmentCaseToJira_headervalue2}" width="20%">
+                                    <apex:outputpanel id="textToHTML1"/>
+                                    <script>
+                                    var textToHTML= document.getElementById('{!$Component.textToHTML1}');
+                                    $(textToHTML).html($('<div/>').html('{!JSENCODE(attach.jiraKeys)}').html());</script>
+                                   
+                                </apex:column> 
+                                <apex:column width="10%" title="{!if(attach.recordSizeExceed,$Label.ErrorMsg_Label,'')}" headerValue="{!$Label.SendCommentsAttachmentCaseToJira_Size}" value="{!attach.recordSizeInString}"/>
+                                <apex:column width="20%" title="{!if(attach.recordSizeExceed,$Label.ErrorMsg_Label,'')}" headerValue="{!$Label.CreatedDate_Label}" value="{!attach.recordDate}" />
+                            </apex:pageBlockTable>
+                        </apex:pageblock>
+                    </apex:pageBlockSection>
+                    
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            
+            
+            <!--------------------------->
+        </apex:pageBlock>
+        
+    </apex:form>   
+</apex:page>

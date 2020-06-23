@@ -1,0 +1,603 @@
+<apex:page controller="AdminSettingController" id="mainPage"  language="{!lang}" showHeader="true" sidebar="false" docType="html-5.0" cache="false" extensions="RuleSetFlowComponentController" standardStylesheets="true" action="{!InsertJiraLogs}">
+    <link href="{!URLFOR($Resource.Communitybuilder, 'Communitybuilder/css/bootstrap.min.css')}" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/jquery.mCustomScrollbar.min.css')}"/> 
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/font.css')}"/>
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/Adminsettingvfcss.css')}"/>
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/RulesetSettingcomponent.css')}"/>
+    
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery-ui.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/unblockUI.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery.validate.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/bootstrap.js')}"/>
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/newstyle.css')}"/>
+    
+    <script> 
+    function switchtab(Tabid){
+        
+        Tabid=Tabid+'tab'; 
+        $('li').removeClass('active');
+        $('#'+Tabid ).parent( "li" ).addClass( 'active' )
+    }
+    
+    </script>
+    <style>
+        .adminRightPanel::-webkit-scrollbar {
+        width: 7px;
+        background: #f9f9f9;
+        }
+        .adminRightPanel::-webkit-scrollbar-thumb{
+        background: #0676b8;
+        border-radius: 10px;
+        }
+        @import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
+        
+        .activeTab:hover .fa,.active .fa,.activeTab:focus .fa,li.active .activeTab:hover .fa {
+        background-position: 0 -24px;
+        background-color: #f9f9f9;
+        }
+        .fa {
+        position: relative;
+        display: table-cell;
+        width: 24px;
+        height: 24px;
+        text-align: center;
+        vertical-align: middle;
+        font-size:20px;
+        background-position: 0 48px;
+        }
+        
+        
+        .main-menu:hover,nav.main-menu.expanded {
+        width:190px;
+        overflow:visible;
+        }
+        
+        .main-menu {
+        background:#099ad6;
+        position:absolute;
+        top:0;
+        bottom:0;
+        height:100%;
+        left:0;
+        width:44px;
+        overflow:hidden;
+        -webkit-transition:width .2s linear;
+        transition:width .2s linear;
+        -webkit-transform:translateZ(0) scale(1,1);
+        z-index:1;
+        padding-left:4px;
+        }
+        
+        .main-menu>ul {
+        margin:7px 0;
+        }
+        
+        .main-menu li {
+        padding: 5px 0;
+        position:relative;
+        display:block;
+        width:190px;
+        }
+        
+        .main-menu li>div {
+        position:relative;
+        display:block;
+        border-collapse:collapse;
+        border-spacing:0;
+        color:#fff;
+        font-family: arial;
+        font-size: 14px;
+        text-decoration:none;
+        -webkit-transform:translateZ(0) scale(1,1);
+        -webkit-transition:all .3s linear;
+        transition:all .3s linear;
+        padding:2px;
+        }
+        
+        .main-menu .nav-text {
+        position:relative;
+        display:table-cell;
+        vertical-align:middle;
+        width:162px;
+        padding-left:16px;
+        
+        }
+        
+        a:hover,a:focus {
+        text-decoration:none;
+        }
+        
+        nav {
+        -webkit-user-select:none;
+        -moz-user-select:none;
+        -ms-user-select:none;
+        -o-user-select:none;
+        user-select:none;
+        }
+        
+        nav ul,nav li {
+        outline:0;
+        margin:0;
+        padding:0;
+        }
+        .main-menu li:hover>div,.main-menu li:hover>nav-text,nav.main-menu li.active>div{
+        color: #099ad6;
+        background-color: #f9f9f9;
+        
+        }
+        .main-menu li:hover>div .fa{
+        background-position: 0 24px;        
+        }
+        .area {
+        float: left;
+        background: #e2e2e2;
+        width: 100%;
+        height: 100%;
+        }
+    </style>
+    <apex:form id="theForm"> 
+        <apex:pagemessages />
+        <apex:actionFunction action="{!ValidationCompRecall}" reRender="objectvalidation" status="status"  name="ValidationComp" >
+            
+        </apex:actionFunction>
+        
+        <apex:outputPanel styleClass="col-lg-12 col-md-12 col-xs-12 col-sm-12" rendered="{!isAccessable}" >
+            <div style="max-width:1300px ;margin:auto ">
+                
+                <apex:outputPanel id="leftpaneljq">
+                    <style>
+                        .disablelink{
+                        pointer-events:none;
+                        }
+                    </style>
+                    <script>
+                    jQuery(document).ready(function() {
+                        
+                        if({!loginSuccess}){
+                            
+                            $('#Projecttab').removeClass('disablelink'); 
+                            $('#RuleSettab').removeClass('disablelink'); 
+                        }else{
+                            $('#Projecttab').addClass('disablelink'); 
+                            $('#Fieldstab').removeClass('disablelink'); 
+                            $('#RuleSettab').removeClass('disablelink'); 
+                        }
+                        if({!projectSuccess}){ 
+                            $('#Fieldstab').removeClass('disablelink'); 
+                            $('#RuleSettab').removeClass('disablelink'); 
+                            
+                        }else{
+                            $('#Fieldstab').addClass('disablelink'); 
+                            $('#RuleSettab').addClass('disablelink'); 
+                        }
+                        
+                    });
+                    
+                    
+                    </script>
+                </apex:outputPanel>
+                
+                
+                <apex:actionStatus id="status" startText="{!$Label.Processing_Label}" >
+                    <apex:facet name="start">
+                        <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.80; z-index: 1000; background-color: black;">
+                            &nbsp;
+                        </div> 
+                        <div style="position: fixed; width:60px ; left: 0; top:-200px; bottom: 0; right: 0; z-index: 1001; margin: 30% 50%">
+                            <img width="100px" src="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/images/loader.gif')}" />
+                        </div>
+                    </apex:facet>
+                </apex:actionStatus>
+                <div class="container">
+                    <!-----------------------------***********  PANEL START *****-------------------------->
+                    <div class="row">
+                        <!-----------------------------***LICENSE KEY MODAL START****--------------->
+                        <!--  <div class="{!if(OR(validlicense,loginSuccess),'hide','')} licmodal" id="mylicmodal">
+<div class="licmoddiv" id="mylicModal" data-backdrop="static" role="dialog">
+<div class="">
+Modal content 
+<div class="licmodal_content">
+<div class="licmodal_header">
+
+<h4 class="licmodal_title">LICENCE KEY</h4>
+</div>
+<div class="licmodal_body">
+
+/*   function enablebut(admin){ 
+
+console.log('admin @@c  '+admin.length);
+if(admin.length>0){
+
+$('.licmodal_body input+input').removeAttr('disabled');
+}else{
+$('.licmodal_body input+input').attr('disabled','true');
+
+}
+
+}*/
+
+<p>Please Enter the Key to proceed:</p>
+<apex:inputTextarea rows="4" value="{!license.LicenseKey__c}"  style="width: 100%;word-wrap: break-word;" onkeyup="enablebut(this.value)" >
+
+</apex:inputTextarea>
+<apex:commandButton onclick="activatelicense('false')" oncomplete="reloadPage();" value="{!$Label.AdminSetting_Label14}" styleclass="btn" style="margin-top: 15px; padding: 6px 12px;font-size: 15px;color: #ffffff;text-transform: uppercase;background-color: #099ad6 !important;border-radius:2px; "/>
+
+</div>
+<div class="licmodal_footer">
+<div>
+<hr width="40px" style="width: 45px;position: absolute;margin-top: 12px;"/>
+<span  class="OR">OR</span>    
+</div>
+
+<p style="font-size: 18px;color: #ffffff;"> 
+Take a <i style="color: white;font-weight: 600;">free</i> trial:100 Transactions/Day
+<button  onclick="  function can(){$('#mylicmodal').addClass('hide'); return false;} return can();" styleclass="btn" style=" padding: 10px 15px;font-size: 15px;color: #ffffff !important; text-transform: uppercase;  background-color: #27a146 !important;border-radius: 2px;border: 0px; margin-left: 20px;">
+Start Trial</button>
+
+</p>
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="modalfade">
+</div>                        
+
+</div>-->
+                        <!-----------------------------***LICENSE KEY MODAL END****--------------->
+                        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad heading">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad"><div style=" width: 230px;height: 65px;float: left;
+                                                                                                       background: url(/resource/1518074735000/Grz_Sf__SFDCJiraConnector/SFDCJiraConnector/images/Logo.png);
+                                                                                                       background-repeat: no-repeat;
+                                                                                                       /* background-position: inherit; */
+                                                                                                       background-size: cover;
+                                                                                                       "></div>
+                                    
+                                    <div style="
+                                                padding: 15px;
+                                                margin-left: 20px;
+                                                float: left;
+                                                color: #003366;
+                                                font-size: 25px;
+                                                font-weight: 600;
+                                                ">{!$Label.AdminSetting_Label2}</div>
+                                    <div style="float: right;">
+                                        <div>
+                                            <div  style="display: inline-block;font-size:12px;">
+                                                Language</div> 
+                                            <div  style="display: inline-block;">
+                                                <apex:selectList label="Language" value="{!lang}" size="1" style="margin-right: 10px;
+                                                                                                                  padding: 0;
+                                                                                                                  width: 150px;
+                                                                                                                  font-size: 14px;" styleClass="" multiselect="false">
+                                                    <apex:actionSupport event="onchange"  status="status" action="{!LangaugeReset}"/>
+                                                    <apex:selectOptions id="test" value="{!Languages}"></apex:selectOptions>
+                                                </apex:selectList>
+                                            </div>
+                                        </div>
+                                       
+                                        
+                                        
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <!-----------------------------*********** TOP PANEL END *****------- ------------------->
+                        
+                        <!-----------------------------*********** MAIN PANEL START *****-------------------------->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 linecolor nopad">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 backcolor nopad">
+                                <!-----------------------------*********** LEFT PANEL START *****-------------------------->
+                                <div class="nopad" style="width:44px;float:left;height: 800px;background-color: #F0EEEF; " id="leftPanelDiv">
+                                    <div>
+                                        <nav class="main-menu">
+                                            <ul>
+                                                <li class="liList active">
+                                                    <div class="activeTab mainMenuDiv" id="Admintab" href="#AdminSettings" style="cursor: pointer;overflow:hidden;border-top-right-radius: 0px !important;" data-toggle="tab">
+                                                        <span class="fa" style="background-image:url('{!URLFOR($Resource.assets,
+                                                                                'assets/Admin-Settings.png')}');"></span>
+                                                        <span class="nav-text">
+                                                            {!$Label.AdminSetting} 
+                                                        </span>
+                                                    </div>
+                                                    
+                                                </li>
+                                                <li class="liList">
+                                                    <div class="activeTab mainMenuDiv" id="Projecttab" onclick="OpenProjectTab();" href="#Project" style="cursor: pointer;border-top-right-radius: 0px !important;overflow:hidden;"  data-toggle="tab">
+                                                        <span class="fa" style="background-image:url('{!URLFOR($Resource.assets,'assets/Projects.png')}');"></span>
+                                                        <span class="nav-text">
+                                                            {!$Label.Projects_Label}
+                                                        </span>
+                                                    </div>
+                                                    
+                                                </li>
+                                                <li class="liList">
+                                                    <div  class="activeTab mainMenuDiv" id="Fieldstab"  onclick="getFieldData();" href="#fields" style="cursor: pointer;overflow:hidden;border-top-right-radius: 0px !important;"  data-toggle="tab">
+                                                        <span class="fa"  style="background-image:url('{!URLFOR($Resource.assets, 'assets/Field-Configuration.png')}');"></span>
+                                                        <span class="nav-text" >
+                                                            {!$Label.AdminSetting_Label4}
+                                                        </span>
+                                                    </div>
+                                                    
+                                                </li>
+                                                <li class="liList">
+                                                    <div class="activeTab mainMenuDiv" onclick="ValidationComp()" id="fieldValidationtab" href="#fieldValidation"  style="cursor: pointer;overflow:hidden;border-top-right-radius: 0px !important;"  data-toggle="tab">
+                                                        <span class="fa" style="background-image:url('{!URLFOR($Resource.assets,'assets/Validation.png')}');"></span>
+                                                        <span class="nav-text" style="">
+                                                            {!$Label.AdminSetting_Label5}
+                                                        </span>
+                                                    </div>
+                                                    
+                                                </li>
+                                                <li class="liList">
+                                                    <div class="activeTab mainMenuDiv" id="RuleSettab" href="#RuleSet" style="cursor: pointer;overflow:hidden;border-top-right-radius: 0px !important;"  data-toggle="tab">
+                                                        <span class="fa" style="background-image:url('{!URLFOR($Resource.assets,'assets/Rules-set.png')}');"></span>
+                                                        <span class="nav-text">
+                                                            {!$Label.AdminSetting_Label6}
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                                <li class="liList">
+                                                    <!--   <div class="activeTab mainMenuDiv" id="LicenseKeytab" href="#LicenseKey" style="cursor: pointer;overflow:hidden;border-top-right-radius: 0px !important;"  data-toggle="tab">
+<span class="fa" style="background-image:url('{!URLFOR($Resource.assets,'assets/License-Key.png')}');"></span>
+<span class="nav-text">
+License Key
+</span>
+</div>-->
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                                <!-----------------------------*********** LEFT PANEL END *****-------------------------->
+                                <!-----------------------------*********** RIGHT PANEL START *****-------------------------->
+                                <div class="adminRightPanel " style="width:96%;float:left;padding-left:15px;height: 800px;overflow: hidden;overflow-y: auto;">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad" style="background-color:#F9F9F9;">
+                                        <div class="tab-content" style="">
+                                            
+                                            <!----------------------------************* ADMIN SETTING PART START ******************---------------------------->
+                                            <div id="AdminSettings" class="tab-pane fade in active" style="">
+                                                <c:AdminSettingsComponent RefreshRequestToken="{!RefreshRequestToken}" PrivateKey="{!PrivateKey}" token="{!token}"  
+                                                                          relation="{!relation}" checkloginsuccess="{!checkloginsuccess}" 
+                                                                          loginSuccess="{!loginSuccess}" 
+                                                                          adminsetting="{!adminsetting}" 
+                                                                          adminSettingPublic="{!adminSettingPublic}"
+                                                                          checkUrlChange="{!checkUrlChange}" />
+                                            </div>
+                                            <apex:outputPanel id="modal">
+                                                <apex:outputPanel rendered="{!showmodal}">
+                                                    <script>
+                                                    jQuery(document).ready(function(){
+                                                        jQuery("#myModal").modal("show");
+                                                    }); 
+                                                    function reloadPage(){
+                                                        window.location.reload();
+                                                        return false;
+                                                    }
+                                                    </script>
+                                                    <!-- Modal start here -->
+                                                    <div class="modal fade" id="myModal" data-backdrop="static" role="dialog">
+                                                        <div class="modal-dialog">
+                                                            <!-- Modal content -->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                    <h4 class="modal-title">{!$Label.AdminSetting_Label7}</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <p>{!$Label.AdminSetting_Label8}</p>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <apex:commandButton action="{!save}" oncomplete="reloadPage();" value="{!$Label.OK_Label}" styleclass="btn" style="min-width: 60px;font-family: 'proxima_nova_rgbold';font-size: 16px;color: #fff !important;margin-right: 10px !important;text-decoration: none;border-radius: 2px;line-height: 1.2;background: #0676B8 !important;border: 1px solid #027fbb;padding: 8px 16px 8px 16px;"/>
+                                                                    <apex:commandButton value="{!$Label.Cancel_Label}" styleclass="btn" action="{!cancelSettings}" style="min-width: 60px;font-family: 'proxima_nova_rgbold';font-size: 16px;color: #fff !important;margin-right: 10px !important;text-decoration: none;border-radius: 2px;line-height: 1.2;background: #0676B8 !important;border: 1px solid #027fbb;padding: 8px 16px 8px 16px;"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Modal ends here -->
+                                                </apex:outputPanel>
+                                            </apex:outputPanel>  
+                                            <!----------------------------************* ADMIN SETTING PART END ******************---------------------------->
+                                            
+                                            
+                                            <!----------------------------************* PROJECT SETTING PART START ******************---------------------------->
+                                            <div id="Project" class="tab-pane fade" style="">    
+                                                <apex:outputPanel id="Projectcompholder">
+                                                    <c:ProjectSettingComponent />
+                                                </apex:outputPanel>
+                                            </div>
+                                            <!----------------------------************* PROJECT SETTING PART END ******************---------------------------->
+                                            
+                                            
+                                            <!----------------------------************* FIELD SETTING PART START ******************---------------------------->
+                                            <div id="fields" class="tab-pane fade" style="">
+                                                <apex:outputPanel id="Fieldcomp">
+                                                    <c:FieldsSettingComponent />
+                                                </apex:outputPanel> 
+                                            </div>
+                                            <!----------------------------************* FIELD SETTING PART END ******************---------------------------->
+                                            <!----------------------------************* FIELD VALIDATION  SETTING PART START ******************---------------------------->
+                                            
+                                            <!-- <apex:actionFunction name="getObjectName" action="{!objectsValidation}" reRender="objectvalidation" oncomplete="stopProcessing();" />-->
+                                            
+                                            
+                                            
+                                            <div id="fieldValidation" class="tab-pane fade" style="">
+                                                <apex:outputPanel id="objectvalidation">
+                                                    <apex:outputPanel rendered="{!showvalidationdata}">
+                                                        
+                                                        <c:FieldValidation />
+                                                    </apex:outputPanel>
+                                                </apex:outputPanel>
+                                            </div> 
+                                            
+                                            <!----------------------------************* FIELD VALIDATION SETTING PART END ******************---------------------------->
+                                            
+                                            
+                                            
+                                            <!----------------------------************* RULESET SETTING PART START ******************---------------------------->
+                                            
+                                            <div id="RuleSet" class="tab-pane fade" style="">
+                                                
+                                                <div class="bootstrapHeader">
+                                                    
+                                                    <!---------------------- SideBar Action ----------------------------->
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad" style="border-bottom: 1px solid #cccccc;margin-bottom: 20px;"><label style="font-size:20px; color: #000000;margin-top: 16px;margin-bottom: 16px;">{!$Label.AdminSetting_Label6}</label></div>
+                                                    
+                                                    <div class="MainDiv">
+                                                        <div class="container-fluid container_div col-lg-12 col-md-12 col-sm-12 col-xs-12  nopad" id="MainDiv">
+                                                            <div class="ruleSetContainer col-lg-12 col-md-12 col-sm-12 col-xs-12  nopad">
+                                                                <div class="vPlayBody content col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad clearBoth">
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad clearBoth">
+                                                                        <apex:outputPanel id="newRuleSetpanel" styleClass="newRuleSet col-lg-12 col-md-12 col-sm-12 col-xs-12 removePad" style="padding:0px;">
+                                                                            
+                                                                            <apex:actionFunction name="isUpdatableValLp" immediate="true"  reRender="newLoopspecificObjField,new_rule" action="{!newLoopRenderingSpecificField}" oncomplete="stopProcessing();">
+                                                                                <apex:param name="newLoopRenderingSpecificField" value="" />
+                                                                            </apex:actionFunction>
+                                                                            <script>
+                                                                            //function showProcessingClone(){
+                                                                            //     jQuery.blockUI({
+                                                                            //         css: {
+                                                                            //             padding: '5px'
+                                                                            //         },
+                                                                            //         message: 'Please Wait ... <img src="/img/loading.gif" />'
+                                                                            //     });
+                                                                            // }
+                                                                            
+                                                                            function stopProcessing(){
+                                                                                jQuery.unblockUI();
+                                                                                
+                                                                            }
+                                                                            
+                                                                            $(document).ready(function() {
+                                                                                
+                                                                                $('.cancelBtn').click(function() {
+                                                                                    
+                                                                                    location.reload();
+                                                                                });
+                                                                                
+                                                                                
+                                                                            });
+                                                                            </script>
+                                                                            
+                                                                            <apex:actionfunction name="refreshRuleSetDiv" action="{!refresh}" rerender="RulesetMain"/>
+                                                                            <apex:actionfunction name="refreshRuleSet" action="{!refresh}" rerender="new_rule"/>
+                                                                            <apex:actionfunction name="newSaveAction" action="{!newSave}" rerender="saveError" oncomplete="stopProcessing()"/>
+                                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 "  >
+                                                                                <apex:outputPanel id="saveError">
+                                                                                    <apex:pagemessages ></apex:pagemessages>
+                                                                                </apex:outputPanel>
+                                                                            </div>
+                                                                            
+                                                                            <!---------------------------------------------------NEW RULESET START---------------------------------------->
+                                                                            <script>
+                                                                            function addnewrule(){
+                                                                                $('#Addnewruleset').addClass('hide');
+                                                                                $('#newruleset').removeClass('hide');
+                                                                                
+                                                                            }
+                                                                            
+                                                                            </script>
+                                                                            
+                                                                            <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                                                                <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad ">
+                                                                                    <div id="Addnewruleset" class="{!if(ruleSetList.size>0,'hasruleset','noruleset')}">
+                                                                                        
+                                                                                        <apex:outputPanel rendered="{!ruleSetList.size=0}">
+                                                                                            <span style="font-size: 30px;color: #c6c6c6;margin: 0;">
+                                                                                                {!$Label.AdminSetting_Label12}
+                                                                                            </span>
+                                                                                        </apex:outputPanel>
+                                                                                        <div class="" >
+                                                                                            <div  style="padding:0;" class="addnewrule" onclick='addnewrule()'>
+                                                                                                <div class="addruleimg"></div>
+                                                                                                <span>{!$Label.AdminSetting_Label13}</span>
+                                                                                            </div> 
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad hide" id="newruleset">
+                                                                                
+                                                                                <c:NewRuleSetComponent SObjectListNew="{!SObjectListNew}" cancelSettings="{!cancelSettings}" newruleSet="{!newruleSet}" newAllFields="{!newAllFields}" nw_WrapperList="{!nw_WrapperList}"
+                                                                                                       newObjName="{!newObjName}" AllFilter="{!AllFilter}" projectList="{!projectList}"
+                                                                                                       newruleSetChild="{!newruleSetChild}" newSave="{!newSave}" addnewField="{!addnewField}"  nw_deleteField="{!nw_deleteField}"
+                                                                                                       nw_RemoveField="{!nw_RemoveField}" allField="{!allField}" />
+                                                                                
+                                                                            </div>
+                                                                            
+                                                                            <!---------------------------------------------------NEW RULESET END-------------------------------------------->
+                                                                            <!---------------------------------------------------DISPLAY RULESET COMPONENT START ------------------------------------->
+                                                                            <!--(This component also contains the section for editing ruleset) -->
+                                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad " Style="margin-top:20px" id="displayruleset">
+                                                                                <c:DisplayRulesetComponent allField="{!allField}" SObjectListNew="{!SObjectListNew}" id="DisplayRulesetComponent" ruleSetList="{!ruleSetList}"  viewruleSetList="{!viewruleSetList}" ruleSet="{!ruleSet}"
+                                                                                                           disMapFieldLabelToFieldApi="{!disMapFieldLabelToFieldApi}"  editId="{!editId}"
+                                                                                                           AllFilter="{!AllFilter}" editruleSet="{!editruleSet}" wrapperList="{!wrapperList}" AllFields="{!AllFields}"
+                                                                                                           objName="{!objName}" deleteRuleSetOnRule="{!deleteRuleSetOnRule}"  editruleSetLists="{!editruleSetList}"
+                                                                                                           nw_RemoveField="{!nw_RemoveField}" deleteRuleSet="{!deleteRuleSet}" deleteRuleSetId="{!deleteRuleSetId}" 
+                                                                                                           CloneRuleSet="{!CloneRuleSet}" cloneId="{!cloneId}" editSection="{!editSection}" editSave="{!editSave }" 
+                                                                                                           refresh="{!refresh}" ed_deleteField="{!ed_deleteField }" ed_LoopRenderingSpecificField="{!ed_LoopRenderingSpecificField }"
+                                                                                                           ed_removefield="{!ed_removefield }" newLoopRenderingSpecificField="{!newLoopRenderingSpecificField }"
+                                                                                                           nw_deleteField="{!nw_deleteField }" editModeAddNewField="{!editModeAddNewField}" projectList="{!projectList}"/>   
+                                                                                
+                                                                            </div>
+                                                                            
+                                                                            <!---------------------------------------------------DISPLAY RULESET COMPONENT START ------------------------------------->
+                                                                        </apex:outputPanel>
+                                                                    </div>
+                                                                </div>
+                                                                <!---------------------------------------------------------Edit Section--------------------------------------------->
+                                                                
+                                                                <!--------------------------------------------------------Edit Section End------------------------------------------>
+                                                            </div>
+                                                        </div>                             
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!----------------------------************* RULESET SETTING PART END ******************------------------------------------------------------>
+                                            
+                                            
+                                            <!----------------------------************* LICENSE KEY SETTING PART START ******************---------------------------->
+                                            <!--<div class="tab-pane fade" style="" id="LicenseKey">
+<c:LicenseKeyComponent SizeOfList="{!SizeOfList}" objCount="{!objCount}" validDate="{!validDate}" objectToBeDeleted="{!objectToBeDeleted}" delObjCount="{!delObjCount}" deleteobjectsMapping="{!deleteobjectsMapping}" deletevar="{!deletevar}" mappedSalesforceObjects="{!mappedSalesforceObjects}" licenseError="{!licenseError}" license="{!license}" addlicense="{!addlicense}"/>
+</div>-->
+                                            <!----------------------------************* LICENSE KEY SETTING PART END ******************---------------------------->
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <!-----------------------------*********** RIGHT PANEL END *****-------------------------->
+                                
+                                <!--  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad {!if(validlicense,'hide','')}" >
+<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="background-color: #090909;color: white;">
+<p class="" Style="margin: 2px;float: right;">
+You are using trial Version
+</p>
+</div>
+<div onclick="function showlic(){$('#mylicmodal').removeClass('hide');return false;} return showlic();" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 " Style="background-color: #27a146;color: white; ">
+<p  class=" " Style="color: white;margin: 2px;">
+Activate Licensed Version >
+</p>
+</div>
+</div>-->
+                            </div>
+                        </div>
+                        <!-----------------------------*********** MAIN PANEL END *****-------------------------->
+                        
+                    </div>
+                    <!-----------------------------***********  PANEL END *****-------------------------->
+                    
+                </div>
+                
+                
+            </div>
+            
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

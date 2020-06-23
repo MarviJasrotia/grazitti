@@ -1,0 +1,4 @@
+<apex:page standardController="Case" sidebar="false">
+   
+  <apex:include pageName="SearchJiraIssuesPages"/>
+</apex:page>

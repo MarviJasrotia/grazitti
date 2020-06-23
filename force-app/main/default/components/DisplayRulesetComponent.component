@@ -1,0 +1,285 @@
+<!-- Parent Page Adminsetting.vfp -->
+<!-- Parent Controller AdminSettingController EXTENSION RuleSetFlowComponentController-->
+<apex:component >
+    
+     <apex:attribute name="SObjectListNew" description="list of All the Sobject fields" type="SelectOption[]" required="false" />
+    <apex:attribute name="allField" description="The cancel method from the parent controller." type="ApexPages.Action" required="true"/>
+    <apex:attribute name="ruleSetList" description="The save method from the parent controller." type="Rule_Set__c[]" required="true"/>
+    <apex:attribute name="viewruleSetList" description="The save method from the parent controller." type="ViewWrapperClass[]" required="true"/>
+    <apex:attribute name="ruleSet" description="The save method from the parent controller." type="Rule_Set__c" required="true"/>
+    <apex:attribute name="disMapFieldLabelToFieldApi" description="The save method from the parent controller." type="map" required="true"/>
+    <apex:attribute name="editSection" description="The save method from the parent controller." type="ApexPages.Action" required="true" />
+    
+    <apex:attribute name="editId" description="The save method from the parent controller." type="String" required="false"/>
+    <apex:attribute name="editruleSetList" description="The save method from the parent controller." type="Rule_Set__c[]" required="false" />
+    <apex:attribute name="editruleSetLists" description="The save method from the parent controller." type="Rule_Set__c[]" required="true" assignto="{!editruleSetList}" />
+    <apex:attribute name="nw_RemoveField" description="" type="String" required="true" />
+    <apex:attribute name="deleteRuleSetOnRule" description="The save method from the parent controller." type="Boolean" required="true"  />
+    <apex:attribute name="editruleSet" description="The save method from the parent controller." type="Rule_Set__c" required="true"/>
+    <apex:attribute name="wrapperList" description="The save method from the parent controller." type="EditWrapperClass[]" required="true"/>
+    <apex:attribute name="AllFields" description="The save method from the parent controller." type="SelectOption[]" required="true"/>
+    <apex:attribute name="AllFilter" description="" type="SelectOption[]" required="false" />
+    <apex:attribute name="objName" description="The save method from the parent controller." type="String" required="true"/>
+    <apex:attribute name="deleteRuleSet" description="The save method from the parent controller." type="ApexPages.Action" required="true" />
+    <apex:attribute name="deleteRuleSetId" description="The save method from the parent controller." type="String" required="false" />
+    <apex:attribute name="CloneRuleSet" description="The save method from the parent controller." type="ApexPages.Action" required="true" />
+    <apex:attribute name="cloneId" description="The save method from the parent controller." type="String" required="false" />
+    <apex:attribute name="refresh" description="The save method from the parent controller." type="ApexPages.Action" required="true"/>
+    <apex:attribute name="editSave" description="The save method from the parent controller." type="ApexPages.Action" required="true"/>
+    <apex:attribute name="nw_deleteField" description="The save method from the parent controller." type="ApexPages.Action" required="true"/>
+    <apex:attribute name="newLoopRenderingSpecificField" description="The save method from the parent controller." type="ApexPages.Action" required="true"/>
+    <apex:attribute name="ed_deleteField" description="The save method from the parent controller." type="ApexPages.Action" required="true"/>
+    <apex:attribute name="ed_LoopRenderingSpecificField" description="The save method from the parent controller." type="ApexPages.Action" required="true"/>
+    <apex:attribute name="ed_removefield" description="The save method from the parent controller." type="ApexPages.Action" required="true"/>
+    <apex:attribute name="editModeAddNewField" description="The save method from the parent controller." type="ApexPages.Action" required="true"/>
+    <apex:attribute name="projectList" description="" type="SelectOption[]" required="false" />
+    
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/DisplayRuleSetComponentcss.css')}"/>
+     <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/newstyle.css')}"/>
+    
+    
+    <!---------------------------------------------------DISPLAY RULESET START ------------------------------------->
+    <apex:outputPanel id="RefreshList">                                           
+        <apex:outputPanel >
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad clearBoth">
+                <apex:outputPanel styleClass="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad"  rendered="{!AND(!ISNULL(ruleSetList),ruleSetList.size>0)}" >
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad" style="margin-bottom: 20px;">
+                         <style>
+                             .hide{
+                               display:none;
+                             }
+                        </style>
+                        <script>
+                        function showhide(divid){
+                            
+                            divtotoggle='desc_'+divid;
+                            console.log(divtotoggle);
+                            $('#'+divtotoggle).slideToggle(800); 
+                            arrowid='arrow_'+divid;
+                            if($('#'+arrowid).hasClass("arrow-down")) {
+                                $('#'+arrowid).addClass('arrow-right');
+                                $('#'+arrowid).removeClass('arrow-down');
+                            }else{
+                                $('#'+arrowid).addClass("arrow-down");
+                                $('#'+arrowid).removeClass('arrow-right');
+                            }
+                        }
+                        function disableedit(div){
+                            
+                            $('[id$="editcommand"]').removeAttr('onclick');
+                            
+                            $('[id$="editcommand"]').removeAttr('href');
+                            $('[id$="editcommand"]').mouseover(function() {$('<div class="hoverMsg" >{!$Label.DisplayRulesetComponent_Label1}</div>').appendTo(this);});
+                            $('[id$="editcommand"]').mouseleave(function() {$('.hoverMsg').remove();});
+                            
+                           
+                        }
+                        function editButton(elem){
+                            divid=elem.parentElement.offsetParent.id.split('_')[1];;
+                            divtotoggle='editdiv_';
+                            divhead="head_"+divid;
+                            divrule='rulehead_'+divid;
+                            $('#'+divrule).removeAttr('onclick');
+                            var a = document.getElementById(divhead);
+                            a.append(document.getElementById('editdiv_'));
+                            
+                            if($('#desc_'+divid).css("display") === 'block'){
+                                $('#desc_'+divid).css("display","none");
+                                $('#'+divtotoggle).css("display","block");
+                            }else{
+                                 $('#'+divtotoggle).slideToggle(800); 
+                            }
+                        }
+                        </script>
+                        
+                        <apex:repeat value="{!viewruleSetList}" var="v">
+                            <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad" >
+                                <apex:outputpanel >
+                                    <apex:actionstatus id="DelCopRule">
+                                        <apex:facet name="start">
+                                            <div class="waitingSearchDiv" id="el_loading" style="position:absolute; top: 0px;  left: 0px; background-color: black; height: 100%;opacity:0.60;width:100%;"></div>
+                                            <center>
+                                                <div class="waitingHolder" style="width: 350px; padding:5px;   ">
+                                                    <img class="waitingImage" src="/img/loading.gif" />
+                                                    <span style="color:black; ">{!$Label.PleaseWait_Label}</span>
+                                                </div>
+                                            </center>
+                                        </apex:facet>
+                                    </apex:actionstatus>
+                                </apex:outputpanel>
+                                <div id="{!'head_'+v.ruleSet.Id}"   class="ruleSet col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad" style="padding-left: 8px;" >
+                                    <div id="{!'rulehead_'+v.ruleSet.Id}" class="parentleft col-lg-10 col-md-9 col-sm-9 col-xs-8 nopad " onclick="showhide('{!v.ruleSet.Id}')">
+                                        <div class="parent col-lg-1 col-md-1 col-sm-1 col-xs-2"  style="padding-right: 0px; width: 33px;">
+                                            <div id="{!'arrow_'+v.ruleSet.Id}" class="RuleArrow arrow-right"></div>
+                                        </div>
+                                        <div class="ruleSet col-lg-11 col-md-11 col-sm-11 col-xs-10 nopad" style="margin-top: 10px;">
+                                         {!$Label.DisplayRulesetComponent_Label3} {!v.ruleSet.SNO__c } :&nbsp; | &nbsp;{!Left(v.ruleSet.description__c,200)}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 nopad">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 " style="width: 12px; float:right;">
+                                                <apex:commandLink reRender="RefreshList,DisplayRulesetComponent,newRuleSetpanel" action="{!deleteRuleSet}" title="{!$Label.Delete_Label}" onclick="showProcessing()" oncomplete="stopProcessing();" >
+                                                    <img id="{!'del_'+v.ruleSet.Id}" class="deleteRuleSet" style="float:right; position: relative; top: 8px; width:16px;" src="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/images/trash-white.svg')}" />
+                                                    <apex:param name="x" value="{!v.ruleSet.Id}" assignTo="{!deleteRuleSetId}" />
+                                                </apex:commandLink>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"  style="width: 12px;float:right;">
+                                                <apex:commandLink onClick="showProcessingClone()" oncomplete="stopProcessing()" title="{!$Label.Clone_Label}" action="{!CloneRuleSet}" reRender="DisplayRulesetComponent,RefreshList">
+                                                    <img id="{!'clone_'+v.ruleSet.Id}" class="cloneRuleSet" style="float:right; position: relative; top: 8px; width:14px;" src="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/images/copy-white.svg')}" />
+                                                    <apex:param name="x" value="{!v.ruleSet.Id}" assignTo="{!cloneId}" />
+                                                </apex:commandLink>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id="{!'edit_'+v.ruleSet.Id}" style="width: 12px;float:right;">
+                                                <apex:commandLink id="editcommand" styleClass="editButton"  title="{!$Label.Edit_Label}" onclick="disableedit();showProcessing();" oncomplete="editButton(this);stopProcessing();" action="{!editSection}" reRender="showedit" >
+                                                    <img src="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/images/edit-white.svg')}" id="{!ruleSet.Id}" class="cloneRuleSet" style="float:right; position: relative; top: 8px; width:18px;" />
+                                                    <apex:param name="x" value="{!v.ruleSet.Id}" assignTo="{!editId}" />
+                                                </apex:commandLink>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <apex:outputPanel id="show" styleClass="col-lg-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                    <div id="{!'desc_'+v.ruleSet.Id}" Class="child col-lg-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                        <div class="col-lg-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 nopad">
+                                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 nopad">
+                                                           <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                                               <label class="col-lg-5 col-md-5  col-sm-5 col-xs-5  " style="min-width: 150px;">{!$Label.Sno_Label}</label>
+                                                               <div class="col-lg-3  col-md-3  col-sm-3 col-xs-3 nopad  nopad" style="">
+                                                                   <apex:outputField styleClass="form-control" value="{!v.ruleSet.SNO__c}" />
+                                                               </div>
+                                                           </div> 
+                                                       </div>
+                                                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 nopad">
+                                                           <div class=" form-group  col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                                               <label class=" col-lg-3 col-md-3 col-sm-3 col-xs-3  nopadnopad" >{!$Label.Active_Label}</label>
+                                                               <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nopad">
+                                                                   <apex:outputField style="margin-top: 4px !important; position:relative; top: 0px;" value="{!v.ruleSet.IsActive__c}" />
+                                                               </div>
+                                                           </div> 
+                                                       </div>
+                                                   </div>
+                                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad"> 
+                                                       <div class="form-group  col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                                           <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12 " style="min-width: 150px;">{!$Label.Project_Label1}</label>
+                                                           <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 nopad" style="">
+                                                               
+                                                               <apex:outputPanel id="projects">                                                                                                  
+                                                                   <apex:outputField value="{!v.ruleSet.Project__c}" styleClass="projectselect fieldUrl" ></apex:outputField>
+                                                                   
+                                                               </apex:outputPanel>
+                                                           </div>
+                                                           
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                               
+                                               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 nopad">
+                                                   <div class=" form-group  col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                                       <label class=" col-lg-2 col-md-2 col-sm-2 col-xs-4  nopad" for="description">{!$Label.Description_Label}</label>
+                                                       <div class="col-lg-9 col-md-9 col-sm-9 col-xs-8  nopad" style="">
+                                                           <apex:outputField styleClass="form-control" value="{!v.ruleSet.Description__c}" />
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                            </div>
+                                           <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad ">
+                                                <label class="control-label col-lg-2 col-md-2 col-sm-3 col-xs-12"  style="min-width: 150px;" for="Objects">{!$Label.DisplayRulesetComponent_Label11}</label>
+                                                <div class="col-lg-10 col-md-10 col-sm-9 col-xs-12 nopad">
+                                                    <apex:outputField style="color: #6d6d6d;" value="{!v.ruleSet.RuleSetObject__c}"></apex:outputField>
+                                                </div>
+                                            </div> 
+                                            
+                                            
+                                            <apex:outputPanel id="child" rendered="{!v.wrapList.size > 0}" styleClass="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                                <div class="vPlayBodyChild col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                                        <label class="control-label col-lg-2 col-md-2 col-sm-3 col-xs-12 rule_Details ruleDetailsPadding" for="Active" style="padding-left:15px;">{!$Label.RuleDetails_label}</label>
+                                                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 nopad" style="">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad " style="color: #6d6d6d; font-weight: normal;">
+                                                                    
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  " Style="padding: 10px 0;background: #eeeeee none repeat scroll 0 0;">
+                                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 noapd ">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4    ruleDetail" ><span Style="padding:10px 20px:width:100%">{!$Label.Field_Label}</span></div >
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4   ruleDetail" ><span Style="padding:10px 20px:width:100%">{!$Label.Operator_Label}</span></div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4   ruleDetail" ><span Style="padding:10px 20px:width:100%">{!$Label.Value_Label}</span></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad" Style="border: 1px solid #e3e3e3;border-left: none;">
+                                                                        
+                                                                        <apex:variable var="count" value="{!0}" />
+                                                                        <apex:variable var="wrapperSize" value="{!v.wrapList.size}" />
+                                                                        <apex:repeat value="{!v.wrapList}" var="ch">
+                                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad ruleRow">
+                                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad ">
+                                                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 childcol">
+                                                                                        <apex:outputText styleClass="gRuleField childdiv "  value="{!disMapFieldLabelToFieldApi[ch.fieldName]}" />
+                                                                                    </div>
+                                                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 childcol ">
+                                                                                        <apex:outputText id="fieldFilter" value="{!ch.filter}" styleClass="childdiv" />
+                                                                                    </div>
+                                                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4  childcol">
+                                                                                        <apex:outputPanel rendered="{!AND($ObjectType[v.ruleSet.RuleSetObject__c].Fields[ch.fieldName].Type != 'number', $ObjectType[v.ruleSet.RuleSetObject__c].Fields[ch.fieldName].Type != 'integer', $ObjectType[v.ruleSet.RuleSetObject__c].Fields[ch.fieldName].Type != 'double')}">
+                                                                                            <apex:outputField id="input" styleClass="editchangeFieldVal1 ruleSetField valueTextBox" style="padding-left:4px; padding-right:4px; border-radius: 4px; min-height: 100%; height: 32px; display: inline-block; float:left; " value="{!ch.editWrapObj[ch.fieldName]}" rendered="{!$ObjectType[v.ruleSet.RuleSetObject__c].Fields[ch.fieldName].updateable}"  />
+                                                                                            <apex:outputText id="input1" styleClass="editchangeFieldVal1 ruleSetField " style="padding-left:4px; padding-right:4px; border: none; min-height: 100%; height: 32px; display: inline-block; float:left; " value="{!ch.fieldValue}" rendered="{!!$ObjectType[v.ruleSet.RuleSetObject__c].Fields[ch.fieldName].updateable}"  />
+                                                                                        </apex:outputPanel>
+                                                                                        <apex:outputPanel rendered="{!OR($ObjectType[v.ruleSet.RuleSetObject__c].Fields[ch.fieldName].Type == 'number', $ObjectType[v.ruleSet.RuleSetObject__c].Fields[ch.fieldName].Type == 'integer', $ObjectType[v.ruleSet.RuleSetObject__c].Fields[ch.fieldName].Type == 'double')}">
+                                                                                            <apex:outputField id="input3" styleClass="editchangeFieldVal1 ruleSetField valueTextBox" style="padding-left:4px; padding-right:4px; border-radius: 4px; min-height: 100%; height: 32px; display: inline-block; float:left; " value="{!ch.editWrapObj[ch.fieldName]}" rendered="{!$ObjectType[v.ruleSet.RuleSetObject__c].Fields[ch.fieldName].updateable}"  />
+                                                                                            <apex:outputText id="input4" styleClass="editchangeFieldVal1 ruleSetField " style="padding-left:4px; padding-right:4px; border: none; min-height: 100%; height: 32px; display: inline-block; float:left; " value="{!ch.fieldValue}" rendered="{!!$ObjectType[v.ruleSet.RuleSetObject__c].Fields[ch.fieldName].updateable}"  />
+                                                                                        </apex:outputPanel>
+                                                                                    </div>
+                                                                                    <apex:variable var="count" value="{!count + 1}" />
+                                                                               </div>
+                                                                            </div>
+                                                                        </apex:repeat>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </apex:outputPanel>
+                                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad FilterLogicDiv">
+                                                <label class="control-label col-lg-2 col-md-2 col-sm-3 col-xs-12 ruleDetailsPadding filter_Logic1" for="Objects">{!$Label.FilterLogic_Label}</label>
+                                                <div class="col-lg-10 col-md-10 col-sm-9 col-xs-12 ruleDetailsPadding">
+                                                    <apex:outputField style="text-transform:uppercase; width: 230px; padding: 6px; color: #6d6d6d;" value="{!v.ruleSet.FilterLogic__c}"></apex:outputField>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </apex:outputPanel>
+                            
+                                
+                            
+                            
+                            </div>
+                        </apex:repeat>
+                    </div>
+                </apex:outputPanel>
+                
+                </div>
+        </apex:outputPanel>
+        
+    
+    <!---------------------------------------------------DISPLAY RULESET END ------------------------------------->
+      <!---------------------------------------------------EDIT RULESET START ------------------------------------->
+                                
+                                <div id="editdiv_" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad abcsamriti" Style="display:none;">
+                                    <apex:outputpanel id="showedit" styleClass="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                                        <c:EditRuleSetCompoenent allField="{!allField}" SObjectListNew="{!SObjectListNew}" rendered="{!AND(!ISNULL(editruleSetLists),editruleSetLists.size>0)}" AllFilter="{!AllFilter}" editruleSet="{!editruleSet}" wrapperList="{!wrapperList}" AllFields="{!AllFields}"
+                                                                 objName="{!objName}" deleteRuleSetOnRule="{!deleteRuleSetOnRule}"  editruleSetList="{!editruleSetList}"
+                                                                 nw_RemoveField="{!nw_RemoveField}" editSave="{!editSave}" refresh="{!refresh}" nw_deleteField="{!nw_deleteField}"
+                                                                 ed_deleteField ="{!ed_deleteField }" ed_LoopRenderingSpecificField ="{!ed_LoopRenderingSpecificField }"
+                                                                 ed_removefield ="{!ed_removefield }" newLoopRenderingSpecificField ="{!newLoopRenderingSpecificField }"
+                                                                 editModeAddNewField="{!editModeAddNewField}" projectList="{!projectList}"/> 
+                                    </apex:outputpanel> 
+                                </div>
+    <!---------------------------------------------------EDIT RULESET END ------------------------------------->
+</apex:outputPanel>
+</apex:component>

@@ -1,0 +1,508 @@
+<!--
+    * This page used to fetch the detail data of a Jira Ticket from the Jira Instance and data is shown 
+      on the page according to the field configuration section 
+    * Latest modification done to this page on 28/01/2020 By Ashish Thakur 
+-->
+<apex:page sidebar="false" controller="ViewJiraSearchController" language="{!lang}" showHeader="true" action="{!InsertJiraLogs}">
+    <link href="{!URLFOR($Resource.Communitybuilder, 'Communitybuilder/css/bootstrap.min.css')}" rel="stylesheet" />
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/bootstrap/bootstrap.js')}"/>
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/editaddjiraissue.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery-ui.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/unblockUI.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/jquery.validate.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/bootstrap.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/editjira.js')}"/>
+    <apex:includeScript value="/support/console/42.0/integration.js"/>
+    <style> 
+        .outputcss{
+        cursor: not-allowed;
+        background-color:#ececec;
+        padding:5px 10px;
+        border: none;
+        min-width: 100%;
+        min-height: 30px;
+        }
+        .inputcss{
+        max-width: 220px;
+        min-width: 220px;
+        max-height: 60px;
+        
+        }
+        .inputcolcss{
+            width:60%;
+        }
+        .alignright{
+            text-align: right;
+        }
+        .textboxDiv input, .textboxDiv select {width:100%; min-height:30px}
+        
+        .width20{
+        width:25% !important
+        }
+        .padtop20{
+        padding-top:20px!important;
+        }
+        .headingstyle {
+        text-align:right;
+        padding:0 20px;
+        color:#4a4a56;
+        font-size: 11px;
+        }
+        
+        .dateInput  input{
+           float: left;
+        display: block;
+        }
+        .dateInput  span{
+        min-width:100px !important
+        }
+        .rowpad{
+        padding: 3px 0;
+        border-top: 1px solid #ececec;
+       
+        }
+        .testwidth{
+        font-size: 12px ;
+        }
+        .linkissuetd:hover{
+        text-decoration: underline;
+        color: #015ba7;
+        cursor:pointer;
+        }
+        .link{
+        color: #428bca;
+        text-decoration: none;
+        }
+        .link:hover{
+        color:#015ba7;
+        text-decoration: underline;
+        cursor:pointer;
+        }
+        
+        .linkissuetr td{
+        padding: 8px 0px;
+        font-size: 12px;
+        text-align: center;
+        border-bottom: 1px solid #ccc;
+        }
+        .linkdiv{
+        z-index: 1;
+        width:360px;
+        position: absolute;
+        background: #f2f2f2;
+        left: 90%;
+        top: 0;
+        border: 1px solid #ececec;
+        padding: 5px 10px;
+        box-shadow: 3px 3px 3px #e2e6e8;
+        }
+        
+        
+        .linkdiv th {
+        font-size: 12px;
+        text-align: center;
+        padding: 0px 8px;
+        }
+        
+        .summarytrim{
+        padding: 0 5px;
+        border-left: 1px solid #ccc;
+        }
+        .linecolor {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        }
+        .issuelinktable{
+            min-width:100%;
+        }
+        .issuelinktable tr{
+            border-bottom: 1px solid darkgray;          
+        }
+        .issuelinktable tr tr{
+            border-bottom: none !important; 
+        }
+        .issuelinktable td{
+            padding:4px 0;
+        }
+        .issuelinktable td td{
+            padding:none !important;
+        }
+        .deleteissuedata{
+            padding:0 10px !important;
+        }
+        .deleteissuelink{
+        width: 24px;
+        height: 24px; 
+        background-image:  url('/resource/SFDCJiraConnector/SFDCJiraConnector/images/delete-icon.png');
+        background-repeat: no-repeat;
+        }
+        .deleteissuelink:hover{
+        background-position-y: -24px;
+        }
+        .innerTable{
+            width:60%;
+        }
+        .innerTable th{
+            width: 25%;
+        }
+        .innerTable td{
+            width: 25%;
+        }
+    </style> 
+    <apex:form >
+        <apex:pagemessages />
+        <script>
+        function closeit(){
+         
+            var lexOrigin = window.location.origin;
+            
+            parent.postMessage('Linkedsuccess', lexOrigin);
+            var closeSubtab = function closeSubtab(result) {
+                var ids=result.id;
+                sforce.console.closeTab(ids);
+            };        
+            if (sforce.console.isInConsole()){
+
+                 var theme = "{!$User.UIThemeDisplayed}";
+                if(theme == 'Theme4u' ){
+                     sforce.console.getEnclosingTabId(closeSubtab);
+                }else{
+                    RedirectToCaseRecord();
+                }     
+            }else{
+                window.open('/{!genericObjectID}','_self');
+            }
+        }
+        function linkJira(){
+            var linkType = '{!JSENCODE(linkType)}';
+            var CreateTabIdagain = function CreateTabIdagain(result) {
+                var ids=result.id;
+                
+            } 
+            
+            if (sforce.console.isInConsole()){
+                sforce.console.getEnclosingPrimaryTabId(CreateTabIdagain);
+            }else{
+
+                 if(linkType =='link'){
+                       
+                        window.location.href = '/{!JSENCODE(genericObjectId)}';
+                    }
+                if(linkType =='search'){
+                    window.close();
+                  
+                    opener.location.href = '/{!JSENCODE(genericObjectId)}'; //This will refresh parent window.
+                }
+            }
+        }
+        
+        function closeJira(){
+            var sids='';
+            var linkType = '{!JSENCODE(linkType)}';
+            var openSuccess = function openSuccess(result) {
+            }
+            var getsubtabs = function getsubtabs(result) {
+                var pids=result.ids[0];
+                sids=result.ids[result.ids.length-1];
+                sforce.console.getEnclosingPrimaryTabId(showTabIdagain);
+                /*if(pids==sids){
+                    sforce.console.getEnclosingPrimaryTabId(showTabIdagain);
+                }else{
+                    sforce.console.closeTab(sids);
+                }*/
+            }
+            var showTabIdagain = function showTabIdagain(result) {
+                var ids=result.id;
+                //sforce.console.openPrimaryTab(ids,'/{!JSENCODE(genericObjectId)}', true);
+                sforce.console.openSubtab(ids,'/{!JSENCODE(genericObjectId)}', true,'Case Detail', null, openSuccess, 'salesforceSubtab');
+                sforce.console.closeTab(sids);
+            } 
+            
+            var showTabId = function showTabId(result) {
+                var ids=result.id;
+                sforce.console.getSubtabIds(ids,getsubtabs);
+            } 
+            if(linkType =='link'||linkType=='search'){
+                
+                if (sforce.console.isInConsole()){
+                    sforce.console.getEnclosingPrimaryTabId(showTabId);
+                }else{
+                    if(linkType =='link'){
+                        window.location.href = '/{!JSENCODE(genericObjectId)}';
+                    }
+                    if(linkType =='search'){
+                        var a = document.referrer;
+                        window.location.href = '/{!JSENCODE(genericObjectId)}';
+                        // window.location.href = a;
+                    }
+                }
+            }else{
+                var a = document.referrer;
+               
+                window.location.href = a;
+            }
+            
+        }
+        function deletelinkfunction(key,linktype){
+            deletelinkaction(key,linktype);
+        }
+        </script>
+        <apex:actionFunction action="{!link}" name="linked"   oncomplete="closeit();"/>
+        <apex:actionFunction action="{!save}" name="edit" oncomplete="cloneJira();" rerender="cloneJiraIssue"/>
+        <apex:actionFunction action="{!RedirectToCaseRecord}" name="RedirectToCaseRecord" />
+        <apex:outputpanel Styleclass="col-lg-12 col-md-12 col-sm-12 col-xs-12" rendered="{!ErrorMessage!=Null}"  >
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad padtop20" style="text-align:center ;" >
+                <p Style="color:Red;Font-size:20px">
+                    {!ErrorMessage} 
+                </p>
+            </div>
+        </apex:outputpanel>
+        <apex:outputpanel Styleclass="col-lg-12 col-md-12 col-sm-12 col-xs-12" rendered="{!ErrorMessage==Null}"  >
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                
+                <apex:outputpanel id="cloneJiraIssue">
+                    <script>
+                    
+                    function cloneJira(){
+                        
+                        
+                        var linkType = '{!JSENCODE(linkType)}';
+                        
+                       
+                        
+                        var openSuccess = function openSuccess(result) {
+                        } 
+                        
+                        var Createsubtabs = function Createsubtabs(result) {
+                            var pids=result.ids[0];
+                            var sids=result.ids[result.ids.length-1];
+                            if(pids==sids){
+                                sforce.console.getEnclosingPrimaryTabId(CreateTabIdagain);
+                                
+                            }else{
+                                if(linkType=='search'){
+                                    if(result.ids.length-2!=0){
+                                        sforce.console.closeTab(sids);
+                                        sids=result.ids[result.ids.length-2];
+                                        sforce.console.closeTab(sids);
+                                        sforce.console.openSubtab(pids,'/apex/EditAddJiraIssue?&mode={!JSENCODE(mode)}&id={!JSENCODE(jira.id)}&genericObjectID={!JSENCODE(genericObjectID)}',true,'salesforce', null, openSuccess, 'salesforceSubtab');
+                                        
+                                    }else{
+                                        sforce.console.getEnclosingPrimaryTabId(CreateTabIdagain);
+                                       }
+                                }else{
+                                    sforce.console.closeTab(sids);
+                                    sforce.console.getEnclosingPrimaryTabId(CreateJiraTab);
+                                }
+                            }
+                        }
+                        var CreateTabIdagain = function CreateTabIdagain(result) {
+                            
+                            var ids=result.id;
+                            sforce.console.openPrimaryTab(ids,'/apex/EditAddJiraIssue?&mode={!JSENCODE(mode)}&id={!JSENCODE(jira.id)}&caseid={!JSENCODE(genericObjectID)}', true);
+                        } 
+                        var CreateJiraTab = function CreateJiraTab(result) {
+                          
+                          
+                            var ids=result.id;
+                            sforce.console.openSubtab(ids,'/apex/EditAddJiraIssue?&mode={!JSENCODE(mode)}&id={!JSENCODE(jira.id)}&genericObjectID={!JSENCODE(genericObjectID)}', true,'Case Detail', null, openSuccess, 'salesforceSubtab'); 
+                            sforce.console.getEnclosingTabId(closeSubtab);
+                        }
+                        if (sforce.console.isInConsole()){
+                            sforce.console.getEnclosingPrimaryTabId(CreateJiraTab);
+                        }else{
+                            
+                            if(linkType =='search'){
+                                
+                               // window.close();
+                                //opener.location.href = '/apex/EditAddJiraIssue?&mode={!JSENCODE(mode)}&id={!JSENCODE(jira.id)}&genericObjectID={!JSENCODE(genericObjectID)}'; //This will refresh parent window.
+                                location.href = '/apex/EditAddJiraIssue?&mode={!JSENCODE(mode)}&id={!JSENCODE(jira.id)}&genericObjectID={!JSENCODE(genericObjectID)}'; //This will refresh parent window.
+                               
+                                
+                            }else{
+                                
+                                var mode='{!JSENCODE(mode)}';
+                                
+                                location.href = '/apex/EditAddJiraIssue?&mode={!JSENCODE(mode)}&id={!JSENCODE(jira.id)}&genericObjectID={!JSENCODE(genericObjectID)}'; //This will refresh parent window.
+                              
+                             }
+                         
+                        }
+                    } 
+                    </script>
+                </apex:outputpanel>  
+                
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="text-align:center ;padding: 20px 0;" >
+                    <a id="editbuton" Class="btn" style="{!if(projectIsCreatable,'','display:none;')} font-size: 12px;height: 30px;" onclick="edit();">{!$Label.Clone_Label}</a>
+                    <a id="Cancel" Class="btn"  style="font-size: 12px;height: 30px;" onclick="closeJira();" >{!$Label.Cancel_Label}</a>
+                    <a id="Link" class="btn" style="font-size: 12px;height: 30px;" onclick="linked()" >{!$Label.Link_Label}</a>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="border-top: 2px solid #c0be72;padding: 10px 0;">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="font-size: 14px;">
+                                <B>{!$Label.Project_Label}</B> 
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 nopad  testwidth">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 nopad alignright">
+                                    <label class="headingstyle">{!$Label.JiraProject_Label}</label>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nopad">
+                                    <apex:outputText value="{!jira.Project__c}" styleClass="inputcss"/>
+                                </div>  
+                            </div>
+                        </div>
+                    </div>  
+                    <apex:outputPanel id="Dynamicdata" layout="block" styleClass="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad" >   
+                        
+                        <apex:repeat value="{!SectionOrder}" var="section">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="border-top: 2px solid #c0be72;padding: 10px 0;">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="font-size: 14px;">
+                                    <B>{!section}</B> 
+                                </div>
+                                <apex:repeat value="{!sectionToDynamicFieldWrapperListMap[section]}" var="dynamiclist">
+                                    <apex:outputPanel rendered="{!NOT(section=='Issue Links')}">
+                                        <apex:outputPanel layout="block" rendered="{!AND(dynamiclist.mappedfield.Jira_Project__c==jiraProjectskeymap[jira.Project__c], OR(contains(dynamiclist.mappedField.IssueTypeData__c,jira.IssueType__c),dynamiclist.mappedField.IssueTypeData__c=='All'),if(OR(dynamiclist.mappedfield.DataType__c=='component',dynamiclist.mappedfield.DataType__c=='version',dynamiclist.mappedfield.DataType__c=='multiversion',dynamiclist.mappedfield.DataType__c=='multiselect'),dynamiclist.selectValues.size>0,true))}">
+                                          
+                                           <div class="{!if(dynamiclist.mappedfield.section__r.column__c=='1','col-lg-12 col-md-12 col-xs-12 col-sm-12','col-lg-6 col-md-6 col-xs-6 col-sm-6')} nopad rowpad testwidth">
+                                             <!--    <apex:outputPanel id="withcaseapi" rendered="{!NOT(dynamiclist.mappedField.Case_Field_Name__c==Null)}">
+                                                    <div class=" alignright {!if(dynamiclist.mappedfield.section__r.column__c=='1','col-lg-2 col-md-2 col-xs-2 col-sm-2','col-lg-4 col-md-4 col-xs-4 col-sm-4')} nopad"> 
+                                                        <label class="headingstyle">{!dynamiclist.mappedfield.name}</label>
+                                                    </div>
+                                                    <apex:outputPanel rendered="{!NOT(dynamiclist.mappedField.ReadOnly__c)}">
+                                                        <div class="{!if(dynamiclist.mappedfield.section__r.column__c=='1','col-lg-8 col-md-8 col-xs-8 col-sm-8','col-lg-6 col-md-6 col-xs-6 col-sm-6')} nopad" > 
+                                                            <apex:outputText styleClass="inputcss" value="{!caseObject[dynamiclist.mappedField.Case_Field_Name__c]}"  />
+                                                        </div>
+                                                    </apex:outputPanel>
+                                                    
+                                                </apex:outputPanel>-->
+                                                <!---------->
+                                                <!----------------->
+                                                
+                                              <!--  <apex:outputPanel id="withoutcaseapi" rendered="{!And(dynamiclist.mappedField.Case_Field_Name__c==Null,if(OR(dynamiclist.mappedfield.DataType__c=='userpicker',dynamiclist.mappedfield.DataType__c=='multiuserpicker',dynamiclist.mappedfield.DataType__c=='component',dynamiclist.mappedfield.DataType__c=='version',dynamiclist.mappedfield.DataType__c=='multiversion',dynamiclist.mappedfield.DataType__c=='multiselect'),dynamiclist.selectValues.size>0,true))}">-->
+                                               <apex:outputPanel id="withoutcaseapi" rendered="{!if(OR(dynamiclist.mappedfield.DataType__c=='component',dynamiclist.mappedfield.DataType__c=='version',dynamiclist.mappedfield.DataType__c=='multiversion',dynamiclist.mappedfield.DataType__c=='multiselect'),dynamiclist.selectValues.size>0,true)}">
+
+                                                    <div class="{!if(dynamiclist.mappedfield.section__r.column__c=='1','col-lg-2 col-md-2 col-xs-2 col-sm-2','col-lg-4 col-md-4 col-xs-4 col-sm-4')} alignright nopad "> 
+                                                        <label class="headingstyle">{!dynamiclist.mappedfield.name}</label>
+                                                    </div>
+                                                    <div class="{!if(dynamiclist.mappedfield.section__r.column__c=='1','col-lg-8 col-md-8 col-xs-8 col-sm-8','col-lg-6 col-md-6 col-xs-6 col-sm-6')} nopad" > 
+                                                        
+                                                        
+                                                        <!---For Name not Link,labels,textfield,float,string------>
+                                                        <!-- <apex:outputText styleClass="inputcss" value="{!dynamiclist.fieldValue}" rendered="{!AND(dynamiclist.mappedField.Jira_Field_api_Name__c!='link',OR(dynamiclist.mappedField.DataType__c=='textfield',dynamiclist.mappedField.DataType__c=='float',dynamiclist.mappedField.DataType__c=='labels',dynamiclist.mappedField.DataType__c=='string',dynamiclist.mappedField.DataType__c=='gh-epic-label',dynamiclist.mappedField.DataType__c=='gh-epic-link'))}" /> 
+                                                        <apex:outputText styleClass="inputcss" value="{!dynamiclist.fieldValue}" rendered="{!AND(dynamiclist.mappedField.Jira_Field_api_Name__c!='link',OR(dynamiclist.mappedField.DataType__c=='textfield',dynamiclist.mappedField.DataType__c=='float',dynamiclist.mappedField.DataType__c=='labels',dynamiclist.mappedField.DataType__c=='string'))}" />-->
+                                                        <apex:outputText styleClass="inputcss" value="{!dynamiclist.fieldValue}" rendered="{!AND(dynamiclist.mappedField.Jira_Field_api_Name__c!='link',OR(dynamiclist.mappedField.DataType__c=='textfield',dynamiclist.mappedField.DataType__c=='float',dynamiclist.mappedField.DataType__c=='labels',dynamiclist.mappedField.DataType__c=='string',dynamiclist.mappedField.DataType__c=='gh-epic-label',dynamiclist.mappedField.DataType__c=='issuelinks'))}" /> 
+                                                        <apex:outputText styleClass="inputcss" value="{!epicName}" rendered="{!(dynamiclist.mappedField.DataType__c=='gh-epic-link')}" /> 
+                                                        
+                                                        <!-------->
+                                                        <!---For Name is Link and type is view only------>
+                                                        <apex:outputPanel rendered="{!AND(dynamiclist.mappedField.Jira_Field_api_Name__c=='link',dynamiclist.mappedField.viewmode__c)}">
+                                                            <apex:outputLink value="{!jira.Jira_Link__c}" styleClass="inputcss" target="_blank" title="{!$Label.ViewSearchJira_label6} " >{!jira.Jira_Link__c}</apex:outputLink>
+                                                        </apex:outputPanel>
+                                                        <!------>
+                                                        
+                                                        <!---For Text Area---->
+                                                        <apex:outputText value="{!dynamiclist.fieldValue}" styleClass="inputcss" rendered="{!dynamiclist.mappedField.DataType__c=='textarea'}"  />
+                                                        <!------>
+                                                        
+                                                        <!--- For select,userpicker,single version,user ---->
+                                                        <apex:outputText value="{!dynamiclist.fieldValue}" styleClass="inputcss" rendered="{!OR(dynamiclist.mappedfield.DataType__c=='radiobuttons',dynamiclist.mappedfield.DataType__c=='select',dynamiclist.mappedfield.DataType__c=='userpicker',dynamiclist.mappedfield.DataType__c=='user',And(dynamiclist.mappedfield.DataType__c=='version' && dynamiclist.mappedfield.IsArray__c==false))}" />
+                                                        <!--------------->
+                                                        
+                                                        
+                                                        <!--- For isarray ,multiversion,multiselect,version,component ---->
+                                                        <apex:outputText styleClass="inputcss"   value="{!dynamiclist.multiselectvalues}"    rendered="{!AND(dynamiclist.mappedfield.IsArray__c,OR(dynamiclist.mappedfield.DataType__c=='multiselect',dynamiclist.mappedfield.DataType__c=='version',dynamiclist.mappedfield.DataType__c=='component',dynamiclist.mappedfield.DataType__c=='multiversion'))}"   />
+                                                        <!------------------>
+                                                        <!---  modified on 28-06-2019 multiuserpicker--->
+                                                        <apex:outputText styleClass="inputcss"   value="{!dynamiclist.fieldValue}"   rendered="{!OR(dynamiclist.mappedfield.DataType__c=='multiuserpicker')}"  >
+                                                        </apex:outputText>
+                                                        <!------------------>
+                                                        
+                                                        <apex:outputText styleClass="inputcss"   value="{!dynamiclist.multiselectvalues}"   rendered="{!OR(dynamiclist.mappedfield.DataType__c=='multicheckboxes')}"  >
+                                                        </apex:outputText>
+                                                        <apex:outputPanel rendered="{!dynamiclist.mappedfield.DataType__c=='cascadingselect'}">
+                                                            <apex:outputText value="{!dynamiclist.clubMasterMap[dynamiclist.masterFieldValue]}"   > 
+                                                            </apex:outputText>&nbsp;-&nbsp; 
+                                                            <apex:outputText value="{!dynamiclist.clubChildMap[dynamiclist.childFieldValue]}"     >
+                                                            </apex:outputText>
+                                                        </apex:outputPanel>
+                                                        <apex:outputText styleClass="inputcss" value="{!dynamiclist.fieldValue}"  rendered="{!AND(dynamiclist.mappedField.DataType__c=='datepicker')}" />
+                                                        <apex:outputText styleClass="inputcss" value="{!dynamiclist.fieldValue}"  rendered="{!AND(dynamiclist.mappedField.DataType__c=='datetime')}"  />
+                                                        
+                                                    </div>
+                                                    
+                                                </apex:outputPanel>
+                                            </div>
+                                        </apex:outputPanel>
+                                    </apex:outputPanel>                                    
+                                    <apex:outputPanel rendered="{!section='Issue Links'}">
+                                        <apex:outputPanel rendered="{!AND(dynamiclist.mappedField.DataType__c=='issuelinks')}" id="issuelinkspanel">
+                                            <table class="issuelinktable" style="{!if(SizeOfMapLI > 0 , 'display:table;' , 'display:none;')}">
+                                                <tr>
+                                                    <th>
+                                                        {!$Label.LinkType_Label}
+                                                    </th>
+                                                    <th>
+                                                        <table class="innerTable">
+                                                            <tr>
+                                                                <th>
+                                                                    {!$Label.IssueKey_Label}                                                                                
+                                                                </th>
+                                                                <th>
+                                                                    {!$Label.Summary_Label}                                                                               
+                                                                </th>
+                                                                <th >
+                                                                    {!$Label.Status_Label}
+                                                                </th>
+                                                            </tr>
+                                                            
+                                                        </table>
+                                                    </th>
+                                                </tr>
+                                                <apex:repeat value="{!IssuelinksMap}" var="linktype">
+                                                    <tr>
+                                                        <td>
+                                                            <b>{!linktype}</b> 
+                                                        </td>
+                                                        <td>
+                                                            <table class="innerTable">
+                                                                <apex:repeat value="{!IssuelinksMap[linktype]}" var="linktypes">
+                                                                    <apex:repeat value="{!linktypes}" var="issuekeys">
+                                                                        <tr>
+                                                                            <td>
+                                                                                <a href="{!setting.End_Point__c}/browse/{!issuekeys.Key}">
+                                                                                    {!issuekeys.Key}
+                                                                                </a>                                                                                
+                                                                            </td>
+                                                                            <td>
+                                                                                {!issuekeys.summary}
+                                                                                
+                                                                            </td>
+                                                                            <td>
+                                                                                ({!issuekeys.Status})
+                                                                                
+                                                                            </td>
+                                                                        </tr>
+                                                                    </apex:repeat>
+                                                                </apex:repeat>
+                                                            </table>
+                                                        </td>
+                                                    </tr>  
+                                                </apex:repeat>
+                                            </table>
+                                        </apex:outputPanel>
+                                    </apex:outputPanel>
+                                </apex:repeat>
+                            </div>
+                        </apex:repeat>
+                    </apex:outputPanel>
+                    
+                </div>
+            </div>
+            
+            
+        </apex:outputpanel>
+    </apex:form>
+</apex:page>

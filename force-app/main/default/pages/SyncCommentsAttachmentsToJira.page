@@ -1,0 +1,256 @@
+<!--For Jira issue-->
+
+<apex:page standardController="JiraIssue__c" language="{!lang}" extensions="SyncCommentsFilesToJira" >
+    <script>
+    function active(){
+        var count=0;
+        var checkbox=document.querySelectorAll('[id*="attachid"]'); 
+        for(var i=0;i<checkbox.length;i++){
+            if(checkbox[i].checked){
+                count=count+1;   
+            }
+        }
+        if(count>0){
+            var cmndbutton=document.querySelectorAll('[id*="send"]');
+            cmndbutton[0].setAttribute("style", "pointer-events: auto;"); 
+        }
+        if(count==0){
+            var cmndbutton=document.querySelectorAll('[id*="send"]');
+            cmndbutton[0].setAttribute("style", "pointer-events: none;");  
+        }
+    }
+    </script>
+    <apex:form >
+        <div style=" font-size: 14px;padding: 10px;font-weight: bold;text-align:center;">
+            <p style="padding:0;color:#1797c0">
+                <!-- NameSapce removed grz_sf__synccommentsattachmentstojira_label1 to synccommentsattachmentstojira_label1-->
+                {!$Label.synccommentsattachmentstojira_label1}  
+            </p>
+            <!--
+            <div style="text-align: right;width: 100%;">
+                <div style="padding:10px">
+                    <div  style="display: inline-block;font-size:12px;">
+                        Language</div> 
+                    <div  style="display: inline-block;">
+                        <apex:selectList label="Language" value="{!lang}" size="1" style="margin-right: 10px;
+                                                                                          padding: 0;
+                                                                                          width: 150px;
+                                                                                          font-size: 14px;" styleClass="" multiselect="false">
+                            <apex:actionSupport event="onchange"  status="status" action="{!LangaugeReset}"/>
+                            <apex:selectOptions id="test" value="{!Languages}"></apex:selectOptions>
+                        </apex:selectList>
+                    </div>
+                </div>
+             </div>
+            -->
+        </div>
+        
+        <apex:pageblock title="{!$Label.SyncCommentsAttachmentsToJira_Label2}"  >
+            <center>
+                
+                <apex:pageBlock >
+                    
+                    <div class="" style="font-size: 14px;font-weight: bold;padding: 10px 0 0 0;">
+                        {!$Label.SyncCommentsAttachmentsToJira_Label3}
+                    </div>
+                    <div id="table-wrap">
+                        <table width="100%" style="border:ridge;">
+                            <tr>
+                                <th width="10" style="padding: 6px 0;">{!$Label.Action_Label}</th >
+                                <th width="30%" style="padding: 6px 0;">{!$Label.CommentBody_Label}</th >
+                                <th width="20%" style="padding: 6px 0;">{!$Label.SyncCommentsAttachmentsToJira_Label6}</th >
+                                <th width="20%" style="padding: 6px 0;">{!$Label.CreatedDate_Label}</th >
+                                <th width="20%" style="padding: 6px 0;">{!$Label.SyncCommentsAttachmentsToJira_Label8}</th >
+                            </tr>
+                        </table>  
+                    </div> 
+                    <div id="table-wrapper">
+                        <div id="table-scroll">  
+                            <table cellPadding="2" style="border:ridge;border-top: aliceblue;">
+                                <body>
+                                    <apex:repeat value="{!CommentWrapperList}" var="comments">
+                                        <tr>
+                                            <td width="10%" style="background:#FFF;color:black;" TITLE="{!IF((comments.recordStatus==TRUE),$Label.SyncCommentsAttachmentsToJira_Label9,'')}">
+                                                <div id="{!comments.recordId}" class="tablediv" style="text-align:center">
+                                                    <apex:inputCheckbox id="attachid" onclick="active();" value="{!comments.isSelected}"  />
+                                                </div>
+                                            </td>
+                                            <td width="30%" style="background:#FFF;color:black;" TITLE="{!IF((comments.recordStatus==TRUE),$Label.SyncCommentsAttachmentsToJira_Label9,'')}">
+                                                <div class="tablediv" TITLE="{!IF((comments.recordStatus==TRUE),'{!$Label.SyncCommentsAttachmentsToJira_Label9}','')}">
+                                                    {!comments.recordBody}
+                                                </div>
+                                            </td>
+                                            <td width="20%" style="background:#FFF;color:black;" TITLE="{!IF((comments.recordStatus==TRUE),$Label.SyncCommentsAttachmentsToJira_Label9,'')}">
+                                                <div class="tablediv" style="text-align:center">
+                                                    <span style="{!IF(comments.recordStatus,'','display:none;')}">
+                                                        {!$Label.SyncCommentsAttachmentsToJira_Label10}
+                                                    </span>
+                                                    <span style="{!IF(!comments.recordStatus,'','display:none;')}">
+                                                        {!$Label.SyncCommentsAttachmentsToJira_Label11}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td width="20%" style="background:#FFF;color:black;" TITLE="{!IF((comments.recordStatus==TRUE),$Label.SyncCommentsAttachmentsToJira_Label9,'')}">
+                                                <div class="tablediv" style="text-align:center">
+                                                    {!comments.recordDate}            
+                                                </div>
+                                            </td>
+                                            <td width="20%" style="background:#FFF;color:black;" TITLE="{!IF((comments.recordStatus==TRUE),$Label.SyncCommentsAttachmentsToJira_Label9,'')}">
+                                                <div class="tablediv" style="text-align:center">
+                                                    {!comments.recordLastModifiedDate}
+                                                </div>
+                                            </td>
+                                            
+                                        </tr>
+                                    </apex:repeat>
+                                    <tr>
+                                        <td colspan='5'>
+                                            <div style="{!if(CommentWrapperList.size == 0 ,'display:block;padding: 30px;text-align: center;','display:none;')}">
+                                                {!$Label.SyncCommentsAttachmentsToJira_Label12}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </body>
+                            </table>
+                        </div>
+                    </div>
+                </apex:pageBlock>
+                
+                <!-- Attachments -->
+                
+                <apex:pageblock >
+                    <div class="" style="font-size: 14px;font-weight: bold;padding: 10px 0 0 0;">
+                        {!$Label.Attachments_Label}
+                    </div>
+                    <div id="table-wrap">
+                        <table width="100%" style="border:ridge;">
+                            <tr>
+                                <th width="10%" style="padding: 6px 0;">{!$Label.Action_Label}</th>
+                                <th width="30%" style="padding: 6px 0;">{!$Label.SyncCommentsAttachmentsToJira_Label14}</th>
+                                <th width="20%" style="padding: 6px 0;">{!$Label.SyncCommentsAttachmentsToJira_Label15}</th>
+                                <th width="20%" style="padding: 6px 0;">{!$Label.CreatedDate_Label}</th>
+                                <th width="20%" style="padding: 6px 0;">{!$Label.SyncCommentsAttachmentsToJira_Label8}</th>
+                            </tr>
+                        </table>    
+                    </div>
+                    <div id="table-wrapper">
+                        <div id="table-scroll">  
+                            <table cellPadding="2" style="border:ridge;border-top:aliceblue;">
+                                <body>
+                                    <apex:repeat value="{!attachementWrapperList}" var="attach">
+                                        <tr  title="{!if(attach.recordSizeExceed,$Label.ErrorMsg_Label,'')}"  >
+                                            <td width="10%"  style="{!IF(attach.recordSizeExceed,'color:#D9BEBE;Background:#ffffff;',' background:#FFF;color:black;')}">
+                                                <div id="{!attach.recordId}" class="tablediv" style="text-align:center">
+                                                    <apex:inputCheckbox id="attachid" onclick="active();" disabled="{!attach.recordSizeExceed}" value="{!attach.isSelected}"/>
+                                                </div>
+                                            </td >
+                                            <td width="30%" style="{!IF(attach.recordSizeExceed,'color:#D9BEBE;Background:#ffffff;','background:#FFF; color:black;')}">
+                                                <div class="tablediv">
+                                                    {!attach.recordBody}
+                                                </div>
+                                            </td>
+                                            <td width="20%"  style="{!IF(attach.recordSizeExceed,'color:#D9BEBE;Background:#ffffff;','background:#FFF;color:black;')}">
+                                                <div class="tablediv" style="text-align:center">
+                                                    {!attach.recordSizeInString}           
+                                                </div>
+                                            </td>
+                                            <td width="20%" style="{!IF(attach.recordSizeExceed,'color:#D9BEBE;Background:#ffffff;','background:#FFF;color:black;')}">
+                                                <div class="tablediv" style="text-align:center">
+                                                    {!attach.recordDate}            
+                                                </div>
+                                            </td>
+                                            <td width="20%"  style="{!IF(attach.recordSizeExceed,'color:#D9BEBE;Background:#ffffff;','background:#FFF;color:black;')}">
+                                                <div class="tablediv" style="text-align:center">
+                                                    {!attach.recordLastModifiedDate}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </apex:repeat>
+                                    <tr>
+                                        <td colspan='5'>
+                                            <div style="{!if(attachementWrapperList.size == 0 ,'display:block;padding:30px;text-align: center;','display:none;')}">
+                                                {!$Label.SyncCommentsAttachmentsToJira_Label17}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </body>
+                            </table>
+                        </div>
+                    </div>
+                </apex:pageblock>
+            </center>
+            <apex:pageBlockButtons location="top">
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                <apex:actionStatus id="updateStatus">
+                    <apex:facet name="stop">
+                        <apex:outputPanel >
+                            <apex:commandButton id="send" value="{!$Label.SendtoJIRA_Label}" action="{!SendReqToJira}" style="pointer-events:none;"  status="updateStatus" reRender="file,messages,com"/>
+                            <apex:commandButton value="{!$Label.Cancel_Label}" action="{!Cancel}" immediate="true"/>
+                        </apex:outputPanel>
+                    </apex:facet>
+                    <apex:facet name="start">
+                        <apex:outputPanel >
+                            <apex:commandButton value="{!$Label.SendtoJIRA_Label}" disabled="true"/>
+                            <apex:commandButton value="{!$Label.Cancel_Label}" disabled="true"/>
+                            <div id="block">
+                                {!$Label.PleaseWait_Label}<img id="status" src="/img/loading.gif" alt="{!$Label.SyncCommentsAttachmentsToJira_Label21}" title="{!$Label.SyncCommentsAttachmentsToJira_Label21}"/>
+                            </div>
+                        </apex:outputPanel>
+                    </apex:facet>
+                </apex:actionStatus>
+            </apex:pageBlockButtons>
+            <apex:pagemessages id="messages" />
+        </apex:pageblock>
+        
+    </apex:form>
+    <style>
+        body {
+        font: normal normal 12px Verdana;
+        margin: 0px;
+        padding: 0;
+        }  
+        table{
+        color: #000;
+        font: normal normal 12px Verdana;
+        border:3px;
+        }     
+        td {
+        color: #000;
+        font: normal normal 12px Verdana;
+        }     
+        th{
+        font:bold 13px Verdana;
+        text-align:center;
+        }      
+        .tablediv{
+        padding:3px;word-break: break-word;
+        }  
+        #table-wrap {
+        position:relative;
+        }
+        #table-wrapper {
+        position:relative;
+        overflow-x: scroll;
+        }
+        #table-scroll {
+        min-height:100px;
+        overflow:auto;  
+        margin-top:0px;
+        }
+        #table-wrapper table {
+        width:100%;
+        }
+        #block
+        {
+        margin-top:1px;
+        margin-bottom:1px;
+        padding:20px;
+        width:150px;
+        height:2px;
+        background-color:#eee;
+        border-radius:10px;
+        border:2px solid #cec8c8;
+        text-align:center;
+        }
+    </style>
+</apex:page>

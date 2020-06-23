@@ -1,0 +1,863 @@
+<apex:component >
+   <!-- <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/editaddjiraissue.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SFDCJiraConnector, '/SFDCJiraConnector/js/bootstrap.js')}"/>
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.SFDCJiraConnector,'/SFDCJiraConnector/css/editaddjiraissue.css')}"/>
+    --><apex:includeScript value="/support/console/42.0/integration.js"/>
+    <apex:attribute name="jiraIssue" description="Jira issue object instance." type="JiraIssue__c" required="false" />
+    <apex:attribute name="priority" description="Picklist values to describe the priority to jira" type="SelectOption[]" required="true" />
+    <apex:attribute name="issueTypes" description="Jira_login__c object to hold the values from vf page." type="SelectOption[]" required="true" />
+    <apex:attribute name="userList" description="List of users in jira." type="SelectOption[]" required="true" />
+    <apex:attribute name="projectName" description="project name for jira." type="String" required="true" />
+    <apex:attribute name="projects" description="List of jira projects in salesforce." type="SelectOption[]" required="true" />
+    <apex:attribute name="DynamicFieldWrapperList" description="fields other than default fields choosed for mapping in admin setting" type="DynamicFieldWrapper[]" required="true" />
+    <apex:attribute name="casefieldMap" description="map of casefield and type" type="map"  />
+    <apex:attribute name="dynamicFieldsMap" description="fields other than default fields choosed for mapping in admin setting" type="map" required="true" />
+    <apex:attribute name="caseObject" description="case associated with jira" type="case" required="true" /> 
+    <!-- <apex:attribute name="caseObject2" description="case associated with jira" type="Sobject" required="true"/> -->
+    <apex:attribute name="dynamicObjectType" description="case associated with jira" type="Sobject" required="true"/>
+    <apex:attribute name="dynamicFieldsDataMap" description="Jfields other than default fields choosed for mapping in admin setting" type="map" required="true" />
+    <apex:attribute name="save" description="The save method from the parent controller." type="ApexPages.Action" required="true"/>
+    <apex:attribute name="searchjiraissuenew" description="The save method from the parent controller." type="ApexPages.Action" required="true"/>
+    <apex:attribute name="caseid" description="caseid" type="String" required="true" />
+    <apex:attribute name="genericObjectID" description="genericObjectID" type="String" required="true" />
+    
+    <apex:attribute name="mode" description="caseid" type="String"  />
+    <apex:attribute name="jiraProjectskeymap" description="jiraProjectskeymap" type="map"  />
+    <apex:attribute name="Cancel" description="The cancel method from the parent controller." type="ApexPages.Action"/>
+    <apex:attribute name="HasRuleset" description="Ruleset" type="Boolean" required="true" />
+    <apex:attribute name="genericObjectName" description="Added Object" type="String" required="true" />
+    <apex:attribute name="isDefault" description="default project is choosen through backend" type="Boolean" required="true" />
+    <apex:attribute name="Reporter" description="Reporter of the issue" type="String" required="true" />
+    <apex:attribute name="searchJiraIssueList" description="" type="JiraIssue__c[]" required="true" />
+    <apex:attribute name="linkcasewithjirakey" description="The cancel method from the parent controller." type="ApexPages.Action" />
+    <apex:attribute name="deletelinkedjira" description="The issue will be deleted ." type="ApexPages.Action" />
+    <apex:attribute name="sectionToDynamicFieldWrapperListMap" description="sectionToDynamicFieldWrapperListMap" type="map"  required="true" />
+    <apex:attribute name="SectionOrder" description="SectionOrder" type="List"  required="true" />
+    <apex:attribute name="OnProjectChange" description="The issue type  will be updates ." type="ApexPages.Action" />
+    <apex:attribute name="getEpicLinkList" description="Epic issues will be displayed." type="ApexPages.Action" />
+    <apex:attribute name="JiraIssues" description="Epic issues will be displayed." type="list" />
+    <apex:attribute name="fieldsToKey" description="fieldsToKey" type="map"  />
+    <apex:attribute name="SizeOfMap" description="SizeOfMap" type="Integer"  />
+    <apex:attribute name="SizeOfMapLI" description="SizeOfMapLI" type="Integer"  />
+    <apex:attribute name="epicKey" description="epicKey" type="String"  />
+    <apex:attribute name="issueLinkKey" description="issueLinkKey" type="String" />
+    <apex:attribute name="getIssueLinkList" description="The issue will be get IssueLink List ." type="ApexPages.Action" />
+    <apex:attribute name="hasIssuelinks" description="Has IssueLinks field mapped" type="Boolean" />
+    <apex:attribute name="modetype" description="" type="string" />
+    <apex:attribute name="issuelinksset" description="" type="set" />
+    <apex:attribute name="sizeofli" description="" type="integer" />
+    <apex:attribute name="updateissuelist" description="The issue will be show the list ." type="ApexPages.Action" />
+    <apex:attribute name="updateissuelistdelete" description="The issue will be delete entry from the list ." type="ApexPages.Action" />
+    <apex:includeScript value="/support/console/42.0/integration.js"/>
+    <apex:attribute name="key" description="" type="string" />
+    <apex:attribute name="subtaskParentID" description="subtaskParentID" type="string" required="true"/>
+    <apex:attribute name="projectSelected" description="projectSelected" type="Boolean"  />
+    <apex:attribute name="GetUserList" description="This will fetch the user details." type="ApexPages.Action" />
+    <apex:attribute name="usersearchtext" description="" type="String" />
+    <apex:attribute name="IssuelinksMapValue" description="" type="map" />
+    <apex:attribute name="mapNotEmpty" description="" type="boolean" />
+    <apex:attribute name="lang" description="lang" type="String" />
+    <apex:attribute name="Languages" description="List of Language" type="SelectOption[]" required="true" />
+    <apex:attribute name="LangaugeReset" description="This will fetch the user details." type="ApexPages.Action" />
+
+    <style>
+        .outputcss{
+        cursor: not-allowed;
+        background-color:#ececec;
+        padding:5px 10px;
+        border: none;
+        min-width: 100%;
+        min-height: 30px;
+        }
+        .inputcss{
+        height: 18px;
+        max-width: 220px;
+        min-width: 220px;
+        max-height: 60px;
+        margin:4px 0px;
+        }
+        .inputcssTA{
+        margin:4px 0px;
+        
+        max-width: 350px;
+        min-width: 220px;
+        min-height: 40px;
+        line-height:2;        
+        }
+        .inputcolcss{
+        width:60%;
+        margin: 4px 0px;
+        }
+        .inputcolcssTA{
+        margin:4px 0px;
+        width:60%;
+        line-height:2;
+        }
+        .alignright{
+        text-align: right;
+        }
+        .textboxDiv input, .textboxDiv select {width:100%; min-height:30px}
+        
+        .width20{
+        width:25% !important
+        }
+        .padtop20{
+        padding-top:20px!important;
+        }
+        .headingstyle {
+        text-align:right;
+        padding:0 20px;
+        color:#4a4a56;
+        font-size: 11px;
+        }
+        
+        .dateInput  input{
+        float: left;
+        display: block;
+        margin:4px 0px;
+        
+        }
+        .dateInput  span{
+        min-width:100px !important
+        }
+        .testwidth{
+        font-size: 12px ;
+        }
+        
+        .linkissuetd:hover{
+        text-decoration: underline;
+        color: #015ba7;
+        cursor:pointer;
+        }
+        .link{
+        color: #428bca;
+        text-decoration: none;
+        }
+        .link:hover{
+        color:#015ba7;
+        text-decoration: underline;
+        cursor:pointer;
+        }
+        
+        .linkissuetr td{
+        padding: 8px 0px;
+        font-size: 12px;
+        text-align: center;
+        border-bottom: 1px solid #ccc;
+        }
+        .linkdiv{
+        z-index: 1;
+        width:360px;
+        position: absolute;
+        background: #f2f2f2;
+        left: 90%;
+        top: 0;
+        border: 1px solid #ececec;
+        padding: 5px 10px;
+        box-shadow: 3px 3px 3px #e2e6e8;
+        }
+        
+        
+        .linkdiv th {
+        font-size: 12px;
+        text-align: center;
+        padding: 0px 8px;
+        }
+        
+        .summarytrim{
+        padding: 0 5px;
+        border-left: 1px solid #ccc;
+        }
+        .picklistsize{
+        margin-right: 3px;
+        }
+        .CaseNoTooltip{ 
+        visibility: hidden;
+        position: absolute;
+        border-radius: 15px;
+        width: 400px;
+        top: -83px;
+        left: -36px;
+        padding: 10px;
+        font-size: 12px;
+        line-height: 20px;
+        text-align: center;
+        font-family: Open Sans;
+        background-color: #000000;   
+        box-shadow: #3a3a42 5px 2px 12px 0;
+        border: 2px solid black;
+        color: white;
+        }
+        
+        .CaseNoToolpoint{    
+        border: 15px solid;
+        visibility: hidden;
+        border-color: #000000 transparent transparent transparent;
+        width: 0;
+        position: absolute;
+        top: -19px;
+        left: -6px;
+        }
+        .CaseNoTool{
+        padding: 0 0 0 7px;
+        display: inline-block;
+        }
+        
+        .CaseNoTool:hover .CaseNoTooltip , .CaseNoTool:hover .CaseNoToolpoint{
+        visibility:visible;
+        z-index:1;
+        }
+        .rowpad{
+        padding: 3px 0;
+        border-top: 1px solid #ececec;
+        
+        }
+        .epicLinkList{
+        margin-left:0;
+        }
+        .issueLinkList{
+        margin-left:0;
+        }
+        .epicLinkList:hover {
+        background-color:#0577b5;
+        cursor: pointer;
+        color:#fff;
+        }
+        .epicLinkList:hover td {
+        color:#fff;
+        }
+        #epicLinkDiv table{
+        min-width:100% !important;
+        }
+        .userholder{
+        border: 1px solid black;
+        background: #0577b5 !important;
+        padding: 1px 3px;
+        color: white;
+        display: inline-block;
+        border-radius: 4px;
+        margin:2px 2px;
+        }
+        .userholder:first-child{
+        margin:0!important;
+        }
+        .userholder sup{
+        color: white;
+        padding-left: 2px;
+        cursor:pointer;
+        }.Facetcss{
+        display: inline-block;
+        position: absolute;
+        left: 225px;
+        top: 5px;
+        }
+    </style>
+    <script>
+    window.onload = function(){
+        if(document.getElementById('issueLinkDiv')!= null)
+            document.getElementById('issueLinkDiv').style.display ='none';
+        
+        if(document.getElementById('epicLinkDiv')!= null)
+            document.getElementById('epicLinkDiv').style.display ='none';
+        
+        document.addEventListener('click', function(event){
+            if(event.target.id != 'epicLinkDiv'){
+                //document.getElementById('epicLinkDiv').style.display ='none';
+            }
+        });
+        $("form :input").attr("autocomplete", "off");
+    }
+    
+    function checkissue(){
+        var issuevalue = document.querySelector('[id*="issueLinkfield"]').value;
+        var data = document.querySelector('[id*="issueselect"]')[0].value;
+        if(issuevalue!="" && data ==""){
+            alert("{!$Label.EditAddjiracomponent_Label1}");
+            return;
+        }
+    }
+    
+    function getEpicLinkText(epicLinkText,facet){
+        oldval=epicLinkText.value;
+        Startfacet(facet);
+        setTimeout(function(){
+            var data = document.querySelectorAll('[id*="epicinputfield"]');
+            if(data[0].value==oldval){
+                epicLink(epicLinkText.value);
+            }
+            stopfacet();
+        }, 1500,oldval);
+    }    
+     
+    function setEpicLinkVal(val){ 
+        var inputvalue=val.id.split('_');
+        document.getElementsByClassName('epicInput')[0].value =inputvalue[1] ;
+        var data = document.querySelectorAll('[id*="theHiddenInput"]');
+        data[0].value=inputvalue[0];        
+        document.getElementById('epicLinkDiv').style.display ='none';
+    }
+    function redirect(){
+        var gotorecord = function gotorecord(result) {
+            var ids=result.id;
+            if('{!caseObject.id}'==null || '{!caseObject.id}'==''){
+                sforce.console.openPrimaryTab(ids,'/{!jiraIssue.id}', true);
+            }else{
+                sforce.console.openPrimaryTab(ids,'/{!caseObject.id}', true);
+            }
+            
+        } 
+        if (sforce.console.isInConsole()){
+            
+            sforce.console.getEnclosingPrimaryTabId(gotorecord);
+        }else{
+            
+            if('{!caseObject.id}'==null || '{!caseObject.id}'==''){
+                window.location = "/{!jiraIssue.id}"; 
+                $("[id$=save_button]").removeAttr("disabled").removeClass("btnDisabled").addClass("btn");
+            }else{
+                window.location = "/{!caseObject.id}";
+            }
+            
+        }        
+        
+    }
+    function refreshParent() {
+        
+        
+        
+        var openSuccess = function openSuccess(result) { 
+            
+        }
+        
+        var CreateTabIdagain = function CreateTabIdagain(result) {
+            var ids=result.id;
+            if('{!dynamicObjectType.id}'==null || '{!dynamicObjectType.id}'==''){
+                
+                // sforce.console.openPrimaryTab(ids,'/{!jiraIssue.id}', true);
+                sforce.console.openPrimaryTab(null, '/{!jiraIssue.id}', true, '{!jiraIssue.IssueKey__c}', openSuccess,'View');
+                sforce.console.closeTab(ids);
+                
+            }else{
+                
+                sforce.console.openPrimaryTab(null, '/{!dynamicObjectType .id}', true, '', openSuccess,'View');
+                sforce.console.closeTab(ids);
+                
+            }
+        } 
+        var Createsubtabs = function Createsubtabs(result) {
+            
+            var pids=result.ids[0];
+            
+            var sids=result.ids[result.ids.length-1];
+            sforce.console.getEnclosingPrimaryTabId(CreateTabIdagain);
+            //sforce.console.closeTab(sids);
+            if(pids==sids){                
+            }else{
+                
+            }
+        }
+        var caseObject = function caseObject(result) {            
+            
+            
+            var ids=result.id;
+            sforce.console.getSubtabIds(ids,Createsubtabs);
+        }
+        var closeSubtab = function closeSubtab(result) {
+          
+            sforce.console.closeTab(result.id);
+        };
+        
+        var CreateJiraTab = function CreateJiraTab(result) {
+            var ids=result.id; 
+            
+            if('{!jiraIssue.Id}'!=null && '{!jiraIssue.Id}'!=''){
+                //NameSpace removed Grz_sf__ViewJira to ViewJira
+                sforce.console.openSubtab(result.id, '/apex/ViewJira?jirakey={!jiraIssue.IssueKey__c}&id={!jiraIssue.Id}&genericObjectID={!genericObjectID}', true,'{!jiraIssue.IssueKey__c}');
+                
+            }else if('{!jiraIssue.Id}'==''){
+                
+            }
+            sforce.console.getEnclosingTabId(closeSubtab);
+            
+        };
+        
+        if('{!mode}'=='cloneout' && '{!jiraIssue.id}'!=null){
+            
+            
+            deletejira();
+        }else if('{!jiraIssue.id}'==null || '{!jiraIssue.id}'==''){
+            
+            if (sforce.console.isInConsole()){
+                sforce.console.getEnclosingTabId(CreateJiraTab);
+            }else{
+                window.location = "/{!genericObjectID}"; 
+                $("[id$=save_button]").removeAttr("disabled").removeClass("btnDisabled").addClass("btn");
+            }
+        }else{
+            
+            
+            if (sforce.console.isInConsole()){
+                sforce.console.getEnclosingPrimaryTabId(CreateJiraTab);
+            }else{
+                //NameSpace removed Grz_sf__ViewJira to ViewJira
+                window.location ='/apex/ViewJira?jirakey={!jiraIssue.IssueKey__c}&id={!jiraIssue.Id}&genericObjectID={!genericObjectID}';
+                $("[id$=save_button]").removeAttr("disabled").removeClass("btnDisabled").addClass("btn");
+            }
+        }
+        
+    }
+    var searchtxt;
+    function searchissue(inputid){
+        searchtxt=document.getElementById(inputid).value;
+        searchIssuecall(searchtxt);
+    }
+    
+    function linkwithjira(jirakey){
+        linkwithjirakey(jirakey);        
+    }
+    
+    
+    
+    function onKeyup_TxtFieldcom(e){
+        
+        var keynum;
+        if(window.event) // IE
+        {
+            keynum = e.keyCode;
+            
+            
+        }
+        
+        if(keynum == 8) 
+        { 
+            
+            var data = document.querySelectorAll('[id*="theHiddenInput"]');
+            data[0].value='';
+            
+        } 
+    }
+    var facetId;
+    function Startfacet(facet){
+        if(document.getElementById(facet)!=null){
+            document.getElementById(facet).classList.add('Facetcss');
+            document.getElementById(facet+'.start').style.display='block';
+            document.getElementById(facet+'.stop').style.display='block';
+            facetId='';
+            facetId=facet;
+        }
+    }
+    
+    function CallUserList(elem,InputId,Section,Order,FieldApi,facet){
+        
+        oldval=elem.value;
+       
+        Startfacet(facet);
+        setTimeout(function(){
+            var data = document.getElementById(InputId);
+            if(data.value==oldval && data.value!=''){
+                var valuelist =data.value.split(', ');
+               
+
+                CallUserListMethod('FetchUser__'+valuelist[valuelist.length-1]+'__'+Section+'__'+Order+'__'+FieldApi);
+            }else{
+                stopfacet(); 
+            }
+        }, 1500,oldval);
+        
+    }
+    
+    function UpdateUserOption(DataType,UserInputId,MultiUserInputId,SelectId,Section,Order,FieldApi){
+        
+        var UserInput = document.getElementById(UserInputId);
+        var MultiUserInput = document.getElementById(MultiUserInputId);
+      
+        var Selectdata = document.getElementById(SelectId);
+        if(UserInput!=null && Selectdata!=null && Selectdata.value!='' && DataType!='multiuserpicker'){
+            UserInput.value=Selectdata.value.split(' - ')[0];
+            Selectdata.style.display='none';
+            EmptyUserListMethod('EmptyUser__'+UserInput.value+'__'+Section+'__'+Order+'__'+FieldApi);
+        }else if(MultiUserInput!=null && Selectdata!=null && Selectdata.value!='' && DataType=='multiuserpicker'){
+            if(MultiUserInput.value!='' && MultiUserInput.value!=null && MultiUserInput.value!=undefined){
+                
+                MultiUserInput.value='';
+                
+            }
+            Selectdata.style.display='none';
+            EmptyUserListMethod('EmptyUser__'+''+'__'+Section+'__'+Order+'__'+FieldApi);
+        }  
+        
+        return null;
+    }
+    
+    function cleanuser(section,dynamiclist,FieldApi,Useremail,facet){
+        Startfacet(facet);
+        cleanuserMethod('CleanUser__'+''+'__'+section+'__'+dynamiclist+'__'+FieldApi+'__'+Useremail);
+    }
+    function stopfacet(){
+        if(document.getElementById(facetId)!=null){
+            document.getElementById(facetId).classList.remove('Facetcss');
+            document.getElementById(facetId+'.start').style.display='none';
+            document.getElementById(facetId+'.stop').style.display='none';
+            facetId='';
+        }
+    } 
+    function ValidData(ele,datatype){ 
+        
+        if(datatype=='float'){
+            var data= ele.value;
+            data=data.replace(/[^0-9,.]/g, '');
+            ele.value=data;
+        }  
+    } 
+    </script>
+    
+    <!--apex:actionFunction name="updateIssueType" action="{!updateJiraIssueType}" oncomplete="checkcomplete()" reRender="Dynamicdata" /-->
+    <apex:actionFunction name="epicLink" action="{!getEpicLinkList}" rerender="epicLinkPanel">
+        <apex:param name="epicLinkText" value="" />
+    </apex:actionFunction>
+    <apex:actionFunction name="deletejira" action="{!deletelinkedjira}" reRender="showrelatedjira" />
+    <apex:actionFunction name="searchIssuecall" action="{!searchjiraissuenew}" reRender="showrelatedjira" >
+        <apex:param name="searchText" value="" />
+    </apex:actionFunction>
+    <apex:actionFunction name="linkwithjirakey" action="{!linkcasewithjirakey}" reRender="showrelatedjira" >
+        <apex:param name="linkjirakey" value="" />
+    </apex:actionFunction>
+    
+    <apex:actionFunction name="CallUserListMethod" action="{!GetUserList}" rerender="userlistBlock" oncomplete="stopfacet()" >
+        <apex:param name="usersearchtext" value="" assignTo="{!usersearchtext}" />
+    </apex:actionFunction>
+    <apex:actionFunction name="EmptyUserListMethod" action="{!GetUserList}" rerender="userlistBlock,MultiUserTypeInputPanel" oncomplete="stopfacet()" >
+        <apex:param name="usersearchtext" value="" assignTo="{!usersearchtext}" />
+    </apex:actionFunction>
+    <apex:actionFunction name="cleanuserMethod" action="{!GetUserList}" rerender="userlistBlock,MultiUserTypeInputPanel" oncomplete="stopfacet()" >
+        <apex:param name="usersearchtext" value="" assignTo="{!usersearchtext}" />
+    </apex:actionFunction>
+    
+    
+    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 heading">
+        <apex:outputText value="{!$Label.EditAddjiracomponent_Label2}" rendered="{!jiraIssue.Id==null}"/>
+        <apex:outputText value="{!$Label.EditAddjiracomponent_Label3} {!jiraIssue.IssueKey__c}" rendered="{!AND(jiraIssue.Id!=null,modetype!='clone')}"/>
+        <apex:outputText value="{!$Label.EditAddjiracomponent_Label4} {!jiraIssue.IssueKey__c}" rendered="{!AND(jiraIssue.Id!=null,modetype=='clone')}"/>
+        
+    </div>
+    <!--
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 heading" style="WIDTH:Auto">
+        <div  style="display: inline-block;font-size:12px;">
+            Language</div> 
+        <div  style="display: inline-block;">
+            <apex:selectList label="Language" value="{!lang}" size="1" style="margin-right: 10px;
+                                                                              padding: 0;
+                                                                              width: 150px;
+                                                                              font-size: 14px;" styleClass="" multiselect="false">
+                <apex:actionSupport event="onchange"  status="status" action="{!LangaugeReset}"/>
+                <apex:selectOptions id="test" value="{!Languages}"></apex:selectOptions>
+            </apex:selectList>
+        </div>
+        
+    </div>
+    -->
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="border-top: 2px solid #c0be72;padding: 10px 0;">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="font-size: 14px;">
+                    <!--NameSpace removed grz_sf__project_label to project_label -->
+                    <B>{!$Label.project_label}</B> 
+                </div>
+                <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 nopad  testwidth">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 nopad alignright">
+                        <!--NameSpace removed grz_sf__jiraproject_label to jiraproject_label -->
+                        <label class="headingstyle">{!$Label.jiraproject_label}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 nopad">
+                        <!--- <apex:selectList style="border-left: 3px red solid;" rendered="{!or( modetype=='clone',AND(jiraIssue.Id==null,isDefault))}" id="myselect" value="{!projectName}" styleclass="inputcss"  size="1" multiselect="false">--->
+                        <apex:selectList style="border-left: 3px red solid;" rendered="{!and(!HasRuleset,or( modetype=='clone',jiraIssue.Id==null))}" id="myselect" value="{!projectName}" styleclass="inputcss"  size="1" multiselect="false">
+                            
+                            <apex:selectOption itemvalue="None" Itemlabel="None"/>
+                            
+                            <apex:selectOptions value="{!projects}"></apex:selectOptions>
+                            <apex:actionSupport event="onchange" action="{!OnProjectChange}" reRender="Dynamicdata" status="status" />
+                            
+                        </apex:selectList>  
+                        <apex:outputText rendered="{!or(HasRuleset,and(jiraIssue.Id!=null && modetype!='clone'))}" value="{!projectName}"/>
+                        <!---<apex:outputText rendered="{!OR(jiraIssue.Id!=null && modetype!='clone',NOT(isDefault))}" value="{!projectName}"/>--->
+                        
+                    </div>  
+                </div>
+            </div>
+        </div>  
+ 
+        <!--Dynamic fields code starts here-->
+        <apex:outputPanel id="Dynamicdata" layout="block" styleClass="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad" > 
+          
+            <apex:outputPanel rendered="{!projectName!='None'}" >
+            
+                <apex:repeat value="{!SectionOrder}" var="section" >
+              
+                    <apex:outputPanel rendered="{!NOT(section=='Issue Links')}">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="border-top: 2px solid #c0be72;padding: 10px 0;">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="font-size: 14px;">
+                                <B>{!section}</B> 
+                            </div>
+                          
+                            <apex:repeat value="{!sectionToDynamicFieldWrapperListMap[section]}" var="dynamicOrder">
+                                
+                                <apex:repeat value="{!sectionToDynamicFieldWrapperListMap[section][dynamicOrder]}" var="dynamicFieldAPI">
+                                    
+                                    <apex:repeat value="{!sectionToDynamicFieldWrapperListMap[section][dynamicOrder][dynamicFieldAPI]}" var="dynamiclist">
+                                        
+                                        
+                                        <apex:outputPanel layout="block" rendered="{!AND(Not(dynamiclist.mappedfield.viewmode__c),
+                                                                                   dynamiclist.mappedfield.Jira_Project__c==jiraProjectskeymap[projectName], 
+                                                                                   OR(contains(dynamiclist.mappedField.IssueTypeData__c,jiraIssue.IssueType__c),
+                                                                                   dynamiclist.mappedField.IssueTypeData__c=='All'),
+                                                                                   if(OR(
+                                                                                   dynamiclist.mappedfield.DataType__c=='component',
+                                                                                   dynamiclist.mappedfield.DataType__c=='version',
+                                                                                   dynamiclist.mappedfield.DataType__c=='multiversion',
+                                                                                   dynamiclist.mappedfield.DataType__c=='multiselect'),
+                                                                                   dynamiclist.hasValues,true))}">
+                                            
+                                            <div class="{!if(dynamiclist.mappedfield.section__r.column__c=='1','col-lg-12 col-md-12 col-xs-12 col-sm-12','col-lg-6 col-md-6 col-xs-6 col-sm-6')} nopad rowpad testwidth">
+                                                
+                                                
+                                                <apex:outputPanel id="withoutcaseapi" >
+                                                    
+                                                    
+                                                    <div class="{!if(dynamiclist.mappedfield.section__r.column__c=='1','col-lg-2 col-md-2 col-xs-2 col-sm-2','col-lg-4 col-md-4 col-xs-4 col-sm-4')} alignright nopad "> 
+                                                        <label class="headingstyle">{!dynamiclist.mappedfield.name}</label>
+                                                    </div>
+                                                    <div class="{!if(dynamiclist.mappedfield.section__r.column__c=='1','col-lg-8 col-md-8 col-xs-8 col-sm-8','col-lg-6 col-md-6 col-xs-6 col-sm-6')} nopad" > 
+                                                        
+                                                        <!---type string or integer unmaped--->
+                                                        <apex:inputText style="{!if(OR(dynamiclist.mappedfield.RequiredInSF__c,AND(dynamiclist.mappedfield.IsRequired__c,contains(dynamiclist.relatedReqIssue,'--'+jiraIssue.IssueType__c+'--'))),'border-left: 3px red solid;','')} " label="{!dynamiclist.mappedfield.name}" styleClass="{!if(dynamiclist.mappedfield.section__r.column__c=='1','inputcolcss','inputcss')}" value="{!dynamiclist.fieldValue}"
+                                                                        rendered="{!AND(OR(dynamiclist.mappedField.DataType__c=='textfield',
+                                                                                  dynamiclist.mappedField.DataType__c=='float',
+                                                                                  dynamiclist.mappedField.DataType__c=='labels',
+                                                                                  dynamiclist.mappedField.DataType__c=='string',
+                                                                                  dynamiclist.mappedField.DataType__c=='gh-epic-label'),
+                                                                                  dynamiclist.mappedField.jira_field_api_name__c!='description')}"
+                                                                        disabled="{!dynamiclist.mappedfield.ReadOnly__c}"
+                                                                        onkeyup="ValidData(this,'{!dynamiclist.mappedField.DataType__c}')" /> 
+                                                        
+                                                        <!-- Epic Link block-->
+                                                        
+                                                        <!-- Description-->
+                                                        <apex:inputTextarea title="" style="{!if(OR(dynamiclist.mappedfield.RequiredInSF__c,AND(dynamiclist.mappedfield.IsRequired__c,contains(dynamiclist.relatedReqIssue,'--'+jiraIssue.IssueType__c+'--'))),'border-left: 3px red solid;','')} " label="{!dynamiclist.mappedfield.name}" styleClass="{!if(dynamiclist.mappedfield.section__r.column__c=='1','inputcolcssTA','inputcssTA')}" value="{!dynamiclist.fieldValue}" rendered="{!OR(dynamiclist.mappedField.DataType__c=='textarea',dynamiclist.mappedField.jira_field_api_name__c=='description')}"  disabled="{!dynamiclist.mappedfield.ReadOnly__c}" />
+                                                        
+                                                        <apex:outputPanel layout="block" rendered="{!dynamiclist.mappedField.DataType__c=='gh-epic-link'}" style="position:relative;">
+                                                            
+                                                            <apex:inputText id="epicinputfield" style="{!if(OR(dynamiclist.mappedfield.RequiredInSF__c,AND(dynamiclist.mappedfield.IsRequired__c,contains(dynamiclist.relatedReqIssue,'--'+jiraIssue.IssueType__c+'--'))),'border-left: 3px red solid;','')} " label="{!dynamiclist.mappedfield.name}" styleClass="epicInput {!if(dynamiclist.mappedfield.section__r.column__c=='1','inputcolcss','inputcss')}" rendered="{!OR(dynamiclist.mappedField.DataType__c=='gh-epic-link')}"  disabled="{!dynamiclist.mappedfield.ReadOnly__c}"
+                                                                            value="{!epicKey}" onkeyup="javascript:getEpicLinkText(this,'{!$Component.EpicactStatusId}');" onKeyDown="return onKeyup_TxtFieldcom(event);"/>
+                                                            <apex:actionStatus id="EpicactStatusId" >
+                                                                <apex:facet name="start" >
+                                                                    <img src="/img/loading.gif" />                    
+                                                                </apex:facet>
+                                                            </apex:actionStatus>
+                                                            <apex:outputpanel id="epicLinkPanel" rendered="{!dynamiclist.mappedField.DataType__c=='gh-epic-link'}" >
+                                                                
+                                                                <apex:inputHidden value="{!dynamiclist.fieldValue}" id="theHiddenInput"/>
+                                                                
+                                                                <div id="epicLinkDiv" style="{!if(AND (SizeOfMap!=NULL , SizeOfMap > 0), 'border:1px solid black;position:absolute;background-color: white;width: 220px;z-index:1;' ,'display:none')}">
+                                                                    <table>
+                                                                        <apex:repeat value="{!fieldsToKey}" var="key">
+                                                                            <tr id="{!fieldsToKey[key]}_{!key}" class="epicLinkList" onclick="setEpicLinkVal(this)">
+                                                                                <td style="padding: 3px;width:100px;">
+                                                                                    {!key}
+                                                                                </td>
+                                                                                <td id="keyVal" name="{!fieldsToKey[key]}" style="font-weight:bold;padding: 3px;width:120px;">
+                                                                                    ({!fieldsToKey[key]})
+                                                                                </td>
+                                                                            </tr>
+                                                                        </apex:repeat>
+                                                                    </table>                                                    
+                                                                </div>
+                                                            </apex:outputpanel>
+                                                        </apex:outputPanel>
+                                                        
+                                                        <!---type select and is issuetype--->
+                                                        
+                                                        <apex:selectList value="{!jiraIssue.IssueType__c}" rendered="{!AND(dynamiclist.mappedfield.name=='Issue Type',dynamiclist.mappedfield.DataType__c=='select')}"    style="{!if(OR(dynamiclist.mappedfield.RequiredInSF__c,AND(dynamiclist.mappedfield.IsRequired__c,contains(dynamiclist.relatedReqIssue,'--'+jiraIssue.IssueType__c+'--'))),'border-left: 3px red solid;','')} " styleClass="{!if(dynamiclist.mappedfield.section__r.column__c=='1','inputcolcss','inputcss')}" multiselect="false" size="1" disabled="{!dynamiclist.mappedfield.ReadOnly__c}">
+                                                            <apex:selectOptions value="{!dynamiclist.selectValues}"></apex:selectOptions>
+                                                            <apex:actionSupport event="onchange"   reRender="errorPageMessage,Dynamicdata,testarea" />
+                                                        </apex:selectList>   
+                                                        
+                                                        
+                                                        <!---type select unmaped--->
+                                                        <apex:selectList id="assignee" rendered="{!AND(dynamiclist.mappedfield.name!='Issue Type',OR(dynamiclist.mappedfield.DataType__c=='select',dynamiclist.mappedfield.DataType__c=='radiobuttons',And(dynamiclist.mappedfield.DataType__c=='version' && dynamiclist.mappedfield.IsArray__c==false)))}"  style="{!if(OR(dynamiclist.mappedfield.RequiredInSF__c,AND(dynamiclist.mappedfield.IsRequired__c,contains(dynamiclist.relatedReqIssue,'--'+jiraIssue.IssueType__c+'--'))),'border-left: 3px red solid;','')} " styleClass="{!if(dynamiclist.mappedfield.section__r.column__c=='1','inputcolcss','inputcss')}"  label="{!dynamiclist.fieldValue}" value="{!dynamiclist.fieldValue}" multiselect="false" size="1" disabled="{!dynamiclist.mappedfield.ReadOnly__c}">
+                                                            
+                                                            <apex:selectOptions value="{!dynamiclist.selectValues}"></apex:selectOptions>
+                                                        </apex:selectList>   
+                                                        
+                                                        <!---Linked Issues select unmaped--->
+                                                        <apex:selectList rendered="{!AND(dynamiclist.mappedfield.DataType__c=='issuelinks',dynamiclist.mappedfield.IsArray__c==true)}" label="{!dynamiclist.fieldValue}" style="{!if(OR(dynamiclist.mappedfield.RequiredInSF__c,AND(dynamiclist.mappedfield.IsRequired__c,NOT(contains(dynamiclist.relatedReqIssue,'--'+jiraIssue.IssueType__c+'--')))),'border-left: 3px red solid;','')} " styleClass="{!if(dynamiclist.mappedfield.section__r.column__c=='1','inputcolcss','inputcss')}"  value="{!dynamiclist.fieldValue}" multiselect="false" size="1" disabled="{!dynamiclist.mappedfield.ReadOnly__c}" > 
+                                                            <apex:selectOptions value="{!dynamiclist.selectValues}"></apex:selectOptions>
+                                                        
+                                                        </apex:selectList> 
+                                                        
+                                                        
+                                                        
+                                                        <!---type multiselect,multiversion,component unmaped--->
+                                                        <apex:selectList label="{!dynamiclist.mappedfield.name}" style="height:60px; {!if(OR(dynamiclist.mappedfield.RequiredInSF__c,AND(dynamiclist.mappedfield.IsRequired__c,contains(dynamiclist.relatedReqIssue,'--'+jiraIssue.IssueType__c+'--'))),'border-left: 3px red solid;','')} "  styleClass="{!if(dynamiclist.mappedfield.section__r.column__c=='1','inputcolcss','inputcss')}"  value="{!dynamiclist.multiselectvalues}"  rendered="{!AND(dynamiclist.mappedfield.IsArray__c,OR(dynamiclist.mappedfield.DataType__c=='multicheckboxes',dynamiclist.mappedfield.DataType__c=='multiselect',dynamiclist.mappedfield.DataType__c=='version',dynamiclist.mappedfield.DataType__c=='component',dynamiclist.mappedfield.DataType__c=='multiversion'))}" multiselect="true" disabled="{!dynamiclist.mappedfield.ReadOnly__c}">
+                                                            <apex:selectOptions value="{!dynamiclist.selectValues}"></apex:selectOptions>
+                                                        </apex:selectList>
+                                                        
+                                                        
+                                                        <!---type casecading unmaped--->
+                                                        <apex:outputPanel rendered="{!dynamiclist.mappedfield.DataType__c=='cascadingselect'}">
+                                                            <apex:selectList label="{!dynamiclist.mappedfield.name}" style="{!if(OR(dynamiclist.mappedfield.RequiredInSF__c,AND(dynamiclist.mappedfield.IsRequired__c,contains(dynamiclist.relatedReqIssue,'--'+jiraIssue.IssueType__c+'--'))),'border-left: 3px red solid;','')}"    value="{!dynamiclist.masterFieldValue}" size="1" multiselect="false" disabled="{!dynamiclist.mappedfield.ReadOnly__c}">
+                                                                
+                                                                <apex:actionSupport event="onchange" reRender="childlist" />
+                                                                <apex:selectOptions value="{!dynamiclist.mastermapoption}"></apex:selectOptions>
+                                                            </apex:selectList>
+                                                            
+                                                            <apex:selectList id="childlist" label="{!dynamiclist.mappedfield.name}" style="{!if(OR(dynamiclist.mappedfield.RequiredInSF__c,AND(dynamiclist.mappedfield.IsRequired__c,contains(dynamiclist.relatedReqIssue,'--'+jiraIssue.IssueType__c+'--'))),'border-left: 3px red solid;','')}"   value="{!dynamiclist.childFieldValue}" size="1" multiselect="false" disabled="{!dynamiclist.mappedfield.ReadOnly__c}">
+                                                                
+                                                                <apex:selectOptions value="{!dynamiclist.masterchildmapoption[dynamiclist.masterFieldValue]}"></apex:selectOptions>
+                                                            </apex:selectList>
+                                                            
+                                                        </apex:outputPanel>
+                                                        
+                                                        <apex:outputPanel rendered="{!AND(dynamiclist.mappedField.DataType__c=='datetime')}">
+                                                            <input style="{!if(OR(dynamiclist.mappedfield.RequiredInSF__c,AND(dynamiclist.mappedfield.IsRequired__c,contains(dynamiclist.relatedReqIssue,'--'+jiraIssue.IssueType__c+'--'))),'border-left: 3px red solid;','')}" type="datetime-local"  value="{!dynamiclist.datetimevalue}" onblur="document.getElementById('{!$Component.myHiddendatetime}').value = this.value;"/>
+                                                            <apex:inputHidden id="myHiddendatetime" value="{!dynamiclist.datetimevalue}" /> 
+                                                        </apex:outputPanel>
+                                                        
+                                                        <apex:outputPanel rendered="{!AND(dynamiclist.mappedField.DataType__c=='datepicker')}" >
+                                                            <input type="date" style="{!if(OR(dynamiclist.mappedfield.RequiredInSF__c,AND(dynamiclist.mappedfield.IsRequired__c,contains(dynamiclist.relatedReqIssue,'--'+jiraIssue.IssueType__c+'--'))),'border-left: 3px red solid;','')}"  value="{!dynamiclist.datevalue}" onblur="document.getElementById('{!$Component.myHiddendate}').value = this.value;"/>
+                                                            <apex:inputHidden id="myHiddendate" value="{!dynamiclist.datevalue}" /> 
+                                                        </apex:outputPanel>
+                                                        
+                                                        <apex:outputLink value="/{!subtaskParentID}" rendered="{!(dynamiclist.mappedfield.DataType__c=='issuelink' && dynamiclist.fieldValue!=NULL) }">
+                                                        
+                                                            <apex:outputtext value="{!dynamiclist.fieldValue}" styleClass="inputcss" style="{!if(OR(dynamiclist.mappedfield.RequiredInSF__c,AND(dynamiclist.mappedfield.IsRequired__c,contains(dynamiclist.relatedReqIssue,'--'+jiraIssue.IssueType__c+'--'))),'border-left: 3px red solid;','')}" />
+                                                        </apex:outputLink>
+                                                        
+                                                        <!--User,Userpicker modified on 03-07-2019-->
+                                                        <apex:inputText id="UserTypeInput" label="{!dynamiclist.fieldValue}"
+                                                                        style="{!if(OR(dynamiclist.mappedfield.RequiredInSF__c,AND(dynamiclist.mappedfield.IsRequired__c,contains(dynamiclist.relatedReqIssue,'--'+jiraIssue.IssueType__c+'--'))),'border-left: 3px red solid;','')} "
+                                                                        styleClass="{!if(dynamiclist.mappedfield.section__r.column__c=='1','inputcolcss','inputcss')}"
+                                                                        value="{!dynamiclist.fieldValue}"
+                                                                        disabled="{!dynamiclist.mappedfield.ReadOnly__c}"
+                                                                        rendered="{!OR(dynamiclist.mappedfield.DataType__c=='userpicker',
+                                                                                  dynamiclist.mappedfield.DataType__c=='user')
+                                                                                  }"
+                                                                        onkeyup="CallUserList(this,'{!$Component.UserTypeInput}',
+                                                                                 '{!section}','{!dynamicOrder}','{!dynamicFieldAPI}' ,'{!$Component.actStatusId}');"
+                                                                        >
+                                                            <apex:actionStatus id="actStatusId" >
+                                                                <apex:facet name="start" >
+                                                                    <img src="/img/loading.gif" />                    
+                                                                </apex:facet>
+                                                            </apex:actionStatus>
+                                                        </apex:inputText>
+                                                        
+                                                        <!---type multiuserpicker unmaped-->
+                                                        <apex:outputPanel id="MultiUserTypeInputPanel" rendered="{!AND(dynamiclist.mappedfield.IsArray__c,
+                                                                                                                 dynamiclist.mappedfield.DataType__c=='multiuserpicker')}">
+                                                            <div style="{!if(dynamiclist.mappedfield.section__r.column__c=='1','width: 60%;','width: 220px;')}">
+                                                                <apex:repeat value="{!dynamiclist.UserMapFinal}" var="Useremail">
+                                                                 <div class="userholder">
+                                                                            {!Useremail}
+                                                                            <sup id="{!Useremail}" onclick="cleanuser('{!section}','{!dynamicOrder}','{!dynamicFieldAPI}',
+                                                                                                            '{!Useremail}','{!$Component.actStatusIdMulti}')">x</sup>
+                                                                            
+                                                                        </div>
+                                                                    
+                                                                </apex:repeat>
+                                                                
+                                                            </div>
+                                                            
+                                                            <apex:inputText id="MultiUserTypeInput"
+                                                                            style="{!if(OR(dynamiclist.mappedfield.RequiredInSF__c,AND(dynamiclist.mappedfield.IsRequired__c,contains(dynamiclist.relatedReqIssue,'--'+jiraIssue.IssueType__c+'--'))),'border-left: 3px red solid;','')} "
+                                                                            styleClass="{!if(dynamiclist.mappedfield.section__r.column__c=='1','inputcolcss','inputcss')}"
+                                                                            disabled="{!dynamiclist.mappedfield.ReadOnly__c}"
+                                                                            onkeyup="CallUserList(this,'{!$Component.MultiUserTypeInput}',
+                                                                                     '{!section}','{!dynamicOrder}','{!dynamicFieldAPI}' ,
+                                                                                     '{!$Component.actStatusIdMulti}');"
+                                                                            >
+                                                                <apex:actionStatus id="actStatusIdMulti" >
+                                                                    <apex:facet name="start" >
+                                                                        <img src="/img/loading.gif" />                    
+                                                                    </apex:facet>
+                                                                </apex:actionStatus>
+                                                            </apex:inputText>
+                                                            
+                                                        </apex:outputPanel>
+                                                        
+                                                        <!---UserList support for user,userpicker,multiuserpicker--->  
+                                                        <apex:outputPanel id="userlistBlock" style="top: 24px;
+                                                                                                    left:0px;
+                                                                                                    box-shadow: #e8dfdf 2px -1px 1px 0px;
+                                                                                                    ">
+                                                            
+                                                            <apex:outputPanel rendered="{!AND(dynamiclist.userlistbyname.size>0, 
+                                                                                        OR(dynamiclist.mappedfield.DataType__c=='userpicker',
+                                                                                        dynamiclist.mappedfield.DataType__c=='user',dynamiclist.mappedfield.DataType__c=='multiuserpicker')) 
+                                                                                        }">
+                                                                
+                                                                <apex:selectList Id="UserTypeSelect"
+                                                                                 onchange="UpdateUserOption(
+                                                                                           '{!dynamiclist.mappedfield.DataType__c}',
+                                                                                           '{!$Component.UserTypeInput}','{!$Component.MultiUserTypeInput}',
+                                                                                           '{!$Component.UserTypeSelect}',
+                                                                                           '{!section}','{!dynamicOrder}','{!dynamicFieldAPI}')"
+                                                                                 value="{!dynamiclist.username}"
+                                                                                 styleClass="{!if(dynamiclist.mappedfield.section__r.column__c=='1','inputcolcss','inputcss')}"
+                                                                                 multiselect="false" size="1" disabled="{!dynamiclist.mappedfield.ReadOnly__c}"
+                                                                                 rendered="{!OR(dynamiclist.mappedfield.DataType__c=='userpicker',
+                                                                                           dynamiclist.mappedfield.DataType__c=='user',dynamiclist.mappedfield.DataType__c=='multiuserpicker')
+                                                                                           }"
+                                                                                 >
+                                                                    <apex:selectOptions value="{!dynamiclist.userlistbyname}">
+                                                                    </apex:selectOptions>
+                                                                    
+                                                                </apex:selectList>   
+                                                                
+                                                                
+                                                            </apex:outputPanel>      
+                                                        </apex:outputPanel> 
+                                                    </div>
+                                                    
+                                                </apex:outputPanel> 
+                                                <!--------------------------------------------------------------------------------------------->
+                                                
+                                            </div>
+                                            
+                                        </apex:outputPanel>
+                                        
+                                    </apex:repeat>
+                                </apex:repeat>  
+                            </apex:repeat>
+                            
+                        </div>
+                    </apex:outputPanel>
+                </apex:repeat>
+                <apex:outputPanel rendered="{!hasIssuelinks}"> 
+                    <c:IssueLinkComponent IssuelinksMapValue="{!IssuelinksMapValue}" sectionToDynamicFieldWrapperListMap="{!sectionToDynamicFieldWrapperListMap}" SectionOrder="Issue Links" 
+                                          fieldsToKey="{!fieldsToKey}"
+                                          jiraIssue="{!jiraIssue}"
+                                          SizeOfMap="{!SizeOfMapLI}"
+                                          issueLinkKey="{!issueLinkKey}"
+                                          getIssueLinkList="{!getIssueLinkList}" 
+                                          issuelinksset="{!issuelinksset}"
+                                          sizeofli="{!sizeofli}"
+                                          updateissuelist="{!updateissuelist}"
+                                          updateissuelistdelete="{!updateissuelistdelete}"/>
+                    
+                </apex:outputPanel>
+            </apex:outputPanel>
+          
+            <!--Dynamic fields code ends here--> 
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopad  padtop20  " Style="padding-bottom:20px" >
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 nopad" >
+                    <!--oncomplete="redirect()" -->
+                    <apex:commandButton style="float: right;font-size: 12px;height: 30px;" id="save_button" value="{!$Label.Save_Label}" action="{!save}" rendered="{!AND(projectSelected,mapNotEmpty)}" reRender="errorPageMessage,jira_form" status="status"/>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  nopad" >
+                    <apex:commandButton style="font-size: 12px;height: 30px;" onclick="refreshParent()" value="{!$Label.Cancel_Label}" reRender="none" />
+                </div>
+            </div>
+        </apex:outputPanel>
+    </div> 
+    
+</apex:component>

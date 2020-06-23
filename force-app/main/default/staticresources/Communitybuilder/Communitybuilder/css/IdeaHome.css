@@ -1,0 +1,92 @@
+.idea-home-div{background: url("../Images/IdeaBackground.jpg") no-repeat scroll 50% 100% / cover #262626;
+    width: 100%; padding: 240px 0 100px;}
+
+.body_wrapper{padding:75px 0px;}
+
+.dropdown_idea{ font-family:berthold_akzidenz_grotesk_bMd; font-size: 20px; color: #1f5b7d; padding:0px; margin:0px;}
+.minus_padding{padding-right: 10px;}
+
+
+body a{text-decoration: none;}
+
+.dropdown_list_idea ul li > a:hover{padding-left: 10px;}
+.dropdown_list_idea ul li > a{ display: block;  color:#606163; }
+.dropdown_list_idea ul li > .change_color{ color:#fff; font-size:18px; padding-left: -10px;}
+.dropdown_list_idea ul  li :hover
+                    {
+
+                        text-decoration: none;
+                        display: block;
+                        font-family:berthold_akzidenz_grotesk_bMd; 
+                        color: #fff;
+                        background-color: #fc8d03;
+                        border-radius: 4px;
+                       
+                    } 
+.dropdown_list_idea ul  li.active:hover{
+    padding-left: 0px;
+}  
+.dropdown_list_idea ul  li.active{ 
+  
+    font-family:berthold_akzidenz_grotesk_bMd; 
+    background-color: #fc8d03;
+    border-radius: 4px;
+    padding-left: 10px;
+    text-decoration: none;
+  
+    }
+ .disabled{ 
+  
+    font-family:berthold_akzidenz_grotesk_bRg; 
+    background-color: #fff;
+    border-radius: 4px;
+    padding-left: 10px;
+    text-decoration: none;
+    color:#606163;
+    }                 
+.dropdown_list_idea ul{ list-style-type:none; padding:0px;}    
+.badge{ display:none; padding: 0px; background-color:#FC8D03;}                                
+.dropdown_list_idea ul  li :hover .badge{display:block;}
+.header_idea{font-family: AkzidenzGroteskBE-MdCn;font-size: 66px;color:#1f5b7d;}   
+.header_idea_margin{margin-bottom: 50px;}
+.dropdown_padding{ padding-top: 20px; padding-left:0px; padding-right: 0px;}
+.dropdown_padding_margin {margin-bottom: 30px; padding-right: 0px;}
+.btn-xs{
+    font-family:berthold_akzidenz_grotesk_bMd;
+    font-size:16px;
+    color:  #fff;
+    padding-left:30px;
+    padding-right:30px;
+    margin-top:15px;
+}
+
+.header_post_style {color: #1f5b7d; font-family:berthold_akzidenz_grotesk_bMd; font-size:18px; margin-bottom: 0px; }
+.span_style{ color: #f99d20; font-size: 18px;}
+
+.margin_button{ margin-top: 20px;}
+
+.postdate_like{font-family:berthold_akzidenz_grotesk_bMd;  color: #767779; font-size: 14px;}
+.postdate{ color: #767779; font-size: 14px; padding-top:5px; padding-left: 25px;}
+.postdate_comment{ color:#f99d20;  }
+.img_padding{padding-top: 5px;}
+.post_content{ margin-bottom: 70px;}
+
+span.dropdown_idea > span.collapsed >span.close_accordian{
+    display: none;
+}
+span.dropdown_idea > span.collapsed >span.open_accordian{
+    display: block;
+}
+span.dropdown_idea > span >span.close_accordian{
+    display: block;
+}
+span.dropdown_idea > span >span.open_accordian{
+    display: none;
+}
+a:focus{
+    outline: none;
+    text-decoration: none;
+}
+.minus_padding span{
+    cursor:pointer;
+}
